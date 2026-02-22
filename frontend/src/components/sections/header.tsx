@@ -5,7 +5,7 @@ import { Button } from "@/src/components/ui/button";
 
 const Header = () => {
   return (
-    <header className="bg-white/70 sticky top-0 flex items-center justify-between border px-6 py-3 backdrop-blur-xs">
+    <header className="bg-white/70 sticky top-0 flex items-center justify-between border px-6 py-3 backdrop-blur-xs z-10">
       <div className="flex gap-x-4">
         <Image
           src="/logo.svg"

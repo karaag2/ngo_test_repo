@@ -17,9 +17,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fr-NE">
       <body
-        className={`${lexend.className} antialiased`}
+        className={`${lexend.className} antialiased min-h-screen bg-white`}
       >
         <PageLayout>        
           <Header/>

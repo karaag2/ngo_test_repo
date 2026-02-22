@@ -4,8 +4,8 @@ import heroImg from "@/public/hero.png";
 
 const hero = () => {
   return (
-    <section id="hero">
-      <div className="h-screen">
+    <section id="hero" className="relative -mt-16 h-screen py-px">
+      <div className="">
         <div className="absolute inset-0 -z-20 max-w-7xl mx-auto">
           <Image
             src={heroImg}
