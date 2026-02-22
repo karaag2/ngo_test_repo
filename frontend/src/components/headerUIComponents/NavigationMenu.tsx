@@ -18,7 +18,7 @@ const NavigationMenu = () => {
   return (
     <>
       <div className="hidden md:block">
-        <ul className="flex gap-x-8 flex items-center h-full text-header">
+        <ul className="flex gap-x-8 items-center h-full text-header">
           <li>
             <Link href={""}>Accueil</Link>
           </li>
