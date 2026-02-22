@@ -1,7 +1,7 @@
-import React from 'react'
-import { Button } from "@/src/components/ui/button"
-import { Input } from "@/src/components/ui/input"
-import { Label } from "@/src/components/ui/label"
+import React from "react";
+import { Button } from "@/src/components/ui/button";
+import Link from "next/link";
+import { Label } from "@/src/components/ui/label";
 import {
   Sheet,
   SheetClose,
@@ -11,37 +11,72 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/src/components/ui/sheet"
-
+} from "@/src/components/ui/sheet";
+import { MenuIcon } from "lucide-react";
 
 const NavigationMenu = () => {
-return (
-    <Sheet>
-      <SheetTrigger asChild ><Button variant="outline">Open</Button></SheetTrigger>
-      <SheetContent>
-        <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
-          <SheetDescription>
-            Make changes to your profile here. Click save when you&apos;re done.
-          </SheetDescription>
-        </SheetHeader>
-        <div className="grid flex-1 auto-rows-min gap-6 px-4">
-          <div className="grid gap-3">
-            <Label htmlFor="sheet-demo-name">Name</Label>
-            <Input id="sheet-demo-name" defaultValue="Pedro Duarte" />
-          </div>
-          <div className="grid gap-3">
-            <Label htmlFor="sheet-demo-username">Username</Label>
-            <Input id="sheet-demo-username" defaultValue="@peduarte" />
-          </div>
-        </div>
-        <SheetFooter>
-          <Button type="submit">Save changes</Button>
-          <SheetClose asChild><Button variant="outline">Close</Button></SheetClose>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
-  )
-}
+  return (
+    <>
+      <div className="hidden md:block">
+        <ul className="flex gap-x-8 flex items-center h-full text-header">
+          <li>
+            <Link href={""}>Accueil</Link>
+          </li>
+          <li>
+            <Link href={""}>Notre cause</Link>
+          </li>
+          <li>
+            <Link href={""}>Projets</Link>
+          </li>
+          <li>
+            <Link href={""}>Contact</Link>
+          </li>
+        </ul>
+      </div>
+      <div className="block md:hidden ">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="link">
+              <MenuIcon className="size-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent>
+            <SheetHeader>
+              <SheetTitle>Sections</SheetTitle>
+              <SheetDescription>Explorez les sections du site</SheetDescription>
+            </SheetHeader>
+            <nav className="grid flex-1 auto-rows-min gap-6 px-4 text-">
+              <ul className="flex flex-col gap-y-4 justify-center items-start px-6">
+                <li>
+                  <Link href={""}>Accueil</Link>
+                </li>
+                <li>
+                  <Link href={""}>Notre cause</Link>
+                </li>
+                <li>
+                  <Link href={""}>Projets</Link>
+                </li>
+                <li>
+                  <Link href={""}>Contact</Link>
+                </li>
+              </ul>
+            </nav>
+            <SheetFooter>
+              <Button
+                type="submit"
+                className="bg-foreground text-background rounded-full"
+              >
+                Faire un don
+              </Button>
+              <SheetClose asChild>
+                <Button variant="outline">Fermer</Button>
+              </SheetClose>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
+      </div>
+    </>
+  );
+};
 
-export default NavigationMenu
+export default NavigationMenu;

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Lexend } from "next/font/google";
 import "./globals.css";
+import Header from "@/src/components/sections/header";
+import PageLayout from "@/src/components/GlobalLayout";
 
 const lexend = Lexend({ subsets: ["latin"] });
 
@@ -19,7 +21,11 @@ export default function RootLayout({
       <body
         className={`${lexend.className} antialiased`}
       >
+        <PageLayout>        
+          <Header/>
         {children}
+        </PageLayout>
+
       </body>
     </html>
   );

@@ -1,13 +1,11 @@
-import React from 'react'
+import { PropsWithChildren } from "react";
 
-const GlobalLayout = () => {
-  return (
-    <div>
-        <header></header>
-        <main></main>
-        <footer></footer>
-    </div>
-  )
-}
+const Pagelayout = (props: PropsWithChildren) => {
+	return (
+		<div className="flex flex-col gap-4 mx-auto  border-x max-w-7xl min-h-full">
+			{props.children}
+		</div>
+	);
+};
 
-export default GlobalLayout
+export default Pagelayout;
