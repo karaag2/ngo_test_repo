@@ -135,4 +135,17 @@
   body {
     @apply bg-background text-foreground;
   }
+  .statCard {
+    @apply flex flex-col gap-y-4 px-9 py-15 rounded-3xl border w-full h-fit;
+    h3 {
+      @apply text-center font-extrabold;
+      font-size: 2.25rem;
+    }
+    h4 {
+      @apply text-center font-bold text-main;
+    }
+    p {
+      @apply text-center text-main/60;
+    }
+  }
 }

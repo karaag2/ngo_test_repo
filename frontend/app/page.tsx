@@ -1,13 +1,13 @@
-import React from 'react'
-import Hero from '@/src/components/sections/hero'
-import Cause from '@/src/components/sections/cause'
-
+import React from "react";
+import Hero from "@/src/components/sections/hero";
+import Cause from "@/src/components/sections/cause";
+import Stats from "@/src/components/sections/Stats";
 const page = () => {
   return (
-    <div className='min-h-full inset-0'>
+    <div className="min-h-full inset-0">
       <Hero />
-      <Cause/>
-      <div className="h-screen bg-red-500"></div>
+      <Cause />
+      <Stats />
       <div className="h-screen"></div>
       <div className="h-screen"></div>
       <div className="h-screen"></div>
@@ -16,7 +16,7 @@ const page = () => {
       <div className="h-screen"></div>
       <div className="h-screen"></div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;
