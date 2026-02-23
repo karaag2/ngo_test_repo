@@ -6,7 +6,7 @@ import { HandCoins, ShieldCheck } from "lucide-react";
 
 const Donation = () => {
   return (
-    <section className="container mx-auto px-6 py-24" id="contact">
+    <section className="container mx-auto px-6 py-24" id="donation">
       <div className="max-w-xl mx-auto flex flex-col gap-y-10 p-8 md:p-12 rounded-[2.5rem] bg-card border border-border shadow-premium relative overflow-hidden">
         {/* Subtle background decoration */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl" />
