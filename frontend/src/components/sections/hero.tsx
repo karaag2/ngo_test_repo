@@ -4,9 +4,12 @@ import heroImg from "@/public/hero.png";
 
 const hero = () => {
   return (
-    <section id="hero" className="relative -mt-16 h-screen py-px">
+    <section
+      id="hero"
+      className="relative -mt-16 h-screen py-px lg:max-h-[960px]"
+    >
       <div className="">
-        <div className="absolute inset-0 -z-20 max-w-7xl mx-auto">
+        <div className="absolute inset-0 -z-20 max-w-[1920px] mx-auto">
           <Image
             src={heroImg}
             alt="Hero"
@@ -16,7 +19,7 @@ const hero = () => {
           />
         </div>
         <div
-          className="absolute max-w-7xl mx-auto inset-0 -z-20 bg-linear-to-r from-(--layout-background)/85 via-(--layout-background)/70 to-(--layout-background)/0 h-full w-full"
+          className="absolute max-w-[1920px] mx-auto inset-0 -z-20 bg-linear-to-r from-(--layout-background)/85 via-(--layout-background)/70 to-(--layout-background)/0 h-full w-full"
           style={{ "--layout-background": "#F6F8F8" } as React.CSSProperties}
         />
 
@@ -39,10 +42,10 @@ const hero = () => {
             </p>
           </div>
           <div className="flex items-center gap-4 max-sm:flex-col mt-4">
-            <button className="px-4 py-2 rounded-full bg-foreground text-background font-medium w-full sm:w-fit sm:px-8 sm:py-3">
+            <button className="px-4 py-2 rounded-full bg-foreground text-background font-medium w-full sm:w-fit sm:px-8 sm:py-3 drop-shadow-md drop-shadow-foreground/60">
               Faire un don
             </button>
-            <button className="px-4 py-2 rounded-full bg-background text-foreground font-medium w-full sm:w-fit sm:px-8 sm:py-3">
+            <button className="px-4 py-2 rounded-full bg-background text-foreground font-medium w-full sm:w-fit sm:px-8 sm:py-3 drop-shadow-md ">
               En savoir plus
             </button>
           </div>

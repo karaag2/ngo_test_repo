@@ -5,7 +5,7 @@ import { Button } from "@/src/components/ui/button";
 
 const Header = () => {
   return (
-    <header className="bg-white/70 sticky top-0 flex items-center justify-between border px-6 py-3 backdrop-blur-xs z-10">
+    <header className="bg-white/70 sticky top-0 flex items-center justify-between border px-6 py-3 backdrop-blur-lg z-10">
       <div className="flex gap-x-4">
         <Image
           src="/logo.svg"
@@ -19,7 +19,7 @@ const Header = () => {
       
       <div className="flex gap-x-2 md:flex-row-reverse md:gap-x-6">
         <div className=" ml-auto">
-          <Button variant="outline" className="bg-foreground text-background rounded-full">
+          <Button variant="outline" className="bg-foreground drop-shadow-md drop-shadow-foreground/60 text-background border-none rounded-full">
               Participer
           </Button>
         </div>

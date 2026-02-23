@@ -170,3 +170,6 @@
     }
   }
 }
+.ShadowDropped {
+  filter: drop-shadow(5px 5px 20px red);
+}

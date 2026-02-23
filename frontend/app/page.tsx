@@ -4,6 +4,7 @@ import Cause from "@/src/components/sections/cause";
 import Stats from "@/src/components/sections/Stats";
 import Map from "@/src/components/sections/MapSection";
 import Donation from "@/src/components/sections/Donation";
+import Temoignages from "@/src/components/sections/Temoignages";
 const page = () => {
   return (
     <div className="min-h-full inset-0">
@@ -12,6 +13,7 @@ const page = () => {
       <Stats />
       <Map />
       <Donation/>
+      <Temoignages/>
       <div className="h-screen"></div>
       <div className="h-screen"></div>
       <div className="h-screen"></div>

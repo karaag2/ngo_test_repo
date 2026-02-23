@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="fr-NE">
       <body
-        className={`${lexend.className} antialiased min-h-screen bg-white`}
+        className={`${lexend.className} antialiased min-h-screen bg-[#f8f8f8]`}
       >
         <PageLayout>        
           <Header/>
