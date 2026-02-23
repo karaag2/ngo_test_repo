@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
@@ -17,23 +19,40 @@ import { MenuIcon } from "lucide-react";
 const NavigationMenu = () => {
   return (
     <>
-      <div className="hidden md:block">
-        <ul className="flex gap-x-8 items-center h-full text-header">
+      <div className="hidden lg:block">
+        <ul className="flex gap-x-8 items-center h-full text-sm font-bold uppercase tracking-widest text-main/60">
           <li>
-            <Link href={""}>Accueil</Link>
+            <Link href="#hero" className="hover:text-primary transition-colors">
+              Accueil
+            </Link>
           </li>
           <li>
-            <Link href={""}>Notre cause</Link>
+            <Link
+              href="#cause"
+              className="hover:text-primary transition-colors"
+            >
+              La Réalité
+            </Link>
           </li>
           <li>
-            <Link href={""}>Projets</Link>
+            <Link
+              href="#mission"
+              className="hover:text-primary transition-colors"
+            >
+              Mission
+            </Link>
           </li>
           <li>
-            <Link href={""}>Contact</Link>
+            <Link
+              href="#contact"
+              className="hover:text-primary transition-colors"
+            >
+              Donation
+            </Link>
           </li>
         </ul>
       </div>
-      <div className="block md:hidden ">
+      <div className="block lg:hidden ">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="link">
@@ -45,19 +64,44 @@ const NavigationMenu = () => {
               <SheetTitle>Sections</SheetTitle>
               <SheetDescription>Explorez les sections du site</SheetDescription>
             </SheetHeader>
+            <div className="border-b border-border px-6 py-5 space-y-1 bg-muted/30">
+              <h3 className="text-sm font-black tracking-tight text-main">
+                Makaranta
+              </h3>
+            </div>
             <nav className="grid flex-1 auto-rows-min gap-6 px-4 text-">
               <ul className="flex flex-col gap-y-4 justify-center items-start px-6">
                 <li>
-                  <Link href={""}>Accueil</Link>
+                  <Link
+                    href="#hero"
+                    className="text-xl font-black text-main hover:text-primary transition-colors"
+                  >
+                    Accueil
+                  </Link>
                 </li>
                 <li>
-                  <Link href={""}>Notre cause</Link>
+                  <Link
+                    href="#cause"
+                    className="text-xl font-black text-main hover:text-primary transition-colors"
+                  >
+                    La Réalité
+                  </Link>
                 </li>
                 <li>
-                  <Link href={""}>Projets</Link>
+                  <Link
+                    href="#mission"
+                    className="text-xl font-black text-main hover:text-primary transition-colors"
+                  >
+                    Mission
+                  </Link>
                 </li>
                 <li>
-                  <Link href={""}>Contact</Link>
+                  <Link
+                    href="#contact"
+                    className="text-xl font-black text-main hover:text-primary transition-colors"
+                  >
+                    Donation
+                  </Link>
                 </li>
               </ul>
             </nav>

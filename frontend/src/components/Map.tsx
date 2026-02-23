@@ -10,12 +10,12 @@ import {
 } from "@/src/components/ui/map";
 import { locations, type EtablissementType } from "@/src/data/NigerPoints";
 
-const TYPE_COLOR: Record<EtablissementType, string> = {
-  "École primaire": "#F59E0B",
-  Collège: "#60A5FA",
-  "Lycée technique": "#A78BFA",
-  "Centre de formation": "#34D399",
-};
+const TYPE_COLOR = {
+  "École primaire": "oklch(0.85 0.15 80)", // var(--edu)
+  Collège: "oklch(0.65 0.22 230)", // var(--primary)
+  "Lycée technique": "oklch(0.65 0.15 280)", // var(--impact)
+  "Centre de formation": "oklch(0.7 0.15 150)", // var(--growth)
+} as const;
 
 export default function MapNiger() {
   const [activeId, setActiveId] = useState<number | null>(null);
@@ -23,13 +23,13 @@ export default function MapNiger() {
   const totalEleves = locations.reduce((sum, l) => sum + l.eleves, 0);
 
   return (
-    <div className="flex flex-col md:flex-row h-[700px] md:h-[560px] w-full overflow-hidden rounded-2xl border border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-950 shadow-sm transition-all">
+    <div className="flex flex-col md:flex-row h-[700px] md:h-[560px] w-full overflow-hidden rounded-2xl border border-border bg-card shadow-premium transition-all">
       {/* ── Sidebar ── */}
       <div className="flex w-full md:w-72 lg:w-80 shrink-0 flex-col border-b md:border-b-0 md:border-r border-stone-200 dark:border-stone-800 order-2 md:order-1 h-[300px] md:h-auto md:max-w-1/3">
         {/* En-tête ONG */}
-        <div className="border-b border-stone-200 dark:border-stone-800 px-4 py-3.5 space-y-1 bg-stone-50/50 dark:bg-stone-900/20">
-          <h3 className="text-sm font-bold tracking-tight text-stone-900 dark:text-stone-100">
-            Lumière du Sahel
+        <div className="border-b border-border px-6 py-5 space-y-1 bg-secondary/50 backdrop-blur-sm">
+          <h3 className="text-sm font-black tracking-tight text-main">
+            Makaranta
           </h3>
           <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-stone-500">
             <span className="tabular-nums">{locations.length}</span>{" "}
@@ -82,7 +82,7 @@ export default function MapNiger() {
           })}
         </div>
 
-        {/* Légende Compacte */}
+        {/* Légende  */}
         <div className="border-t border-stone-200 dark:border-stone-800 bg-stone-50/30 dark:bg-stone-900/10 px-4 py-3 gap-y-2 flex flex-col sm:flex-row sm:flex-wrap sm:gap-x-4">
           {Object.entries(TYPE_COLOR).map(([label, color]) => (
             <div key={label} className="flex items-center gap-2">
@@ -99,7 +99,7 @@ export default function MapNiger() {
         </div>
       </div>
 
-      {/* ── Carte ── */}
+      {/* Carte  */}
       <div className="relative flex-1 order-1 md:order-2 h-full min-h-[400px]">
         <Map center={[8.0, 17.5]} zoom={4.5} className="touch-manipulation">
           {locations.map((loc) => {
@@ -117,7 +117,7 @@ export default function MapNiger() {
                       height: isActive ? 22 : 14,
                       borderRadius: "50%",
                       background: color,
-                      border: "2px solid white",
+                      border: "2px solid oklch(var(--card))",
                       boxShadow: isActive
                         ? `0 0 0 4px ${color}44, 0 4px 12px rgba(0,0,0,0.4)`
                         : "0 1px 4px rgba(0,0,0,0.25)",
@@ -147,7 +147,7 @@ export default function MapNiger() {
                           <span className="tabular-nums">{loc.ouverture}</span>
                         </span>
                       </div>
-                      <h4 className="text-sm font-bold leading-snug text-stone-900 dark:text-stone-50 text-pretty">
+                      <h4 className="text-sm font-bold leading-snug text-main text-pretty">
                         {loc.name}
                       </h4>
                       <p className="text-[11px] font-medium text-stone-500">
@@ -168,7 +168,7 @@ export default function MapNiger() {
                         <p className="text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-1">
                           Élèves
                         </p>
-                        <p className="text-base font-black text-stone-900 dark:text-stone-50 tabular-nums">
+                        <p className="text-base font-black text-main tabular-nums">
                           {loc.eleves.toLocaleString()}
                         </p>
                       </div>
@@ -176,7 +176,7 @@ export default function MapNiger() {
                         <p className="text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-1">
                           Services
                         </p>
-                        <p className="text-base font-black text-stone-900 dark:text-stone-50 tabular-nums">
+                        <p className="text-base font-black text-main tabular-nums">
                           {loc.services.length}
                         </p>
                       </div>

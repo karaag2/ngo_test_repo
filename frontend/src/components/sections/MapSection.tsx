@@ -4,57 +4,62 @@ import React from "react";
 
 const Map = () => {
   return (
-    <section className="mx-auto px-6 py-16 md:px-8 md:py-24">
-      <div className="flex flex-col gap-12 lg:flex-row lg:gap-x-6">
-        <div className="flex flex-col gap-y-6 lg:w-full ">
-          <div className="flex flex-col gap-4 mb-6">
-            <h2 className="text-lg uppercase">Notre Mission</h2>
-            <p className="text-main font-extralight text-3xl md:text-4xl  text-left">
-              Construire les fondements de l'avenir
+    <section className="container mx-auto px-6 py-24" id="mission">
+      <div className="flex flex-col gap-16 lg:flex-row lg:items-center">
+        <div className="flex flex-col gap-y-10 lg:w-1/2">
+          <div className="space-y-4">
+            <h2 className="text-primary font-black uppercase tracking-[0.3em] text-sm">
+              Notre Mission
+            </h2>
+            <p className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tighter">
+              Construire les fondements <br />
+              <span className="text-primary">de l'avenir.</span>
             </p>
           </div>
-          <div className="flex flex-col gap-y-6 md:grid grid-rows-2 grid-cols-2 gap-x-4 text-jus lg:flex  ">
-            <div className="missionCard">
-              <div className="">
-                <DraftingCompassIcon color="blue" />
+
+          <div className="grid gap-6">
+            <div className="missionCard group">
+              <div className="icon-wrapper bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white transition-all">
+                <DraftingCompassIcon size={24} />
               </div>
-              <div>
-                <h3>Construire des Ecoles</h3>
+              <div className="content-wrapper">
+                <h3>Construire des Écoles</h3>
                 <p>
-                  Construction de salles de classe sûres et résistantes aux
-                  intempéries dans des villages isolés.
+                  Salles de classe sûres et résistantes aux intempéries dans les
+                  villages isolés.
                 </p>
               </div>
             </div>
-            <div className="missionCard">
-              <div>
-                <GraduationCap color="purple" />
-              </div>
 
-              <div>
-                <h3>Former des enseignats</h3>
+            <div className="missionCard group">
+              <div className="icon-wrapper bg-edu/10 text-edu group-hover:bg-edu group-hover:text-white transition-all">
+                <GraduationCap size={24} />
+              </div>
+              <div className="content-wrapper">
+                <h3>Former des Enseignants</h3>
                 <p>
-                  Autonomisation des acteurs locaux grâce à des formations
-                  pédagogiques et des salaires réguliers.
+                  Autonomisation locale par des formations pédagogiques et un
+                  soutien continu.
                 </p>
               </div>
             </div>
-            <div className="missionCard">
-              <div>
-                <Backpack color="green" />
-              </div>
 
-              <div>
-                <h3>Fournir du matériel scolaire</h3>
+            <div className="missionCard group">
+              <div className="icon-wrapper bg-growth/10 text-growth group-hover:bg-growth group-hover:text-white transition-all">
+                <Backpack size={24} />
+              </div>
+              <div className="content-wrapper">
+                <h3>Matériel Scolaire</h3>
                 <p>
-                  Garantir à chaque enfant un sac à dos, des livres et un
-                  uniforme
+                  Garantir à chaque enfant les outils nécessaires pour apprendre
+                  et s'épanouir.
                 </p>
               </div>
             </div>
           </div>
         </div>
-        <div className="lg:w-full">
+
+        <div className="lg:w-1/2 w-full h-full min-h-[500px] rounded-3xl overflow-hidden shadow-2xl border border-white/20">
           <MapNiger />
         </div>
       </div>
