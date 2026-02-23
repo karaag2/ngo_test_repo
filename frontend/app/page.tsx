@@ -5,6 +5,7 @@ import Stats from "@/src/components/sections/Stats";
 import Map from "@/src/components/sections/MapSection";
 import Donation from "@/src/components/sections/Donation";
 import Temoignages from "@/src/components/sections/Temoignages";
+import Footer from "@/src/components/sections/Footer";
 const page = () => {
   return (
     <div className="min-h-full inset-0">
@@ -12,15 +13,8 @@ const page = () => {
       <Cause />
       <Stats />
       <Map />
-      <Donation/>
-      <Temoignages/>
-      <div className="h-screen"></div>
-      <div className="h-screen"></div>
-      <div className="h-screen"></div>
-      <div className="h-screen"></div>
-      <div className="h-screen"></div>
-      <div className="h-screen"></div>
-      <div className="h-screen"></div>
+      <Donation />
+      <Temoignages />
     </div>
   );
 };

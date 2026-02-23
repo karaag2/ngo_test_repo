@@ -3,6 +3,7 @@ import { Lexend } from "next/font/google";
 import "./globals.css";
 import Header from "@/src/components/sections/header";
 import PageLayout from "@/src/components/GlobalLayout";
+import Footer from "@/src/components/sections/Footer";
 
 const lexend = Lexend({ subsets: ["latin"] });
 
@@ -24,6 +25,7 @@ export default function RootLayout({
         <PageLayout>        
           <Header/>
         {children}
+        <Footer/>
         </PageLayout>
 
       </body>
