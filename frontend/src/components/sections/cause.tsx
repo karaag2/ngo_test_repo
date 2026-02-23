@@ -6,7 +6,7 @@ import { BookOpenTextIcon, GraduationCapIcon, Meh } from "lucide-react";
 
 const Cause = () => {
   return (
-    <section className="my-16 px-6 flex flex-col gap-y-5 ">
+    <section className="py-16 px-6 flex flex-col gap-y-5 bg-white">
       <div className=" mx-auto uppercase flex flex-col gap-y-4 ">
         <h2 className="text-center font-bold">La réalité</h2>
         <p className="text-main font-extralight text-3xl md:text-4xl text-center ">
@@ -15,17 +15,15 @@ const Cause = () => {
       </div>
       <div className="md:max-h-[80vh] overflow-clip mx-auto flex flex-col md:grid grid-cols-2 lg:grid-cols-4 gap-4 grid-rows-3 lg:grid-rows-6 w-full">
         <div className="h-75 md:h-full w-full col-span-2 relative rounded-2xl px-6 md:col-span-2 lg:row-span-6 row-span-1">
-          <div className="absolute top-0 left-0 w-full h-full rounded-4xl -z-10">
             <Image
               src={classRoom}
               alt="Hero"
               width={1920}
               height={1080}
-              className="w-full h-full object-cover rounded-4xl"
+              className="absolute top-0 left-0 z-10 w-full h-full object-cover rounded-4xl "
             />
-          </div>
-          <div className="absolute top-0 left-0 w-full h-full bg-linear-to-t from-black/90 via-black/50 to-black/0 rounded-4xl -z-10"></div>
-          <div className="flex flex-col justify-end h-full py-12">
+          <div className="absolute top-0 left-0 w-full h-full bg-linear-to-t from-black/90 via-black/50 to-black/0 rounded-4xl z-10"></div>
+          <div className="relative flex flex-col justify-end h-full py-12 z-10">
             <span className=" top-4 left-4 uppercase bg-red-400 rounded-full px-4 py-1 text-white font-bold w-fit">
               critical
             </span>
