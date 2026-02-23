@@ -9,7 +9,7 @@ import { ThemeToggle } from "@/src/components/theme-toggle";
 
 const Header = () => {
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-xl border-b border-border px-6 py-4 flex items-center justify-between">
+    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-sm border-b border-border px-6 py-4 flex items-center justify-between">
       <div className="flex items-center gap-x-4 group cursor-pointer">
         <div className="relative w-10 h-10 flex items-center justify-center bg-primary rounded-xl rotate-3 group-hover:rotate-0 transition-transform duration-300">
           <Image
