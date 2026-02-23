@@ -14,10 +14,12 @@
   "rtl": false,
   "aliases": {
     "components": "@/src/components",
+    "utils": "@/src/lib/utils",
     "ui": "@/src/components/ui",
     "lib": "@/src/lib",
-    "utils": "@/src/lib/utils",
     "hooks": "@/src/hooks"
   },
-  "registries": {}
+  "registries": {
+    "@mapcn": "https://mapcn.dev/r/{name}.json"
+  }
 }

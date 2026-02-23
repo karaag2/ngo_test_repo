@@ -9,7 +9,7 @@ const Cause = () => {
     <section className="my-16 px-6 flex flex-col gap-y-5 ">
       <div className=" mx-auto uppercase flex flex-col gap-y-4 ">
         <h2 className="text-center font-bold">La réalité</h2>
-        <p className="text-main font-extralight text-4xl text-center ">
+        <p className="text-main font-extralight text-3xl md:text-4xl text-center ">
           pourquoi devons nous agir maintenant ?
         </p>
       </div>

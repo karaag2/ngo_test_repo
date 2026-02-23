@@ -148,4 +148,25 @@
       @apply text-center text-main/60;
     }
   }
+  .maplibregl-popup-content {
+    @apply bg-transparent! shadow-none! p-0! rounded-none!;
+  }
+  .maplibregl-popup-tip {
+    @apply hidden!;
+  }
+}
+.missionCard {
+  @apply flex gap-x-4 w-full h-fit;
+  div:first-child {
+    @apply flex items-center justify-center rounded-full h-12 w-12;
+  }
+  div:nth-child(2) {
+    @apply max-w-8/10;
+    h3 {
+      @apply text-main text-xl lg:text-2xl font-extrabold;
+    }
+    p {
+      @apply text-main/60;
+    }
+  }
 }
