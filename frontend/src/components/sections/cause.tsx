@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 import classRoom from "@/public/Empty classroom with worn furniture.webp";
 import books from "@/public/Books stacked on a table.webp";
@@ -12,6 +11,7 @@ import {
 const Cause = () => {
   return (
     <section className="container mx-auto px-6 py-24" id="cause">
+      {/* Titre et sous-titre */}
       <div className="flex flex-col gap-y-4 mb-12">
         <h2 className="text-primary font-black uppercase tracking-[0.3em] text-sm text-center">
           La Réalité
@@ -22,7 +22,7 @@ const Cause = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 gap-6 min-h-[600px]">
-        {/* Main Critical Card */}
+        {/* Carte Principale */}
         <div className="md:col-span-1 md:row-span-2 lg:col-span-2 lg:row-span-2 relative rounded-4xl overflow-hidden group shadow-premium aspect-square md:aspect-auto">
           <Image
             src={classRoom}
@@ -49,7 +49,7 @@ const Cause = () => {
           </div>
         </div>
 
-        {/* Info Cards */}
+        {/* Cartes secondaire */}
         <div className="bg-card p-8 rounded-4xl border border-border flex flex-col items-center text-center gap-y-4 shadow-premium hover:-translate-y-1 transition-all">
           <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
             <GraduationCapIcon size={28} />
@@ -72,7 +72,6 @@ const Cause = () => {
           </p>
         </div>
 
-        {/* Large Horizontal Card */}
         <div className="md:col-span-2 bg-secondary/50 backdrop-blur-sm p-8 rounded-4xl border border-border flex flex-col md:flex-row items-center gap-8 shadow-premium hover:-translate-y-1 transition-all">
           <div className="flex-1 space-y-4">
             <div className="w-12 h-12 rounded-xl bg-growth/10 flex items-center justify-center text-growth">

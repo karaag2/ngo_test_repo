@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -47,6 +46,7 @@ const activities = [
 const Gallery = () => {
   return (
     <section className="container mx-auto px-6 py-24" id="activites">
+      {/*Titre et sous-titre */}
       <div className="flex flex-col gap-y-4 mb-16 text-center">
         <h2 className="text-primary font-black uppercase tracking-[0.3em] text-sm">
           Nos Activités
@@ -59,7 +59,7 @@ const Gallery = () => {
           nos déploiements sur le terrain.
         </p>
       </div>
-
+      {/*Grille d'activités */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[250px]">
         {activities.map((activity, index) => (
           <motion.div
@@ -67,36 +67,62 @@ const Gallery = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            whileHover="hover"
             transition={{ delay: index * 0.1 }}
-            className={`relative rounded-4xl overflow-hidden group shadow-premium border border-border/50 ${activity.className}`}
+            className={`relative rounded-4xl overflow-hidden shadow-premium border border-border/50 cursor-pointer ${activity.className}`}
           >
             <Link
               href={`/blog/${activity.title.toLowerCase().replace(/ /g, "-").replace(/'/g, "").replace(/é/g, "e").replace(/à/g, "a")}`}
+              className="block w-full h-full relative"
             >
-              <Image
-                src={activity.image}
-                alt={activity.title}
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover transition-transform duration-700 group-hover:scale-110"
-              />
-              {/* Overlay Gradient */}
-              <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+              {/* Image d'arrière-plan animée */}
+              <motion.div
+                className="absolute inset-0 w-full h-full"
+                variants={{
+                  hover: { scale: 1.1 },
+                }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+              >
+                <Image
+                  src={activity.image}
+                  alt={activity.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover"
+                />
+              </motion.div>
 
-              {/* Content */}
-              <div className="absolute inset-0 p-8 flex flex-col justify-end translate-y-4 group-hover:translate-y-0 transition-transform">
+              {/* Overlay Gradient animé */}
+              <motion.div
+                className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent"
+                variants={{
+                  hover: { opacity: 0.9 },
+                }}
+                initial={{ opacity: 0.6 }}
+                transition={{ duration: 0.3 }}
+              />
+
+              {/* Contenu textuel animé */}
+              <motion.div
+                className="absolute inset-0 p-8 flex flex-col justify-end"
+                variants={{
+                  hover: { y: 0, opacity: 1 },
+                }}
+                initial={{ y: 15, opacity: 0.9 }}
+                transition={{ type: "spring", stiffness: 300, damping: 25 }}
+              >
                 <span className="text-primary text-[10px] font-black uppercase tracking-widest bg-primary/10 backdrop-blur-md px-3 py-1 rounded-full w-fit mb-2 border border-primary/20">
                   {activity.category}
                 </span>
-                <h3 className="text-white text-xl md:text-2xl font-black italic">
+                <h3 className="text-white text-xl md:text-2xl font-black italic leading-tight">
                   {activity.title}
                 </h3>
-              </div>
+              </motion.div>
             </Link>
           </motion.div>
         ))}
       </div>
-
+      {/*Bouton Voir tous les articles */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

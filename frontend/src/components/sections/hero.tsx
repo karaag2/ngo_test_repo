@@ -8,6 +8,7 @@ const hero = () => {
       id="hero"
       className="relative -mt-20 h-screen lg:h-[90vh] min-h-[700px] max-h-[900px] overflow-hidden"
     >
+      {/* Image d'Arrière Plan */}
       <div className="absolute inset-0 -z-20">
         <Image
           src={heroImg}
@@ -15,14 +16,15 @@ const hero = () => {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center scale-105 animate-pulse-slow"
+          className="object-cover object-center scale-105 animate-pulse-slower"
         />
         <div className="absolute inset-0 bg-linear-to-t from-background via-background/70 to-transparent dark:bg-linear-to-t dark:from-background dark:via-background/80 dark:to-transparent" />
       </div>
 
-      <div className="container mx-auto px-6 h-full flex flex-col justify-center pt-24 min-[380px]:pt-32 lg:pt-0">
+      {/* Contenu du Hero */}
+      <div className="container mx-auto px-6 h-full flex flex-col justify-center pt-24 min-[380px]:pt-32 lg:pt-12">
         <div className="max-w-3xl space-y-5 min-[380px]:space-y-6 lg:space-y-8 animate-in fade-in slide-in-from-left-8 duration-1000">
-          {/* Urgent Badge - Refined and smaller on mini screens */}
+          {/*  Badge Urgent */}
           <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-primary/10 text-primary font-black text-[9px] md:text-xs w-fit border border-primary/10 backdrop-blur-md">
             <span className="relative flex h-1.5 w-1.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
@@ -31,8 +33,8 @@ const hero = () => {
             <span className="tracking-[0.15em]">APPEL URGENT</span>
           </div>
 
-          {/* Heading - Capped at 7xl for a more refined look on desktops */}
-          <h1 className="text-[2.5rem] min-[380px]:text-5xl min-[410px]:text-6xl md:text-6xl lg:text-7xl font-black text-main leading-[0.95] md:leading-[0.9] tracking-tight">
+          {/*  Titre et sous-titre */}
+          <h1 className="text-[2.5rem] min-[380px]:text-5xl min-[410px]:text-6xl lg:text-7xl font-black text-main leading-[0.95] md:leading-[0.9] tracking-tight">
             Bâtir{" "}
             <span className="text-primary italic font-serif font-medium">
               Ensemble
@@ -41,18 +43,17 @@ const hero = () => {
             l'avenir du{" "}
             <span className="relative inline-block px-1">
               Sahel
-              <span className="absolute bottom-1 md:bottom-2 left-0 w-full h-0.5 md:h-1.5 bg-primary/30 -z-10 rounded-full"></span>
+              <span className="absolute bottom-1 md:bottom-2 left-0 w-full h-0.5 md:h-1.5 bg-primary/30 -z-10"></span>
             </span>
           </h1>
 
-          {/* Description - Better line height and width for readability */}
           <p className="text-base min-[380px]:text-lg md:text-2xl text-muted-foreground font-medium max-w-xl md:max-w-2xl leading-relaxed opacity-80 text-pretty">
             Makaranta œuvre pour résoudre la crise éducative par des initiatives
             locales. Nous transformons l'avenir des enfants,{" "}
             <span className="text-main font-bold">une école à la fois.</span>
           </p>
 
-          {/* Actions - Refined dimensions for site harmony */}
+          {/* Boutons */}
           <div className="flex flex-col min-[380px]:flex-row items-stretch min-[380px]:items-center gap-3 md:gap-4 pt-2 md:pt-4">
             <button className="px-7 py-3 md:px-8 md:py-3.5 rounded-full font-bold transition-all duration-500 active:scale-95 shadow-lg shadow-primary/15 bg-primary text-primary-foreground hover:shadow-primary/30 hover:-translate-y-1 text-sm uppercase tracking-wider">
               Faire un don
@@ -62,7 +63,7 @@ const hero = () => {
             </button>
           </div>
 
-          {/* Proof - Minimalist separator and scaled avatars */}
+          {/* Aperçu des Contributeurs */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 pt-8 md:pt-14 border-t border-border/10">
             <div className="flex items-center -space-x-3 md:-space-x-4">
               {[1, 2, 3, 4].map((item) => (

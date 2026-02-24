@@ -20,12 +20,12 @@ const Contact = () => {
       className="container mx-auto px-6 py-20 relative overflow-hidden"
       id="contact"
     >
-      {/* Abstract Background Decoration */}
+      {/* Arrière Plan Flou */}
       <div className="absolute top-1/4 -right-20 w-80 h-80 bg-primary/5 rounded-full blur-3xl -z-10" />
       <div className="absolute bottom-1/4 -left-20 w-64 h-64 bg-edu/5 rounded-full blur-3xl -z-10" />
 
       <div className="flex flex-col gap-y-12 max-w-5xl mx-auto">
-        {/* Adjusted Header */}
+        {/* Titre et sous-titre */}
         <div className="text-center space-y-3 max-w-3xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 10 }}
@@ -58,7 +58,7 @@ const Contact = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Info Side - Refined Spacing */}
+          {/*  Cartes d'Informations */}
           <div className="lg:col-span-4 space-y-6 order-2 lg:order-1">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
@@ -107,7 +107,7 @@ const Contact = () => {
               ))}
             </motion.div>
 
-            {/* Compact Trust Card */}
+            {/* Carte secondaire */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -133,7 +133,7 @@ const Contact = () => {
             </motion.div>
           </div>
 
-          {/* Form Side - Compact & Clean */}
+          {/* Formulaire de Contact */}
           <motion.div
             initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}

@@ -8,9 +8,9 @@ const Donation = () => {
   return (
     <section className="container mx-auto px-6 py-24" id="donation">
       <div className="max-w-xl mx-auto flex flex-col gap-y-10 p-8 md:p-12 rounded-[2.5rem] bg-card border border-border shadow-premium relative overflow-hidden">
-        {/* Subtle background decoration */}
+        {/* Arrière Plan Flou */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl" />
-
+        {/*Titre et sous-titre */}
         <div className="space-y-4 text-center">
           <h2 className="text-3xl md:text-4xl font-black text-main tracking-tight">
             Soutenez <span className="text-primary italic">Makaranta</span>
@@ -21,6 +21,7 @@ const Donation = () => {
           </p>
         </div>
 
+        {/*Formulaire de don */}
         <form action="" className="space-y-8 relative">
           <div className="space-y-4">
             <Label className="text-xs uppercase tracking-widest font-black text-main/60 px-2">

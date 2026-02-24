@@ -5,7 +5,8 @@
 :root {
   --background: oklch(0.98 0.01 200);
   --foreground: oklch(0.25 0.05 240);
-
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-pulse-slower: pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --primary: oklch(0.65 0.22 230);
   --primary-foreground: oklch(1 0 0);
 
@@ -98,6 +99,9 @@
 
   --shadow-premium: 0 10px 30px -10px oklch(0.25 0.05 240 / 12%);
   --shadow-focus: 0 0 0 4px oklch(0.65 0.22 230 / 15%);
+
+  --animate-pulse-slow: var(--animate-pulse-slow);
+  --animate-pulse-slower: var(--animate-pulse-slower);
 }
 
 @layer base {
@@ -116,6 +120,11 @@
     @apply tracking-tight font-bold text-main;
   }
 
+  @keyframes pulse {
+    50% {
+      opacity: 0.5;
+    }
+  }
   /* Stat Card Harmony */
   .statCard {
     @apply flex flex-col items-center justify-center gap-y-2 p-10 rounded-2xl backdrop-blur-sm border border-border shadow-premium hover:scale-[1.02] transition-transform duration-300;

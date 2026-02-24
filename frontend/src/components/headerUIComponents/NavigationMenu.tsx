@@ -1,9 +1,5 @@
-"use client";
-
-import React from "react";
 import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
-import { Label } from "@/src/components/ui/label";
 import {
   Sheet,
   SheetClose,
@@ -15,67 +11,27 @@ import {
   SheetTrigger,
 } from "@/src/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
+import { Sections } from "@/src/data/navigation";
 
 const NavigationMenu = () => {
   return (
     <>
+      {/* Menu desktop et Tablette */}
       <div className="hidden lg:block">
         <ul className="flex gap-x-8 items-center h-full text-sm font-bold uppercase tracking-widest text-main/60">
-          <li>
-            <Link
-              href="/#hero"
-              className="hover:text-primary transition-colors"
-            >
-              Accueil
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/#cause"
-              className="hover:text-primary transition-colors"
-            >
-              Réalité
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/#mission"
-              className="hover:text-primary transition-colors"
-            >
-              Mission
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/#activites"
-              className="hover:text-primary transition-colors"
-            >
-              Activités
-            </Link>
-          </li>
-          {/* <li>
-            <Link href="/blog" className="hover:text-primary transition-colors">
-              Journal
-            </Link>
-          </li> */}
-          <li>
-            <Link
-              href="/#donation"
-              className="hover:text-primary transition-colors"
-            >
-              Dons
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/#contact"
-              className="hover:text-primary transition-colors"
-            >
-              Contact
-            </Link>
-          </li>
+          {Sections.map((section) => (
+            <li key={section.href}>
+              <Link
+                href={section.href}
+                className="hover:text-primary transition-colors"
+              >
+                {section.label}
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
+      {/* Menu mobile */}
       <div className="block lg:hidden ">
         <Sheet>
           <SheetTrigger asChild>
@@ -95,25 +51,13 @@ const NavigationMenu = () => {
             </div>
             <nav className="grid flex-1 auto-rows-min gap-6 px-4">
               <ul className="flex flex-col gap-y-4 justify-center items-start px-6">
-                {[
-                  "Accueil",
-                  "Réalité",
-                  "Mission",
-                  "Activités",
-                  "Journal",
-                  "Dons",
-                  "Contact",
-                ].map((label) => (
-                  <li key={label}>
+                {Sections.map((section) => (
+                  <li key={section.href}>
                     <Link
-                      href={
-                        label === "Journal"
-                          ? "/blog"
-                          : `/#${label.toLowerCase().replace("é", "e") === "dons" ? "donation" : label.toLowerCase().replace("é", "e")}`
-                      }
+                      href={section.href}
                       className="text-xl font-black text-main hover:text-primary transition-colors"
                     >
-                      {label}
+                      {section.label}
                     </Link>
                   </li>
                 ))}

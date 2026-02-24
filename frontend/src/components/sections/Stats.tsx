@@ -1,5 +1,3 @@
-import React from "react";
-
 const Stats = () => {
   return (
     <section className="container mx-auto px-6 py-24">

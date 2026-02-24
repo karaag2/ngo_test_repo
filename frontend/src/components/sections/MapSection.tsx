@@ -1,24 +1,8 @@
 "use client";
 
-import React from "react";
-import dynamic from "next/dynamic";
 import { Backpack, DraftingCompassIcon, GraduationCap } from "lucide-react";
 import { motion } from "framer-motion";
-
-// Lazy load Map to reduce Total Blocking Time (TBT)
-const MapNiger = dynamic(() => import("@/src/components/Map"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full min-h-[500px] flex items-center justify-center bg-secondary/20 animate-pulse rounded-3xl">
-      <div className="flex flex-col items-center gap-4">
-        <div className="w-10 h-10 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
-        <p className="text-[10px] font-black uppercase tracking-widest text-primary/60">
-          Chargement de la carte...
-        </p>
-      </div>
-    </div>
-  ),
-});
+import MapLoader from "@/src/components/MapLoader";
 
 const MapSection = () => {
   return (
@@ -94,7 +78,7 @@ const MapSection = () => {
           </div>
         </div>
 
-        {/* Map Container with reserved height to minimize CLS */}
+        {/* Conteneur de la Carte Interactive */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -102,7 +86,7 @@ const MapSection = () => {
           transition={{ delay: 0.5 }}
           className="lg:w-1/2 w-full aspect-square md:aspect-auto md:h-[560px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-border/50 bg-secondary/10"
         >
-          <MapNiger />
+          <MapLoader />
         </motion.div>
       </div>
     </section>

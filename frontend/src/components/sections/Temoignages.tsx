@@ -46,6 +46,7 @@ export function Temoignages() {
   return (
     <section className="container mx-auto px-6 py-24">
       <div className="flex flex-col gap-y-16">
+        {/*Titre et sous-titre de la section */}
         <div className="text-center space-y-4">
           <h2 className="text-3xl md:text-5xl font-black text-main tracking-tight">
             Histoires <span className="text-primary italic">Inspirantes</span>
@@ -56,12 +57,14 @@ export function Temoignages() {
           </p>
         </div>
 
+        {/*Carousel des témoignages */}
         <Carousel className="w-full max-w-4xl mx-auto group">
           <CarouselContent>
             {temoignages.map((t) => (
               <CarouselItem key={t.id}>
                 <Card className="bg-card/50 backdrop-blur-sm border border-border rounded-[2.5rem] p-8 md:p-12 shadow-premium">
                   <CardHeader className="p-0 mb-8">
+                    {/*Profile */}
                     <div className="flex flex-col items-center gap-6 relative">
                       <Quote className="text-primary/20 absolute -top-4 -left-4 md:-left-8 size-16 md:size-24 -z-10" />
 
@@ -81,10 +84,12 @@ export function Temoignages() {
                   </CardHeader>
 
                   <CardContent className="p-0 text-center space-y-8">
+                    {/* Témoignage */}
                     <p className="text-xl md:text-2xl font-medium leading-relaxed text-main italic">
                       "{t.message}"
                     </p>
 
+                    {/* Nom et niveau */}
                     <div className="space-y-1">
                       <p className="text-xl font-black text-main">{t.nom}</p>
                       <p className="text-sm font-bold uppercase tracking-widest text-primary">

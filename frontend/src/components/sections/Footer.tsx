@@ -46,7 +46,7 @@ const Footer = () => {
               )}
             </div>
           </div>
-
+          {/* Sitemap */}
           <div className="space-y-6">
             <h4 className="text-sm font-black uppercase tracking-widest text-main">
               Sitemap
@@ -130,7 +130,7 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-
+          {/* Contact */}
           <div className="space-y-6">
             <h4 className="text-sm font-black uppercase tracking-widest text-main">
               Contact
@@ -159,16 +159,16 @@ const Footer = () => {
             </ul>
           </div>
         </div>
-
+        {/* Footer */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-y-6 pt-12 border-t border-border/50">
           <p className="text-sm font-medium text-muted-foreground">
             &copy; {new Date().getFullYear()} Makaranta ONG. Design for Change.
           </p>
           <div className="flex gap-x-8 text-xs font-black uppercase tracking-[0.2em] text-main/40">
-            <Link href="/privacy" className="hover:text-main transition-colors">
+            <Link href="#privacy" className="hover:text-main transition-colors">
               Confidentialité
             </Link>
-            <Link href="/terms" className="hover:text-main transition-colors">
+            <Link href="#terms" className="hover:text-main transition-colors">
               Mentions Légales
             </Link>
           </div>
