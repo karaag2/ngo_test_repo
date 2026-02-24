@@ -1,65 +1,96 @@
+"use client";
+
 import { Backpack, DraftingCompassIcon, GraduationCap } from "lucide-react";
-import MapNiger from "@/src/components/Map";
-import React from "react";
+import { motion } from "framer-motion";
+import MapLoader from "@/src/components/MapLoader";
 
-const Map = () => {
+const MapSection = () => {
   return (
-    <section className="mx-auto px-6 py-16 md:px-8 md:py-24">
-      <div className="flex flex-col gap-12 lg:flex-row lg:gap-x-6">
-        <div className="flex flex-col gap-y-6 lg:w-full ">
-          <div className="flex flex-col gap-4 mb-6">
-            <h2 className="text-lg uppercase">Notre Mission</h2>
-            <p className="text-main font-extralight text-3xl md:text-4xl  text-left">
-              Construire les fondements de l'avenir
-            </p>
+    <section className="container mx-auto px-6 py-24" id="mission">
+      <div className="flex flex-col gap-16 lg:flex-row lg:items-center max-w-6xl mx-auto">
+        <div className="flex flex-col gap-y-10 lg:w-1/2">
+          <div className="space-y-4">
+            <motion.h2
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="text-primary font-black uppercase tracking-[0.3em] text-sm"
+            >
+              Notre Mission
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-tighter"
+            >
+              Construire les fondements <br />
+              <span className="text-primary italic">de l'avenir.</span>
+            </motion.p>
           </div>
-          <div className="flex flex-col gap-y-6 md:grid grid-rows-2 grid-cols-2 gap-x-4 text-jus lg:flex  ">
-            <div className="missionCard">
-              <div className="">
-                <DraftingCompassIcon color="blue" />
-              </div>
-              <div>
-                <h3>Construire des Ecoles</h3>
-                <p>
-                  Construction de salles de classe sûres et résistantes aux
-                  intempéries dans des villages isolés.
-                </p>
-              </div>
-            </div>
-            <div className="missionCard">
-              <div>
-                <GraduationCap color="purple" />
-              </div>
 
-              <div>
-                <h3>Former des enseignats</h3>
-                <p>
-                  Autonomisation des acteurs locaux grâce à des formations
-                  pédagogiques et des salaires réguliers.
-                </p>
-              </div>
-            </div>
-            <div className="missionCard">
-              <div>
-                <Backpack color="green" />
-              </div>
-
-              <div>
-                <h3>Fournir du matériel scolaire</h3>
-                <p>
-                  Garantir à chaque enfant un sac à dos, des livres et un
-                  uniforme
-                </p>
-              </div>
-            </div>
+          <div className="grid gap-6">
+            {[
+              {
+                icon: <DraftingCompassIcon size={24} />,
+                title: "Construire des Écoles",
+                desc: "Salles de classe sûres et résistantes aux intempéries dans les villages isolés.",
+                color: "bg-primary/10 text-primary",
+                delay: 0.2,
+              },
+              {
+                icon: <GraduationCap size={24} />,
+                title: "Former des Enseignants",
+                desc: "Autonomisation locale par des formations pédagogiques et un soutien continu.",
+                color: "bg-edu/10 text-edu",
+                delay: 0.3,
+              },
+              {
+                icon: <Backpack size={24} />,
+                title: "Matériel Scolaire",
+                desc: "Garantir à chaque enfant les outils nécessaires pour apprendre et s'épanouir.",
+                color: "bg-growth/10 text-growth",
+                delay: 0.4,
+              },
+            ].map((item, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: item.delay }}
+                className="missionCard group hover:shadow-xl transition-all duration-500"
+              >
+                <div
+                  className={`icon-wrapper ${item.color} group-hover:scale-110 transition-transform duration-500 shadow-sm`}
+                >
+                  {item.icon}
+                </div>
+                <div className="content-wrapper">
+                  <h3 className="group-hover:text-primary transition-colors italic">
+                    {item.title}
+                  </h3>
+                  <p>{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
-        <div className="lg:w-full">
-          <MapNiger />
-        </div>
+
+        {/* Conteneur de la Carte Interactive */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5 }}
+          className="lg:w-1/2 w-full aspect-square md:aspect-auto md:h-[560px] rounded-[2.5rem] overflow-hidden shadow-2xl border border-border/50 bg-secondary/10"
+        >
+          <MapLoader />
+        </motion.div>
       </div>
     </section>
   );
 };
 
-export default Map;
+export default MapSection;

@@ -1,7 +1,5 @@
-import React from "react";
 import { Button } from "@/src/components/ui/button";
 import Link from "next/link";
-import { Label } from "@/src/components/ui/label";
 import {
   Sheet,
   SheetClose,
@@ -13,27 +11,28 @@ import {
   SheetTrigger,
 } from "@/src/components/ui/sheet";
 import { MenuIcon } from "lucide-react";
+import { Sections } from "@/src/data/navigation";
 
 const NavigationMenu = () => {
   return (
     <>
-      <div className="hidden md:block">
-        <ul className="flex gap-x-8 items-center h-full text-header">
-          <li>
-            <Link href={""}>Accueil</Link>
-          </li>
-          <li>
-            <Link href={""}>Notre cause</Link>
-          </li>
-          <li>
-            <Link href={""}>Projets</Link>
-          </li>
-          <li>
-            <Link href={""}>Contact</Link>
-          </li>
+      {/* Menu desktop et Tablette */}
+      <div className="hidden lg:block">
+        <ul className="flex gap-x-8 items-center h-full text-sm font-bold uppercase tracking-widest text-main/60">
+          {Sections.map((section) => (
+            <li key={section.href}>
+              <Link
+                href={section.href}
+                className="hover:text-primary transition-colors"
+              >
+                {section.label}
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
-      <div className="block md:hidden ">
+      {/* Menu mobile */}
+      <div className="block lg:hidden ">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="link">
@@ -42,23 +41,26 @@ const NavigationMenu = () => {
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>
-              <SheetTitle>Sections</SheetTitle>
-              <SheetDescription>Explorez les sections du site</SheetDescription>
+              <SheetTitle>Navigation</SheetTitle>
+              <SheetDescription>Accédez aux sections du site</SheetDescription>
             </SheetHeader>
-            <nav className="grid flex-1 auto-rows-min gap-6 px-4 text-">
+            <div className="border-b border-border px-6 py-5 space-y-1 bg-muted/30">
+              <h3 className="text-sm font-black tracking-tight text-main">
+                Makaranta
+              </h3>
+            </div>
+            <nav className="grid flex-1 auto-rows-min gap-6 px-4">
               <ul className="flex flex-col gap-y-4 justify-center items-start px-6">
-                <li>
-                  <Link href={""}>Accueil</Link>
-                </li>
-                <li>
-                  <Link href={""}>Notre cause</Link>
-                </li>
-                <li>
-                  <Link href={""}>Projets</Link>
-                </li>
-                <li>
-                  <Link href={""}>Contact</Link>
-                </li>
+                {Sections.map((section) => (
+                  <li key={section.href}>
+                    <Link
+                      href={section.href}
+                      className="text-xl font-black text-main hover:text-primary transition-colors"
+                    >
+                      {section.label}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </nav>
             <SheetFooter>

@@ -3,7 +3,6 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,
   CardFooter,
 } from "@/src/components/ui/card";
 import {
@@ -22,9 +21,9 @@ export function Temoignages() {
       id: 1,
       nom: "Awa Traoré",
       image: "https://i.pravatar.cc/150?u=ngo7",
-      level: "Elève 5e Année médecine",
+      level: "Élève 5e Année médecine",
       message:
-        "Avant que MKRT ne construises notre école je devais marcher 10Km. Maintenant mon rêve de devenir médecin est plus proche que jamais grâce à MKRT j'aurai l'opportuniter de soigner les enfants de mon village.",
+        "Avant que MKRT ne construise notre école, je devais marcher 10km. Aujourd'hui, mon rêve de devenir médecin est à portée de main. Je pourrai bientôt soigner les enfants de mon village.",
     },
     {
       id: 2,
@@ -32,83 +31,80 @@ export function Temoignages() {
       image: "https://i.pravatar.cc/150?u=ngo8",
       level: "Professeur de mathématiques",
       message:
-        "C'est grâce à MKRT que j'ai pu avoir une éducation de qualité. Je suis très reconnaissante envers cette organisation elle m'a permi d'avoir l'auportunité de transmettre mon savoir aux enfants de mon village.",
+        "Grâce à MKRT, j'ai pu recevoir une éducation de qualité. Je suis honoré de transmettre aujourd'hui mon savoir aux nouvelles générations de ma communauté.",
     },
     {
       id: 3,
-      nom: "Enfants du villade de Ndioum",
+      nom: "Enfants de Ndioum",
       image: "https://i.pravatar.cc/150?u=grok1",
-      level: "Elèves Primaire",
+      level: "Élèves Primaire",
       message:
-        "Nous les enfants de ce village n'avions pas de lieu pour étudier. Maintenant nous avons une école grâce à MKRT. Nous sommes très reconnaissants envers cette organisation. ",
-    },
-    {
-      id: 4,
-      nom: "Alassane Kebe",
-      image: "https://i.pravatar.cc/150?u=gpt",
-      level: "Professeur de philosophie",
-      message:
-        "Grâce à MKRT j'ai pu avoir une éducation de qualité. Je suis très reconnaissante envers cette organisation elle m'a permi d'avoir l'auportunité de transmettre mon savoir aux enfants de mon village.",
-    },
-    {
-      id: 5,
-      nom: "Abdoulaye Barry",
-      image: "https://i.pravatar.cc/150?u=tony13156",
-      level: "Elève en classe de terminale",
-      message:
-        "Grâce à MKRT j'ai pu avoir une éducation de qualité. Je suis très reconnaissante envers cette organisation elle m'a permi d'avoir l'auportunité de transmettre mon savoir aux enfants de mon village.",
+        "Nous n'avions pas de lieu pour apprendre. Maintenant, nous avons une école magnifique. Nous sommes tellement heureux d'aller en classe chaque matin !",
     },
   ];
-  return (
-    <section className="mx-auto px-6 py-16 ">
-      <div className="flex flex-col gap-y-10">
-        <div className="">
-          <h1 className="text-3xl md:text-4xl font-bold text-main text-center">
-            Histoires inspirantes
-          </h1>
-        </div>
-        <Carousel className="w-full  max-w-5xl flex flex-col gap-y-8 mx-auto">
-          <CarouselContent>
-            {temoignages.map((_, index) => (
-              <CarouselItem key={index}>
-                <Card className="bg-white  border-none  ">
-                  <CardHeader>
-                    <div className="flex justify-center relative w-full items-center">
-                      <Quote className="absolute left-0 rotate-180 text-foreground/30" />
 
-                      <div className="w-24 h-24 border-4 border-foreground/30 rounded-full  ">
-                        <Image
-                          src={temoignages[index].image}
-                          alt={temoignages[index].nom}
-                          width={100}
-                          height={100}
-                          className="rounded-full"
-                        />
+  return (
+    <section className="container mx-auto px-6 py-24">
+      <div className="flex flex-col gap-y-16">
+        {/*Titre et sous-titre de la section */}
+        <div className="text-center space-y-4">
+          <h2 className="text-3xl md:text-5xl font-black text-main tracking-tight">
+            Histoires <span className="text-primary italic">Inspirantes</span>
+          </h2>
+          <p className="text-muted-foreground font-medium max-w-2xl mx-auto">
+            Découvrez l'impact réel de vos contributions à travers les
+            témoignages de ceux qui vivent le changement au quotidien.
+          </p>
+        </div>
+
+        {/*Carousel des témoignages */}
+        <Carousel className="w-full max-w-4xl mx-auto group">
+          <CarouselContent>
+            {temoignages.map((t) => (
+              <CarouselItem key={t.id}>
+                <Card className="bg-card/50 backdrop-blur-sm border border-border rounded-[2.5rem] p-8 md:p-12 shadow-premium">
+                  <CardHeader className="p-0 mb-8">
+                    {/*Profile */}
+                    <div className="flex flex-col items-center gap-6 relative">
+                      <Quote className="text-primary/20 absolute -top-4 -left-4 md:-left-8 size-16 md:size-24 -z-10" />
+
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-primary/20 rounded-full blur-xl scale-125 opacity-50" />
+                        <div className="relative w-28 h-28 md:w-32 md:h-32 rounded-full border-4 border-card shadow-lg overflow-hidden">
+                          <Image
+                            src={t.image}
+                            alt={t.nom}
+                            fill
+                            sizes="(max-width: 768px) 112px, 128px"
+                            className="object-cover"
+                          />
+                        </div>
                       </div>
                     </div>
                   </CardHeader>
-                  <CardContent className="flex flex-col gap ">
-                    <CardDescription>
-                      <p className="text-center text-main/80 text-lg">
-                        {temoignages[index].message}
+
+                  <CardContent className="p-0 text-center space-y-8">
+                    {/* Témoignage */}
+                    <p className="text-xl md:text-2xl font-medium leading-relaxed text-main italic">
+                      "{t.message}"
+                    </p>
+
+                    {/* Nom et niveau */}
+                    <div className="space-y-1">
+                      <p className="text-xl font-black text-main">{t.nom}</p>
+                      <p className="text-sm font-bold uppercase tracking-widest text-primary">
+                        {t.level}
                       </p>
-                    </CardDescription>
-                    <CardFooter className="flex flex-col gap-y-2 py-6 mt-auto">
-                      <p className="text-center text-main text-lg font-bold">
-                        {temoignages[index].nom}
-                      </p>
-                      <p className="text-center  text-lg font-light text-foreground ">
-                        {temoignages[index].level}
-                      </p>
-                    </CardFooter>
+                    </div>
                   </CardContent>
                 </Card>
               </CarouselItem>
             ))}
           </CarouselContent>
-          <div className="flex items-center justify-center">
-            <CarouselPrevious className="relative bg-white size-12 w-32" />
-            <CarouselNext className="relative bg-white size-12 w-32" />
+
+          <div className="flex items-center justify-center gap-4 mt-12">
+            <CarouselPrevious className="static translate-y-0 size-14 border-border hover:bg-card hover:text-primary transition-all shadow-sm" />
+            <CarouselNext className="static translate-y-0 size-14 border-border hover:bg-card hover:text-primary transition-all shadow-sm" />
           </div>
         </Carousel>
       </div>
