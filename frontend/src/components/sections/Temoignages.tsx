@@ -72,6 +72,7 @@ export function Temoignages() {
                             src={t.image}
                             alt={t.nom}
                             fill
+                            sizes="(max-width: 768px) 112px, 128px"
                             className="object-cover"
                           />
                         </div>

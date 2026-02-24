@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export const GlobalLoader = () => {
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-background">
+    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-background">
       <div className="relative flex flex-col items-center gap-y-8">
         {/* Logo Animation */}
         <motion.div

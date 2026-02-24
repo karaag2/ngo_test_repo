@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import classRoom from "@/public/Empty classroom with worn furniture.png";
-import books from "@/public/Books stacked on a table.png";
+import classRoom from "@/public/Empty classroom with worn furniture.webp";
+import books from "@/public/Books stacked on a table.webp";
 import {
   BookOpenTextIcon,
   GraduationCapIcon,
@@ -28,6 +28,7 @@ const Cause = () => {
             src={classRoom}
             alt="Classe délabrée"
             fill
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover transition-transform duration-700 group-hover:scale-110"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent" />
@@ -90,6 +91,7 @@ const Cause = () => {
               src={books}
               alt="Livres scolaires"
               fill
+              sizes="(max-width: 768px) 100vw, 25vw"
               className="object-cover"
             />
           </div>

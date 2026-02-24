@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import heroImg from "@/public/hero.png";
+import heroImg from "@/public/hero.webp";
 
 const hero = () => {
   return (
@@ -14,6 +14,7 @@ const hero = () => {
           alt="L'éducation pour tous"
           fill
           priority
+          sizes="100vw"
           className="object-cover object-center scale-105 animate-pulse-slow"
         />
         <div className="absolute inset-0 bg-linear-to-t from-background via-background/70 to-transparent dark:bg-linear-to-t dark:from-background dark:via-background/80 dark:to-transparent" />
@@ -67,12 +68,14 @@ const hero = () => {
               {[1, 2, 3, 4].map((item) => (
                 <div
                   key={item}
-                  className="h-10 w-10 md:h-12 md:w-12 rounded-full border-[3px] border-background/80 overflow-hidden shadow-sm hover:scale-110 transition-transform cursor-pointer"
+                  className="relative h-10 w-10 md:h-12 md:w-12 rounded-full border-[3px] border-background/80 overflow-hidden shadow-sm hover:scale-110 transition-transform cursor-pointer"
                 >
-                  <img
+                  <Image
                     src={`https://i.pravatar.cc/150?u=ngo${item}`}
                     alt="Donateur"
-                    className="h-full w-full object-cover"
+                    fill
+                    sizes="(max-width: 768px) 40px, 48px"
+                    className="object-cover"
                   />
                 </div>
               ))}

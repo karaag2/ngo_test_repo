@@ -77,6 +77,7 @@ export const BlogPostClient = ({ post, relatedPosts }: BlogPostClientProps) => {
             src={post.image}
             alt={post.title}
             fill
+            sizes="100vw"
             className="object-cover"
             priority
           />
@@ -126,6 +127,7 @@ export const BlogPostClient = ({ post, relatedPosts }: BlogPostClientProps) => {
                         src={related.image}
                         alt={related.title}
                         fill
+                        sizes="(max-width: 768px) 100vw, 33vw"
                         className="object-cover transition-transform group-hover:scale-105"
                       />
                     </div>
