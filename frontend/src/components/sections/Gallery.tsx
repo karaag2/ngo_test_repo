@@ -2,7 +2,9 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 const activities = [
   {
@@ -68,27 +70,46 @@ const Gallery = () => {
             transition={{ delay: index * 0.1 }}
             className={`relative rounded-4xl overflow-hidden group shadow-premium border border-border/50 ${activity.className}`}
           >
-            <Image
-              src={activity.image}
-              alt={activity.title}
-              fill
-              className="object-cover transition-transform duration-700 group-hover:scale-110"
-            />
-            {/* Overlay Gradient */}
-            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+            <Link
+              href={`/blog/${activity.title.toLowerCase().replace(/ /g, "-").replace(/'/g, "").replace(/é/g, "e").replace(/à/g, "a")}`}
+            >
+              <Image
+                src={activity.image}
+                alt={activity.title}
+                fill
+                className="object-cover transition-transform duration-700 group-hover:scale-110"
+              />
+              {/* Overlay Gradient */}
+              <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
 
-            {/* Content */}
-            <div className="absolute inset-0 p-8 flex flex-col justify-end translate-y-4 group-hover:translate-y-0 transition-transform">
-              <span className="text-primary text-[10px] font-black uppercase tracking-widest bg-primary/10 backdrop-blur-md px-3 py-1 rounded-full w-fit mb-2">
-                {activity.category}
-              </span>
-              <h3 className="text-white text-xl md:text-2xl font-black">
-                {activity.title}
-              </h3>
-            </div>
+              {/* Content */}
+              <div className="absolute inset-0 p-8 flex flex-col justify-end translate-y-4 group-hover:translate-y-0 transition-transform">
+                <span className="text-primary text-[10px] font-black uppercase tracking-widest bg-primary/10 backdrop-blur-md px-3 py-1 rounded-full w-fit mb-2 border border-primary/20">
+                  {activity.category}
+                </span>
+                <h3 className="text-white text-xl md:text-2xl font-black italic">
+                  {activity.title}
+                </h3>
+              </div>
+            </Link>
           </motion.div>
         ))}
       </div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mt-16 text-center"
+      >
+        <Link
+          href="/blog"
+          className="inline-flex items-center gap-x-2 bg-primary text-white px-10 py-4 rounded-full font-black uppercase tracking-[0.2em] text-xs shadow-premium hover:shadow-primary/40 hover:-translate-y-1 transition-all group"
+        >
+          Voir tous nos articles
+          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
+      </motion.div>
     </section>
   );
 };

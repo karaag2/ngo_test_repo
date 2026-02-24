@@ -22,13 +22,16 @@ const NavigationMenu = () => {
       <div className="hidden lg:block">
         <ul className="flex gap-x-8 items-center h-full text-sm font-bold uppercase tracking-widest text-main/60">
           <li>
-            <Link href="#hero" className="hover:text-primary transition-colors">
+            <Link
+              href="/#hero"
+              className="hover:text-primary transition-colors"
+            >
               Accueil
             </Link>
           </li>
           <li>
             <Link
-              href="#cause"
+              href="/#cause"
               className="hover:text-primary transition-colors"
             >
               Réalité
@@ -36,7 +39,7 @@ const NavigationMenu = () => {
           </li>
           <li>
             <Link
-              href="#mission"
+              href="/#mission"
               className="hover:text-primary transition-colors"
             >
               Mission
@@ -44,15 +47,20 @@ const NavigationMenu = () => {
           </li>
           <li>
             <Link
-              href="#activites"
+              href="/#activites"
               className="hover:text-primary transition-colors"
             >
               Activités
             </Link>
           </li>
+          {/* <li>
+            <Link href="/blog" className="hover:text-primary transition-colors">
+              Journal
+            </Link>
+          </li> */}
           <li>
             <Link
-              href="#donation"
+              href="/#donation"
               className="hover:text-primary transition-colors"
             >
               Dons
@@ -60,7 +68,7 @@ const NavigationMenu = () => {
           </li>
           <li>
             <Link
-              href="#contact"
+              href="/#contact"
               className="hover:text-primary transition-colors"
             >
               Contact
@@ -92,12 +100,17 @@ const NavigationMenu = () => {
                   "Réalité",
                   "Mission",
                   "Activités",
+                  "Journal",
                   "Dons",
                   "Contact",
                 ].map((label) => (
                   <li key={label}>
                     <Link
-                      href={`#${label.toLowerCase().replace("é", "e") === "dons" ? "donation" : label.toLowerCase().replace("é", "e")}`}
+                      href={
+                        label === "Journal"
+                          ? "/blog"
+                          : `/#${label.toLowerCase().replace("é", "e") === "dons" ? "donation" : label.toLowerCase().replace("é", "e")}`
+                      }
                       className="text-xl font-black text-main hover:text-primary transition-colors"
                     >
                       {label}
