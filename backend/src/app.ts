@@ -3,8 +3,12 @@ import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
 import compression from "compression";
+// import multer from 'multer'
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
+import authRoutes from "./routes/auth.route.js";
+import errorMiddleware from "./middlewares/errorMiddleware.js";
+import multer from "multer";
 
 const app = express();
 
@@ -20,12 +24,14 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(multer().none())
 app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(compression());
+app.use("/api/auth", authRoutes);
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+
+// Error handling middleware MUST be at the end of the pipeline!
+app.use(errorMiddleware);
 
 export default app;
