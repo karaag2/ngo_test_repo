@@ -1,0 +1,118 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ─────────────────────────────────────────
+//  ENUMS
+// ─────────────────────────────────────────
+
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+}
+
+// ─────────────────────────────────────────
+//  ADMIN
+// ─────────────────────────────────────────
+
+model Admin {
+  id                 String            @id @default(uuid())
+  email              String         @unique
+  password           String
+  name               String
+  role               Role           @default(ADMIN)
+
+  // 2FA
+  twoFactorSecret    String?
+  twoFactorEnabled   Boolean        @default(false)
+
+  // Refresh tokens
+  refreshTokens      RefreshToken[]
+
+  // Relation super admin → admins créés
+  createdBy          String?
+  creator            Admin?         @relation("AdminCreatedBy", fields: [createdBy], references: [id])
+  createdAdmins      Admin[]        @relation("AdminCreatedBy")
+
+  // Tracking des actions
+  activitiesCreated  Activity[]     @relation("ActivityCreatedBy")
+  servicesCreated    Service[]      @relation("ServiceCreatedBy")
+
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+}
+
+// ─────────────────────────────────────────
+//  REFRESH TOKENS
+// ─────────────────────────────────────────
+
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  token     String   // chiffré AES
+  adminId   String
+  admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+// ─────────────────────────────────────────
+//  ACTIVITÉS (Blog)
+// ─────────────────────────────────────────
+
+model Activity {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  content     String?  
+  imageUrl    String
+  category    String
+  slug        String   @unique
+  published   Boolean  @default(true)
+
+  // Tracking
+  createdById String?
+  createdBy   Admin?   @relation("ActivityCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────
+//  SERVICES
+// ─────────────────────────────────────────
+
+model Service {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  icon        String?
+  order       Int      @default(0)
+  // Tracking
+  createdById String?
+  createdBy   Admin?   @relation("ServiceCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+// ─────────────────────────────────────────
+//  MESSAGES DE CONTACT
+// ─────────────────────────────────────────
+
+model Contact {
+  id        Int      @id @default(autoincrement())
+  firstName String
+  lastName  String
+  email     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
