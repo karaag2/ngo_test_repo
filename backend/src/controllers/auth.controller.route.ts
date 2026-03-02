@@ -1,7 +1,15 @@
 import type { Request, Response } from "express";
-import { loginSchema, registrationSchema } from "@/validators/vallidators.js";
+import {
+  loginSchema,
+  registrationSchema,
+} from "@/validators/vallidators.js";
 import AppError from "@/utils/appError.js";
-import { registerUser, loginUser } from "@/services/auth.service.js";
+import {
+  registerUser,
+  loginUser,
+  set2faService,
+  check2FAService,
+} from "@/services/auth.service.js";
 
 export const loginController = async (req: Request, res: Response) => {
   const result = loginSchema.safeParse(req.body);
@@ -9,10 +17,13 @@ export const loginController = async (req: Request, res: Response) => {
     throw new AppError("Invalid Credentials", 400);
   }
   const { email, password } = result.data;
-  const { adminWithOutPassword, accessToken, refreshToken } = await loginUser({
+  const { requires2FA,adminWithOutPassword, accessToken, refreshToken } = await loginUser({
     email,
     password,
   });
+  if (requires2FA) {
+    return res.json({ message: "success", tempAdmin: adminWithOutPassword }).status(200);
+  }
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
     secure: true,
@@ -36,4 +47,15 @@ export const registerController = async (req: Request, res: Response) => {
   const { email, password, name } = result.data;
   await registerUser({ email, password, name });
   res.json({ message: "success" }).status(201);
+};
+
+export const set2faController = async (req: Request, res: Response) => {
+  const { email } = req.body;
+  const qrCode = await set2faService(email);
+  res.json({ message: "success", qrCode }).status(200);
+};
+export const check2FAController = async (req: Request, res: Response) => {
+  const { code,tempAdminId } = req.body;
+  const isCodeCorrect = await check2FAService(tempAdminId, code);
+  res.json({ message: "success", isCodeCorrect }).status(200);  
 };

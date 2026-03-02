@@ -7,7 +7,7 @@ import compression from "compression";
 import cookieParser from "cookie-parser";
 import rateLimit from "express-rate-limit";
 import authRoutes from "./routes/auth.route.js";
-import errorMiddleware from "./middlewares/errorMiddleware.js";
+import errorMiddleware from "./middlewares/error.middleware.js";
 import multer from "multer";
 
 const app = express();
@@ -24,12 +24,11 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(multer().none())
+app.use(multer().none());
 app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(compression());
 app.use("/api/auth", authRoutes);
-
 
 // Error handling middleware MUST be at the end of the pipeline!
 app.use(errorMiddleware);

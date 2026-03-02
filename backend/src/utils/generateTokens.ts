@@ -1,6 +1,7 @@
+import type { UserPayload } from "@/validators/vallidators.js";
 import jwt from "jsonwebtoken";
 import type { StringValue } from "ms";
-const generateTokens = (payload: string) => {
+const generateTokens = (payload: UserPayload) => {
   const accessSecret = process.env.JWT_ACCESS_SECRET || "";
 
   const refreshSecret = process.env.JWT_REFRESH_SECRET || "";
@@ -10,11 +11,11 @@ const generateTokens = (payload: string) => {
   const refreshExp =
     (process.env.JWT_REFRESH_EXPIRATION as StringValue) || "7d";
 
-  const accessToken = jwt.sign({ payload: payload }, accessSecret, {
+  const accessToken = jwt.sign({ payload: payload.user }, accessSecret, {
     expiresIn: accessExp,
   });
 
-  const refreshToken = jwt.sign({ payload: payload }, refreshSecret, {
+  const refreshToken = jwt.sign({ payload: payload.user }, refreshSecret, {
     expiresIn: refreshExp,
   });
 

@@ -56,7 +56,7 @@ model Admin {
 
 model RefreshToken {
   id        Int      @id @default(autoincrement())
-  token     String   // chiffré AES
+  token     String   @unique // chiffré AES
   adminId   String
   admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
   expiresAt DateTime

@@ -1,3 +1,5 @@
+import type { Interface } from "node:readline";
+import type { Request } from "express";
 import { z } from "zod";
 
 export const loginSchema = z.object({
@@ -25,3 +27,17 @@ export const registrationSchema = z.object({
 
 export type loginInput = z.infer<typeof loginSchema>;
 export type registrationInput = z.infer<typeof registrationSchema>;
+export interface RequestWithUser extends Request {
+  user: {
+    id: string;
+    email: string;
+    role: string;
+  };
+}
+export interface UserPayload {
+  user: {
+    id: string;
+    email: string;
+    role: string;
+  };
+}
