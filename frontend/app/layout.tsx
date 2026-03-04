@@ -8,12 +8,6 @@ import { ThemeProvider } from "@/src/components/theme-provider";
 
 const lexend = Lexend({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "Makaranta | L'Éducation pour tous au Sahel",
-  description:
-    "Makaranta est une ONG dédiée à la transformation de l'avenir des enfants par l'éducation au Niger et dans le Sahel.",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,8 +25,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <PageLayout>
-            <Header />
-            <main>{children}</main>
+            {children}
             <Footer />
           </PageLayout>
         </ThemeProvider>
