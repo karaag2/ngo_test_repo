@@ -11,6 +11,14 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "ngo-test-repo.vercel.app" },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/api/:path*",
+        destination: "https://fajr-ong.onrender.com/api/:path*",
+      },
+    ];
+  },
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
