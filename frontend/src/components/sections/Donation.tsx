@@ -1,4 +1,3 @@
-import React from "react";
 import { Label } from "@/src/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group";
 import { Input } from "@/src/components/ui/input";
@@ -13,7 +12,7 @@ const Donation = () => {
         {/*Titre et sous-titre */}
         <div className="space-y-4 text-center">
           <h2 className="text-3xl md:text-4xl font-black text-main tracking-tight">
-            Soutenez <span className="text-primary italic">Makaranta</span>
+            Soutenez <span className="text-primary italic">Fajr</span>
           </h2>
           <p className="text-muted-foreground font-medium">
             Votre générosité est le moteur du changement. Chaque don transforme
@@ -22,7 +21,7 @@ const Donation = () => {
         </div>
 
         {/*Formulaire de don */}
-        <form action="" className="space-y-8 relative">
+        <div className="space-y-8 relative">
           <div className="space-y-4">
             <Label className="text-xs uppercase tracking-widest font-black text-main/60 px-2">
               Montant du don
@@ -84,7 +83,7 @@ const Donation = () => {
           >
             Confirmer le don
           </button>
-        </form>
+        </div>
 
         <div className="flex items-center justify-center gap-2 pt-4 border-t border-border">
           <ShieldCheck className="text-growth" size={16} />

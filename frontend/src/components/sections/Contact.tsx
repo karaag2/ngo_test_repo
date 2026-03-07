@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { m } from "framer-motion";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
@@ -12,9 +12,51 @@ import {
   Send,
   MessageSquare,
   ShieldCheck,
+  CheckCircle2,
+  AlertCircle,
+  Loader2,
 } from "lucide-react";
+import { submitPublicContact } from "@/src/services/admin.service";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { contactSchema, ContactInput } from "@/src/lib/public.validators";
 
 const Contact = () => {
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [serverMessage, setServerMessage] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ContactInput>({
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      message: "",
+    },
+  });
+
+  const onSubmit = async (data: ContactInput) => {
+    setStatus("idle");
+    const res = await submitPublicContact(data);
+    if (res.success) {
+      setStatus("success");
+      setServerMessage(
+        "Votre message a été envoyé avec succès ! Nous vous répondrons bientôt.",
+      );
+      reset();
+    } else {
+      setStatus("error");
+      setServerMessage(
+        res.message || "Une erreur est survenue lors de l'envoi.",
+      );
+    }
+  };
+
   return (
     <section
       className="container mx-auto px-6 py-20 relative overflow-hidden"
@@ -27,15 +69,15 @@ const Contact = () => {
       <div className="flex flex-col gap-y-12 max-w-5xl mx-auto">
         {/* Titre et sous-titre */}
         <div className="text-center space-y-3 max-w-3xl mx-auto">
-          <motion.h2
+          <m.h2
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-primary font-black uppercase tracking-[0.3em] text-xs"
           >
             Contactez-nous
-          </motion.h2>
-          <motion.p
+          </m.h2>
+          <m.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -44,8 +86,8 @@ const Contact = () => {
           >
             Bâtissons l'avenir{" "}
             <span className="text-primary italic">Ensemble</span>
-          </motion.p>
-          <motion.p
+          </m.p>
+          <m.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -54,13 +96,13 @@ const Contact = () => {
           >
             Votre voix compte. Que ce soit pour un partenariat ou une question,
             notre équipe vous répondra avec soin.
-          </motion.p>
+          </m.p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/*  Cartes d'Informations */}
           <div className="lg:col-span-4 space-y-6 order-2 lg:order-1">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -82,7 +124,7 @@ const Contact = () => {
                 {
                   icon: <Mail size={20} />,
                   label: "Email Officiel",
-                  value: "contact@makaranta.org",
+                  value: "contact@Fajr.org",
                   color: "bg-impact text-impact",
                 },
               ].map((item, idx) => (
@@ -105,15 +147,15 @@ const Contact = () => {
                   </div>
                 </div>
               ))}
-            </motion.div>
+            </m.div>
 
             {/* Carte secondaire */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.3 }}
-              className="p-6 rounded-[2rem] bg-linear-to-br from-primary/5 to-transparent border border-primary/10 relative overflow-hidden group"
+              className="p-6 rounded-4xl bg-linear-to-br from-primary/5 to-transparent border border-primary/10 relative overflow-hidden group"
             >
               <div className="absolute -right-6 -bottom-6 opacity-5 group-hover:rotate-6 transition-transform duration-1000">
                 <ShieldCheck size={120} className="text-primary" />
@@ -130,92 +172,130 @@ const Contact = () => {
                   <span className="text-primary font-bold">24H</span>.
                 </p>
               </div>
-            </motion.div>
+            </m.div>
           </div>
 
           {/* Formulaire de Contact */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+          <m.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:col-span-8 bg-card border border-border/40 rounded-[2.5rem] p-8 md:p-10 shadow-premium relative order-1 lg:order-2"
+            className="lg:col-span-8 order-1 lg:order-2"
           >
-            <div className="absolute top-6 right-10 opacity-5 pointer-events-none">
-              <MessageSquare size={80} className="text-primary" />
-            </div>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="p-8 md:p-10 rounded-[3rem] bg-card border border-border shadow-premium relative overflow-hidden group/form"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl group-hover/form:bg-primary/10 transition-colors duration-500" />
 
-            <form action="" className="space-y-6 relative z-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 <div className="space-y-2">
                   <Label
-                    htmlFor="firstname"
-                    className="text-[10px] uppercase font-black tracking-widest text-main/60 ml-1"
+                    htmlFor="firstName"
+                    className="text-[10px] uppercase font-black tracking-widest text-main/60 px-2"
                   >
                     Prénom
                   </Label>
                   <Input
-                    id="firstname"
-                    placeholder="Amos"
-                    className="h-12 rounded-xl border-border bg-muted/10 focus:bg-background transition-all px-5 font-bold text-main placeholder:font-medium"
+                    id="firstName"
+                    {...register("firstName")}
+                    placeholder="Amadou"
+                    autoComplete="given-name"
+                    className={`h-14 rounded-2xl border ${errors.firstName ? "border-destructive" : "border-border"} bg-secondary/5 focus:bg-background transition-all px-6 font-bold text-main placeholder:font-medium`}
                   />
+                  {errors.firstName && (
+                    <p className="text-[10px] text-destructive font-semibold px-2">
+                      {errors.firstName.message}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-2">
                   <Label
-                    htmlFor="lastname"
-                    className="text-[10px] uppercase font-black tracking-widest text-main/60 ml-1"
+                    htmlFor="lastName"
+                    className="text-[10px] uppercase font-black tracking-widest text-main/60 px-2"
                   >
-                    Nom
+                    Nom de famille
                   </Label>
                   <Input
-                    id="lastname"
-                    placeholder="Issa"
-                    className="h-12 rounded-xl border-border bg-muted/10 focus:bg-background transition-all px-5 font-bold text-main placeholder:font-medium"
+                    id="lastName"
+                    {...register("lastName")}
+                    placeholder="Moumouni"
+                    autoComplete="family-name"
+                    className={`h-14 rounded-2xl border ${errors.lastName ? "border-destructive" : "border-border"} bg-secondary/5 focus:bg-background transition-all px-6 font-bold text-main placeholder:font-medium`}
                   />
+                  {errors.lastName && (
+                    <p className="text-[10px] text-destructive font-semibold px-2">
+                      {errors.lastName.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-2 mb-6">
                 <Label
                   htmlFor="email"
-                  className="text-[10px] uppercase font-black tracking-widest text-main/60 ml-1"
+                  className="text-[10px] uppercase font-black tracking-widest text-main/60 px-2"
                 >
-                  Email
+                  Adresse Email Professionnelle
                 </Label>
-                <div className="w-full  group flex justify-between items-center h-12 rounded-xl border-border bg-foreground focus:bg-background transition-all px-5 font-bold text-main placeholder:font-medium border">
-                  <Mail
-                    className="  text-muted-foreground group-focus-within:text-primary transition-colors"
-                    size={18}
-                  />
+                <div className="relative">
                   <Input
                     id="email"
                     type="email"
-                    placeholder="votre@email.com"
-                    className="focus-visible:outline-0 focus-visible:ring-0 focus-visible:border-0 text-background"
+                    {...register("email")}
+                    placeholder="amadou@exemple.com"
+                    autoComplete="email"
+                    className={`h-14 rounded-2xl border ${errors.email ? "border-destructive" : "border-border"} bg-secondary/5 focus:bg-background transition-all pl-12 pr-6 font-bold text-main placeholder:font-medium`}
                   />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 </div>
+                {errors.email && (
+                  <p className="text-[10px] text-destructive font-semibold px-2">
+                    {errors.email.message}
+                  </p>
+                )}
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-2 mb-8">
                 <Label
                   htmlFor="message"
-                  className="text-[10px] uppercase font-black tracking-widest text-main/60 ml-1"
+                  className="text-[10px] uppercase font-black tracking-widest text-main/60 px-2"
                 >
-                  Message
+                  Votre Message
                 </Label>
                 <textarea
                   id="message"
-                  rows={3}
-                  placeholder="Comment pouvons-nous vous aider ?"
-                  className="w-full rounded-xl border border-border bg-muted/10 focus:bg-background transition-all p-5 outline-none resize-none font-bold text-main min-h-[120px] italic placeholder:font-medium"
+                  {...register("message")}
+                  rows={5}
+                  placeholder="Décrivez votre projet ou votre question..."
+                  aria-label="Votre message"
+                  className={`w-full p-6 rounded-4xl border ${errors.message ? "border-destructive" : "border-border"} bg-secondary/5 focus:bg-background transition-all font-bold text-main placeholder:font-medium outline-none resize-none min-h-[160px]`}
                 />
+                {errors.message && (
+                  <p className="text-[10px] text-destructive font-semibold px-2">
+                    {errors.message.message}
+                  </p>
+                )}
               </div>
 
-              <Button className="w-full h-14 rounded-2xl bg-primary text-white font-black uppercase tracking-[0.2em] text-xs shadow-lg shadow-primary/10 hover:shadow-primary/25 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3">
-                C'est envoyé
-                <Send size={14} />
-              </Button>
+              <div className="flex flex-col md:flex-row items-center gap-6">
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="w-full md:w-auto min-w-[200px] h-14 rounded-2xl bg-primary text-white font-black uppercase tracking-widest text-xs hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-0.5 transition-all group"
+                >
+                  {isSubmitting ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <>
+                      Envoyer le message
+                      <Send className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                    </>
+                  )}
+                </Button>
+              </div>
             </form>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

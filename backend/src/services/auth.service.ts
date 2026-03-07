@@ -110,9 +110,28 @@ const set2faService = async (adminEmail: string) => {
   const secret = await generateSecret(admin.email);
   if (secret.otpauth_url) {
     const qrCode = await generateQrCode(secret.otpauth_url);
-    return qrCode;
+    return { qrCode, manualKey: secret.base32 };
   }
   throw new AppError("Échec lors de la génération du QR code", 500);
+};
+
+export const confirmSetup2FAService = async (adminId: string, code: string) => {
+  const admin = await prisma.admin.findUnique({ where: { id: adminId } });
+  if (!admin) throw new AppError("Admin non trouvé", 404);
+  if (admin.twoFactorEnabled)
+    throw new AppError("La 2FA est déjà activée", 400);
+  if (!admin.twoFactorSecret)
+    throw new AppError("Configuration 2FA non initialisée", 400);
+
+  const codeValide = check2FACode(admin.twoFactorSecret, code);
+  if (!codeValide) throw new AppError("Code invalide", 400);
+
+  await prisma.admin.update({
+    where: { id: adminId },
+    data: { twoFactorEnabled: true },
+  });
+
+  return true;
 };
 
 export const check2FAService = async (adminId: string, code: string) => {

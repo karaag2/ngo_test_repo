@@ -1,24 +1,10 @@
 "use client";
-
-/**
- * ─── Formulaires d'Authentification Admin ────────────────────
- *
- * Composants d'inscription et de connexion pour le portail
- * d'administration Makaranta.
- *
- * Design unifié avec le reste du site vitrine :
- * - Labels uppercase tracking-widest
- * - Cards arrondies avec bordures subtiles
- * - Boutons premium avec shadow
- * - Micro-animations d'entrée
- */
-
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
+import { Input } from "../../ui/input";
+import { Button } from "../../ui/button";
+import { Label } from "../../ui/label";
 import {
   signUpSchema,
   SignUpInput,
@@ -135,7 +121,8 @@ export const SignUpForm = () => {
             Créer un compte
           </h1>
           <p className="text-muted-foreground text-sm font-medium leading-relaxed">
-            Rejoignez l'équipe administrative de Makaranta.
+            Attention les admins ne peuvent pas ajouter d'autres admins seul le
+            superadmin le peux.
           </p>
         </div>
 
@@ -165,6 +152,7 @@ export const SignUpForm = () => {
               <Input
                 {...register("name")}
                 placeholder="Abdou Moumouni"
+                autoComplete="name"
                 className="h-12 pl-10 rounded-xl border-border bg-muted/10 focus:bg-background transition-all font-bold text-main placeholder:font-medium"
               />
             </div>
@@ -188,7 +176,8 @@ export const SignUpForm = () => {
               <Input
                 type="email"
                 {...register("email")}
-                placeholder="admin@makaranta.org"
+                placeholder="admin@Fajr.org"
+                autoComplete="email"
                 className="h-12 pl-10 rounded-xl border-border bg-muted/10 focus:bg-background transition-all font-bold text-main placeholder:font-medium"
               />
             </div>
@@ -213,6 +202,7 @@ export const SignUpForm = () => {
                 type="password"
                 {...register("password")}
                 placeholder="••••••••"
+                autoComplete="new-password"
                 className="h-12 pl-10 rounded-xl border-border bg-muted/10 focus:bg-background transition-all font-bold text-main placeholder:font-medium"
               />
             </div>
@@ -237,6 +227,7 @@ export const SignUpForm = () => {
                 type="password"
                 {...register("confirmPassword")}
                 placeholder="••••••••"
+                autoComplete="new-password"
                 className="h-12 pl-10 rounded-xl border-border bg-muted/10 focus:bg-background transition-all font-bold text-main placeholder:font-medium"
               />
             </div>
@@ -305,7 +296,6 @@ export const LogInForm = () => {
 
     try {
       const result = await loginService(data);
-
       if (!result.success) {
         // Injection des erreurs de champs retournées par le serveur
         if (result.fieldErrors) {
@@ -330,7 +320,7 @@ export const LogInForm = () => {
       }
 
       // Redirection vers le tableau de bord
-      router.push("/dashboard");
+      router.push("/admin/dashboard");
     } finally {
       setIsPending(false);
     }
@@ -382,7 +372,8 @@ export const LogInForm = () => {
               <Input
                 type="email"
                 {...register("email")}
-                placeholder="admin@makaranta.org"
+                placeholder="admin@Fajr.org"
+                autoComplete="email"
                 className="h-12 pl-10 rounded-xl border-border bg-muted/10 focus:bg-background transition-all font-bold text-main placeholder:font-medium"
               />
             </div>
@@ -415,6 +406,7 @@ export const LogInForm = () => {
                 type="password"
                 {...register("password")}
                 placeholder="••••••••"
+                autoComplete="current-password"
                 className="h-12 pl-10 rounded-xl border-border bg-muted/10 focus:bg-background transition-all font-bold text-main placeholder:font-medium"
               />
             </div>

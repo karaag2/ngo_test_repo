@@ -18,18 +18,18 @@ const Footer = () => {
               <div className="relative w-10 h-10 flex items-center justify-center bg-primary rounded-xl rotate-3 group-hover:rotate-0 transition-transform duration-300">
                 <Image
                   src="/logo.svg"
-                  alt="Logo MKRT"
+                  alt="Logo FJ"
                   width={32}
                   height={32}
                   className="w-6 h-6 invert"
                 />
               </div>
               <span className="text-2xl font-black tracking-tighter text-main">
-                MKRT
+                FJ
               </span>
             </div>
             <p className="text-sm font-medium text-muted-foreground leading-relaxed max-w-xs">
-              Makaranta œuvre pour transformer l'avenir des enfants au Niger par
+              Fajr œuvre pour transformer l'avenir des enfants au Niger par
               l'éducation de qualité et des infrastructures durables.
             </p>
             <div className="flex gap-x-4">
@@ -140,9 +140,7 @@ const Footer = () => {
                 <span className="text-primary font-black uppercase text-[10px] mt-1 shrink-0">
                   Email:
                 </span>
-                <span className="break-all text-xs">
-                  contact@makaranta-ong.org
-                </span>
+                <span className="break-all text-xs">contact@Fajr-ong.org</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-primary font-black uppercase text-[10px] mt-1 shrink-0">
@@ -162,7 +160,7 @@ const Footer = () => {
         {/* Footer */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-y-6 pt-12 border-t border-border/50">
           <p className="text-sm font-medium text-muted-foreground">
-            &copy; {new Date().getFullYear()} Makaranta ONG. Design for Change.
+            &copy; 2026 Fajr ONG. Design for Change.
           </p>
           <div className="flex gap-x-8 text-xs font-black uppercase tracking-[0.2em] text-main/40">
             <Link href="#privacy" className="hover:text-main transition-colors">

@@ -1,11 +1,4 @@
-/**
- * ─── Page de Connexion ───────────────────────────────────────
- *
- * Route : /admin/auth/login
- * Affiche le formulaire de connexion administrateur.
- */
-
-import { LogInForm } from "@/src/components/AuthForm";
+import { LogInForm } from "@/src/components/admin/auth/AuthForm";
 
 const LoginPage = () => {
   return <LogInForm />;

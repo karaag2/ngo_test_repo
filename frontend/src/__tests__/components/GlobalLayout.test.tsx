@@ -10,7 +10,7 @@
 import { describe, it, expect } from "vitest";
 import { screen } from "@testing-library/react";
 import { render } from "@/src/__tests__/test-utils";
-import PageLayout from "@/src/components/GlobalLayout";
+import PageLayout from "@/src/components/Layouts/GlobalLayout";
 
 describe("PageLayout (GlobalLayout)", () => {
   it("rend ses enfants", () => {

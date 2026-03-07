@@ -1,6 +1,6 @@
-import React from "react";
 import Image from "next/image";
 import heroImg from "@/public/hero.webp";
+import Link from "next/link";
 
 const hero = () => {
   return (
@@ -48,19 +48,23 @@ const hero = () => {
           </h1>
 
           <p className="text-base min-[380px]:text-lg md:text-2xl text-muted-foreground font-medium max-w-xl md:max-w-2xl leading-relaxed opacity-80 text-pretty">
-            Makaranta œuvre pour résoudre la crise éducative par des initiatives
+            Fajr œuvre pour résoudre la crise éducative par des initiatives
             locales. Nous transformons l'avenir des enfants,{" "}
             <span className="text-main font-bold">une école à la fois.</span>
           </p>
 
           {/* Boutons */}
           <div className="flex flex-col min-[380px]:flex-row items-stretch min-[380px]:items-center gap-3 md:gap-4 pt-2 md:pt-4">
-            <button className="px-7 py-3 md:px-8 md:py-3.5 rounded-full font-bold transition-all duration-500 active:scale-95 shadow-lg shadow-primary/15 bg-primary text-primary-foreground hover:shadow-primary/30 hover:-translate-y-1 text-sm uppercase tracking-wider">
-              Faire un don
-            </button>
-            <button className="px-7 py-3 md:px-8 md:py-3.5 rounded-full font-bold transition-all duration-500 active:scale-95 shadow-sm bg-card/40 backdrop-blur-xl border border-border/40 text-main hover:bg-card/80 text-sm uppercase tracking-wider">
-              Notre mission
-            </button>
+            <Link href={"/#donation"}>
+              <button className="px-7 py-3 md:px-8 md:py-3.5 rounded-full font-bold transition-all duration-500 active:scale-95 shadow-lg shadow-primary/15 bg-primary text-primary-foreground hover:shadow-primary/30 hover:-translate-y-1 text-sm uppercase tracking-wider">
+                Faire un don
+              </button>
+            </Link>
+            <Link href={"#mission"}>
+              <button className="px-7 py-3 md:px-8 md:py-3.5 rounded-full font-bold transition-all duration-500 active:scale-95 shadow-sm bg-card/40 backdrop-blur-xl border border-border/40 text-main hover:bg-card/80 text-sm uppercase tracking-wider">
+                Notre mission
+              </button>
+            </Link>
           </div>
 
           {/* Aperçu des Contributeurs */}

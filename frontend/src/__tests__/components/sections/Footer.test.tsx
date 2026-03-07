@@ -15,17 +15,15 @@ import Footer from "@/src/components/sections/Footer";
 
 describe("Footer", () => {
   describe("Logo et branding", () => {
-    it("affiche le nom 'MKRT'", () => {
+    it("affiche le nom 'FJ'", () => {
       render(<Footer />);
-      expect(screen.getByText("MKRT")).toBeInTheDocument();
+      expect(screen.getByText("FJ")).toBeInTheDocument();
     });
 
     it("affiche la description de l'ONG", () => {
       render(<Footer />);
       expect(
-        screen.getByText(
-          /Makaranta œuvre pour transformer l'avenir des enfants/,
-        ),
+        screen.getByText(/Fajr œuvre pour transformer l'avenir des enfants/),
       ).toBeInTheDocument();
     });
   });
@@ -64,7 +62,7 @@ describe("Footer", () => {
   describe("Contact", () => {
     it("affiche l'email de contact", () => {
       render(<Footer />);
-      expect(screen.getByText("contact@makaranta-ong.org")).toBeInTheDocument();
+      expect(screen.getByText("contact@Fajr-ong.org")).toBeInTheDocument();
     });
 
     it("affiche le téléphone", () => {
@@ -95,9 +93,9 @@ describe("Footer", () => {
       expect(screen.getByText(new RegExp(currentYear))).toBeInTheDocument();
     });
 
-    it("affiche 'Makaranta ONG'", () => {
+    it("affiche 'Fajr ONG'", () => {
       render(<Footer />);
-      expect(screen.getByText(/Makaranta ONG/)).toBeInTheDocument();
+      expect(screen.getByText(/Fajr ONG/)).toBeInTheDocument();
     });
   });
 

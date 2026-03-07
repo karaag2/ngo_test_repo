@@ -23,7 +23,7 @@ export function Temoignages() {
       image: "https://i.pravatar.cc/150?u=ngo7",
       level: "Élève 5e Année médecine",
       message:
-        "Avant que MKRT ne construise notre école, je devais marcher 10km. Aujourd'hui, mon rêve de devenir médecin est à portée de main. Je pourrai bientôt soigner les enfants de mon village.",
+        "Avant que FJ ne construise notre école, je devais marcher 10km. Aujourd'hui, mon rêve de devenir médecin est à portée de main. Je pourrai bientôt soigner les enfants de mon village.",
     },
     {
       id: 2,
@@ -31,7 +31,7 @@ export function Temoignages() {
       image: "https://i.pravatar.cc/150?u=ngo8",
       level: "Professeur de mathématiques",
       message:
-        "Grâce à MKRT, j'ai pu recevoir une éducation de qualité. Je suis honoré de transmettre aujourd'hui mon savoir aux nouvelles générations de ma communauté.",
+        "Grâce à FJ, j'ai pu recevoir une éducation de qualité. Je suis honoré de transmettre aujourd'hui mon savoir aux nouvelles générations de ma communauté.",
     },
     {
       id: 3,

@@ -39,7 +39,7 @@ describe("Contact", () => {
 
     it("affiche l'email officiel", () => {
       render(<Contact />);
-      expect(screen.getByText("contact@makaranta.org")).toBeInTheDocument();
+      expect(screen.getByText("contact@Fajr.org")).toBeInTheDocument();
     });
   });
 
@@ -51,23 +51,25 @@ describe("Contact", () => {
 
     it("contient le champ nom avec label", () => {
       render(<Contact />);
-      expect(screen.getByLabelText("Nom")).toBeInTheDocument();
+      expect(screen.getByLabelText("Nom de famille")).toBeInTheDocument();
     });
 
     it("contient le champ email avec label", () => {
       render(<Contact />);
-      expect(screen.getByLabelText("Email")).toBeInTheDocument();
+      expect(
+        screen.getByLabelText("Adresse Email Professionnelle"),
+      ).toBeInTheDocument();
     });
 
     it("contient le champ message avec label", () => {
       render(<Contact />);
-      expect(screen.getByLabelText("Message")).toBeInTheDocument();
+      expect(screen.getByLabelText("Votre Message")).toBeInTheDocument();
     });
 
     it("contient le bouton d'envoi", () => {
       render(<Contact />);
       expect(
-        screen.getByRole("button", { name: /envoyé/i }),
+        screen.getByRole("button", { name: /envoyer/i }),
       ).toBeInTheDocument();
     });
   });
@@ -86,7 +88,7 @@ describe("Contact", () => {
       const user = userEvent.setup();
       render(<Contact />);
 
-      const nom = screen.getByLabelText("Nom");
+      const nom = screen.getByLabelText("Nom de famille");
       await user.type(nom, "Diallo");
       expect(nom).toHaveValue("Diallo");
     });
@@ -95,7 +97,7 @@ describe("Contact", () => {
       const user = userEvent.setup();
       render(<Contact />);
 
-      const message = screen.getByLabelText("Message");
+      const message = screen.getByLabelText("Votre Message");
       await user.type(message, "Comment puis-je aider ?");
       expect(message).toHaveValue("Comment puis-je aider ?");
     });

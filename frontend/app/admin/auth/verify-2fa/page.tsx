@@ -1,14 +1,4 @@
-/**
- * ─── Page de Vérification 2FA ────────────────────────────────
- *
- * Route : /admin/auth/verify-2fa?tempAdminId=...
- * Affiche le formulaire de saisie du code 2FA lors de la connexion.
- *
- * Le composant Verify2FAForm utilise `useSearchParams()`, donc il
- * est encapsulé dans un `<Suspense>` pour le rendu SSR de Next.js.
- */
-
-import { Verify2FAForm } from "@/src/components/Verify2FAForm";
+import { Verify2FAForm } from "@/src/components/admin/auth/Verify2FAForm";
 import { Suspense } from "react";
 
 const Verify2FAPage = () => {

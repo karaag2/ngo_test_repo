@@ -5,6 +5,7 @@ import {
   deletePostService,
   getAllPostService,
   getPostService,
+  getPostBySlugService,
   updatePostService,
 } from "@/services/blogpost.service.js";
 import AppError from "@/utils/appError.js";
@@ -28,6 +29,15 @@ export const getPostController = async (req: Request, res: Response) => {
   if (isNaN(id)) throw new AppError("ID du post invalide", 400);
 
   const Post = await getPostService(id);
+  return res.json({ message: "Opération réussie", Post });
+};
+
+export const getPostBySlugController = async (req: Request, res: Response) => {
+  const { slug } = req.params;
+  if (!slug || typeof slug !== "string")
+    throw new AppError("Le slug du post est requis", 400);
+
+  const Post = await getPostBySlugService(slug);
   return res.json({ message: "Opération réussie", Post });
 };
 
@@ -60,6 +70,9 @@ export const updatePostController = async (req: Request, res: Response) => {
   }
 
   const updatedPost = await updatePostService(adminId, id, result.data);
+  return res
+    .status(200)
+    .json({ message: "Post mis à jour avec succès", Post: updatedPost });
 };
 
 export const deletePostController = async (req: Request, res: Response) => {

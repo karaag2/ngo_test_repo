@@ -1,7 +1,6 @@
 import prisma from "@/lib/db.js";
 import type { Activity } from "@/generated/prisma/client.js";
 import AppError from "@/utils/appError.js";
-import { da } from "zod/locales";
 import type { BlogInput as Post } from "@/validators/blog.validators.js";
 
 export const getAllPostService = async (
@@ -38,6 +37,16 @@ export const getPostService = async (Postid: number) => {
   if (!Post) throw new AppError("Post non trouvé", 404);
   return Post;
 };
+
+export const getPostBySlugService = async (slug: string) => {
+  const Post = await prisma.activity.findUnique({
+    where: {
+      slug: slug,
+    },
+  });
+  if (!Post) throw new AppError("Post non trouvé", 404);
+  return Post;
+};
 export const deletePostService = async (adminId: string, Postid: number) => {
   const Post = await prisma.activity.findUnique({
     where: {
@@ -46,7 +55,9 @@ export const deletePostService = async (adminId: string, Postid: number) => {
   });
   if (!Post) throw new AppError("Article non trouvé", 404);
 
-  if (Post.createdById !== adminId) {
+  // Le SUPER_ADMIN peut supprimer n'importe quel article
+  const admin = await prisma.admin.findUnique({ where: { id: adminId } });
+  if (Post.createdById !== adminId && admin?.role !== "SUPER_ADMIN") {
     throw new AppError(
       "Vous n'avez pas la permission de supprimer cet article",
       403,
@@ -93,7 +104,10 @@ export const updatePostService = async (
     },
   });
   if (!Post) throw new AppError("Article non trouvé", 404);
-  if (Post.createdById !== adminId)
+
+  // Le SUPER_ADMIN peut modifier n'importe quel article
+  const admin = await prisma.admin.findUnique({ where: { id: adminId } });
+  if (Post.createdById !== adminId && admin?.role !== "SUPER_ADMIN")
     throw new AppError(
       "Vous n'avez pas la permission de modifier cet article",
       403,

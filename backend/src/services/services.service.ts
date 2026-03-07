@@ -39,8 +39,9 @@ export const deleteService = async (adminId: string, serviceId: number) => {
 
   if (!service) throw new AppError("Service non trouvé", 404);
 
-  // Vérification si l'admin est le créateur (optionnel selon tes besoins)
-  if (service.createdById !== adminId) {
+  // Le SUPER_ADMIN peut supprimer n'importe quel service
+  const admin = await prisma.admin.findUnique({ where: { id: adminId } });
+  if (service.createdById !== adminId && admin?.role !== "SUPER_ADMIN") {
     throw new AppError(
       "Vous n'avez pas la permission de supprimer ce service",
       403,
@@ -77,7 +78,9 @@ export const updateService = async (
 
   if (!service) throw new AppError("Service non trouvé", 404);
 
-  if (service.createdById !== adminId) {
+  // Le SUPER_ADMIN peut modifier n'importe quel service
+  const admin = await prisma.admin.findUnique({ where: { id: adminId } });
+  if (service.createdById !== adminId && admin?.role !== "SUPER_ADMIN") {
     throw new AppError(
       "Vous n'avez pas la permission de mettre à jour ce service",
       403,

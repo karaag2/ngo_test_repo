@@ -24,9 +24,9 @@ describe("Donation", () => {
       expect(screen.getByText(/Soutenez/)).toBeInTheDocument();
     });
 
-    it("affiche 'Makaranta'", () => {
+    it("affiche 'Fajr'", () => {
       render(<Donation />);
-      expect(screen.getByText("Makaranta")).toBeInTheDocument();
+      expect(screen.getByText("Fajr")).toBeInTheDocument();
     });
 
     it("est une section avec l'id 'donation'", () => {

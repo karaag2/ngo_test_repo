@@ -11,7 +11,7 @@
  */
 
 import React, { useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "../../ui/button";
 import { ShieldCheck, ArrowLeft, KeyRound, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -46,7 +46,7 @@ export const Verify2FAForm = () => {
       }
 
       // Redirection vers le tableau de bord
-      router.push("/dashboard");
+      router.replace("/admin/dashboard");
     } finally {
       setIsPending(false);
     }

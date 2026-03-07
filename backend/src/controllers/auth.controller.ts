@@ -2,6 +2,10 @@ import type { Request, Response } from "express";
 import {
   loginSchema,
   registrationSchema,
+  updateProfileSchema,
+  changePasswordSchema,
+  check2FASchema,
+  confirmSetup2FASchema,
   type RequestWithUser,
 } from "@/validators/auth.validator.js";
 import AppError from "@/utils/appError.js";
@@ -14,6 +18,7 @@ import {
   getAdminProfile,
   updateAdminProfile,
   changePasswordWithOTP,
+  confirmSetup2FAService,
 } from "@/services/auth.service.js";
 
 export const loginController = async (req: Request, res: Response) => {
@@ -64,12 +69,32 @@ export const registerController = async (req: Request, res: Response) => {
 };
 
 export const set2faController = async (req: Request, res: Response) => {
-  const { email } = req.body;
-  const qrCode = await set2faService(email);
-  res.json({ message: "Succès", qrCode }).status(200);
+  const { email } = (req as RequestWithUser).user;
+  const { qrCode, manualKey } = await set2faService(email);
+  res.json({ message: "Succès", qrCode, manualKey }).status(200);
 };
+
+export const confirmSetup2FAController = async (
+  req: Request,
+  res: Response,
+) => {
+  const parsed = confirmSetup2FASchema.safeParse(req.body);
+  if (!parsed.success) {
+    throw new AppError("Le code 2FA doit contenir exactement 6 chiffres", 400);
+  }
+
+  const adminId = (req as RequestWithUser).user.id;
+  await confirmSetup2FAService(adminId, parsed.data.code);
+  res.json({ message: "2FA activé avec succès" }).status(200);
+};
+
 export const check2FAController = async (req: Request, res: Response) => {
-  const { code, tempAdminId } = req.body;
+  const parsed = check2FASchema.safeParse(req.body);
+  if (!parsed.success) {
+    throw new AppError("Données 2FA invalides", 400);
+  }
+
+  const { code, tempAdminId } = parsed.data;
   const { codeValide, accessToken, refreshToken } = await check2FAService(
     tempAdminId,
     code,
@@ -79,13 +104,13 @@ export const check2FAController = async (req: Request, res: Response) => {
   }
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     maxAge: 15 * 60 * 1000,
   });
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
     maxAge: 7 * 24 * 60 * 60 * 1000,
   });
@@ -98,13 +123,13 @@ export const logOutController = async (req: Request, res: Response) => {
 
   res.clearCookie("accessToken", {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
   });
 
   res.clearCookie("refreshToken", {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "strict",
   });
   return res.status(200).json({ message: "Déconnecté avec succès" });
@@ -117,24 +142,30 @@ export const getProfileController = async (req: Request, res: Response) => {
 };
 
 export const updateProfileController = async (req: Request, res: Response) => {
-  const adminId = (req as RequestWithUser).user.id;
-  const { name, email } = req.body;
-  if (!name || !email) {
-    throw new AppError("Name and email are required", 400);
+  const parsed = updateProfileSchema.safeParse(req.body);
+  if (!parsed.success) {
+    throw new AppError("Données de profil invalides", 400);
   }
 
-  const profile = await updateAdminProfile(adminId, { name, email });
+  const adminId = (req as RequestWithUser).user.id;
+  const profile = await updateAdminProfile(adminId, parsed.data);
   return res.status(200).json({ message: "Profil mis à jour", profile });
 };
 
 export const changePasswordController = async (req: Request, res: Response) => {
-  const adminId = (req as RequestWithUser).user.id;
-  const { otp, newPassword } = req.body;
-
-  if (!otp || !newPassword || newPassword.length < 8) {
-    throw new AppError("Invalid input (OTP and new password req.)", 400);
+  const parsed = changePasswordSchema.safeParse(req.body);
+  if (!parsed.success) {
+    throw new AppError(
+      "Données invalides (OTP de 6 chiffres et mot de passe robuste requis)",
+      400,
+    );
   }
 
-  await changePasswordWithOTP(adminId, otp, newPassword);
+  const adminId = (req as RequestWithUser).user.id;
+  await changePasswordWithOTP(
+    adminId,
+    parsed.data.otp,
+    parsed.data.newPassword,
+  );
   return res.status(200).json({ message: "Mot de passe modifié avec succès" });
 };

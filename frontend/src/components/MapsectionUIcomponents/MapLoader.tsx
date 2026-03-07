@@ -1,7 +1,7 @@
 "use client";
 import dynamic from "next/dynamic";
 
-const MapNiger = dynamic(() => import("@/src/components/Map"), {
+const MapNiger = dynamic(() => import("@/src/components/MapsectionUIcomponents/Map"), {
   ssr: false,
   loading: () => (
     <div className="w-full h-full min-h-[500px] flex items-center justify-center bg-secondary/20 animate-pulse rounded-3xl">

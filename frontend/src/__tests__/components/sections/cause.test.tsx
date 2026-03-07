@@ -11,7 +11,7 @@
 import { describe, it, expect } from "vitest";
 import { screen } from "@testing-library/react";
 import { render } from "@/src/__tests__/test-utils";
-import Cause from "@/src/components/sections/cause";
+import Cause from "@/src/components/sections/Cause";
 
 describe("Cause", () => {
   describe("Titres et sous-titres", () => {

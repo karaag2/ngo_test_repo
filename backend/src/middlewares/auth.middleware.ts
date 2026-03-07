@@ -6,6 +6,7 @@ import type {
   RequestWithUser,
   UserPayload,
 } from "@/validators/auth.validator.js";
+import { env } from "@/config/env.js";
 
 const authMiddleware = async (
   req: Request,
@@ -14,12 +15,8 @@ const authMiddleware = async (
 ) => {
   const accessToken = req.cookies.accessToken;
   const refreshToken = req.cookies.refreshToken;
-  const accessSecret = process.env.JWT_ACCESS_SECRET;
-  const refreshSecret = process.env.JWT_REFRESH_SECRET;
-
-  if (!accessSecret || !refreshSecret) {
-    throw new AppError("Configuration inachevée : clés JWT introuvables", 500);
-  }
+  const accessSecret = env.JWT_ACCESS_SECRET;
+  const refreshSecret = env.JWT_REFRESH_SECRET;
 
   // Vérification de l'access token
   if (accessToken) {

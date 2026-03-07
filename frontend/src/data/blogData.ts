@@ -6,12 +6,12 @@ export const blogPosts: BlogPost[] = [
     slug: "distribution-de-kits",
     title: "Distribution de kits scolaires au Nord",
     category: "Éducation",
-    image:
+    imageUrl:
       "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2070&auto=format&fit=crop",
     excerpt:
       "Notre équipe a distribué plus de 500 kits scolaires pour la rentrée, assurant un avenir meilleur aux enfants.",
     content: `
-      <p>L'éducation est le fondement de toute société prospère. C'est pourquoi MKRT s'engage chaque année à soutenir les familles les plus vulnérables lors de la rentrée scolaire.</p>
+      <p>L'éducation est le fondement de toute société prospère. C'est pourquoi FJ s'engage chaque année à soutenir les familles les plus vulnérables lors de la rentrée scolaire.</p>
       <p>Cette année, notre déploiement dans le Nord a permis de toucher 523 enfants. Chaque kit contient des cahiers, des stylos, un sac à dos et le matériel de géométrie nécessaire.</p>
       <h3>Impact immédiat</h3>
       <p>Grâce à vos dons, nous avons réduit le taux d'absentéisme de 15% dans les zones d'intervention. Les enseignants rapportent une motivation accrue chez les élèves qui disposent désormais de leurs propres outils de travail.</p>
@@ -25,12 +25,12 @@ export const blogPosts: BlogPost[] = [
     slug: "construction-decole",
     title: "Inauguration de la nouvelle école de brousse",
     category: "Infrastructure",
-    image:
+    imageUrl:
       "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2000&auto=format&fit=crop",
     excerpt:
       "Une structure moderne pour accueillir 120 élèves dans des conditions d'apprentissage optimales.",
     content: `
-      <p>Après six mois de travaux acharnés, nous sommes fiers de présenter le nouveau complexe scolaire de Makaranta. Autrefois, les enfants devaient parcourir 10km pour rejoindre le centre le plus proche.</p>
+      <p>Après six mois de travaux acharnés, nous sommes fiers de présenter le nouveau complexe scolaire de Fajr. Autrefois, les enfants devaient parcourir 10km pour rejoindre le centre le plus proche.</p>
       <p>L'école dispose de 4 salles de classe, d'un bloc sanitaire et d'un espace de jeu sécurisé.</p>
       <h3>Développement durable</h3>
       <p>Le bâtiment a été construit avec des matériaux locaux pour garantir une isolation naturelle efficace contre la chaleur intense de la région.</p>
@@ -44,7 +44,7 @@ export const blogPosts: BlogPost[] = [
     slug: "formation-pedagogique",
     title: "Formation intensive pour nos éducateurs",
     category: "Savoir-faire",
-    image:
+    imageUrl:
       "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=2070&auto=format&fit=crop",
     excerpt:
       "Renforcement des capacités pédagogiques pour une éducation de qualité supérieure.",
@@ -61,12 +61,12 @@ export const blogPosts: BlogPost[] = [
     slug: "acces-a-leau",
     title: "L'eau potable arrive enfin au village",
     category: "Vie Quotidienne",
-    image:
+    imageUrl:
       "https://images.unsplash.com/photo-1516939884455-1445c8652f83?q=80&w=1974&auto=format&fit=crop",
     excerpt:
       "Installation de nouveaux forages solaires pour un accès permanent à l'eau potable.",
     content: `
-      <p>Sans eau, il n'y a pas de vie. MKRT a finalisé l'installation d'un forage solaire de grande capacité.</p>
+      <p>Sans eau, il n'y a pas de vie. FJ a finalisé l'installation d'un forage solaire de grande capacité.</p>
       <p>Cela réduit considérablement la charge de travail des femmes et des enfants qui passaient des heures à chercher de l'eau loin du domicile.</p>
     `,
     date: "05 Jan 2026",
@@ -78,7 +78,7 @@ export const blogPosts: BlogPost[] = [
     slug: "consultation-medicale",
     title: "Clinique mobile : Mission Santé 2026",
     category: "Santé",
-    image:
+    imageUrl:
       "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?q=80&w=2064&auto=format&fit=crop",
     excerpt: "Une semaine de soins gratuits pour les populations isolées.",
     content: `

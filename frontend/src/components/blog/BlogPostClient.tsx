@@ -1,9 +1,7 @@
 "use client";
-
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { BlogPost } from "@/src/types/blog";
 import {
   Calendar,
@@ -34,7 +32,7 @@ export const BlogPostClient = ({ post, relatedPosts }: BlogPostClientProps) => {
           Retour au journal
         </Link>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="max-w-4xl"
@@ -62,26 +60,26 @@ export const BlogPostClient = ({ post, relatedPosts }: BlogPostClientProps) => {
               {post.readTime} de lecture
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Featured Image */}
       <div className="container mx-auto px-6 mb-16">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
           className="relative aspect-21/9 rounded-4xl overflow-hidden shadow-2xl border border-border/50"
         >
           <Image
-            src={post.image}
+            src={post.imageUrl}
             alt={post.title}
             fill
             sizes="100vw"
             className="object-cover"
             priority
           />
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Content Section */}
@@ -124,7 +122,7 @@ export const BlogPostClient = ({ post, relatedPosts }: BlogPostClientProps) => {
                   >
                     <div className="relative aspect-video rounded-2xl overflow-hidden mb-4 border border-border/30 group-hover:border-primary/50 transition-all">
                       <Image
-                        src={related.image}
+                        src={related.imageUrl}
                         alt={related.title}
                         fill
                         sizes="(max-width: 768px) 100vw, 33vw"

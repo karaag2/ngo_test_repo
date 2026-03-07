@@ -12,7 +12,7 @@
 import { describe, it, expect } from "vitest";
 import { screen } from "@testing-library/react";
 import { render } from "@/src/__tests__/test-utils";
-import Hero from "@/src/components/sections/hero";
+import Hero from "@/src/components/sections/Hero";
 
 describe("Hero", () => {
   describe("Contenu textuel", () => {
@@ -34,7 +34,7 @@ describe("Hero", () => {
     it("affiche la description de la mission", () => {
       render(<Hero />);
       expect(
-        screen.getByText(/Makaranta œuvre pour résoudre la crise éducative/i),
+        screen.getByText(/Fajr œuvre pour résoudre la crise éducative/i),
       ).toBeInTheDocument();
     });
   });

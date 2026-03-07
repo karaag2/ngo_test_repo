@@ -142,6 +142,27 @@ registry.registerPath({
 
 registry.registerPath({
   method: "post",
+  path: "/api/auth/confirm-setup-2fa",
+  tags: ["Auth"],
+  summary: "Confirmer la configuration de l'A2F",
+  security: [{ [bearerAuth.name]: [] }],
+  request: {
+    body: {
+      content: {
+        "application/json": {
+          schema: z.object({ code: z.string().length(6) }),
+        },
+      },
+    },
+  },
+  responses: {
+    200: { description: "A2F activé avec succès" },
+    400: { description: "Code invalide" },
+  },
+});
+
+registry.registerPath({
+  method: "post",
   path: "/api/auth/logout",
   tags: ["Auth"],
   summary: "Se déconnecter",
@@ -196,6 +217,15 @@ registry.registerPath({
 });
 
 registry.registerPath({
+  method: "get",
+  path: "/api/blog/slug/{slug}",
+  tags: ["Blog"],
+  summary: "Obtenir un article par son slug",
+  request: { params: z.object({ slug: z.string() }) },
+  responses: { 200: { description: "Opération réussie" } },
+});
+
+registry.registerPath({
   method: "post",
   path: "/api/blog/post",
   tags: ["Blog"],
@@ -213,10 +243,14 @@ registry.registerPath({
 
 registry.registerPath({
   method: "patch",
-  path: "/api/blog/post",
+  path: "/api/blog/post/{PostId}",
   tags: ["Blog"],
   summary: "Mettre à jour un article",
   security: [{ [bearerAuth.name]: [] }],
+  request: {
+    params: z.object({ PostId: z.string() }),
+    body: { content: { "application/json": { schema: BlogRequest } } },
+  },
   responses: { 200: { description: "Article mis à jour" } },
 });
 

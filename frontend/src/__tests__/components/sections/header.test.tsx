@@ -10,18 +10,18 @@
 import { describe, it, expect } from "vitest";
 import { screen } from "@testing-library/react";
 import { render } from "@/src/__tests__/test-utils";
-import Header from "@/src/components/sections/header";
+import Header from "@/src/components/sections/Header";
 
 describe("Header", () => {
   describe("Logo", () => {
-    it("affiche le nom 'MKRT'", () => {
+    it("affiche le nom 'FJ'", () => {
       render(<Header />);
-      expect(screen.getByText("MKRT")).toBeInTheDocument();
+      expect(screen.getByText("FJ")).toBeInTheDocument();
     });
 
     it("affiche l'image du logo", () => {
       render(<Header />);
-      expect(screen.getByAltText("Logo MKRT")).toBeInTheDocument();
+      expect(screen.getByAltText("Logo FJ")).toBeInTheDocument();
     });
   });
 

@@ -1,18 +1,13 @@
 import type { UserPayload } from "@/validators/auth.validator.js";
 import jwt from "jsonwebtoken";
 import type { StringValue } from "ms";
+import { env } from "@/config/env.js";
 const generateTokens = (payload: UserPayload) => {
-  const accessSecret = process.env.JWT_ACCESS_SECRET;
-  const refreshSecret = process.env.JWT_REFRESH_SECRET;
+  const accessSecret = env.JWT_ACCESS_SECRET;
+  const refreshSecret = env.JWT_REFRESH_SECRET;
 
-  if (!accessSecret || !refreshSecret) {
-    throw new Error("Clés secrètes JWT manquantes dans l'environnement");
-  }
-
-  const accessExp = (process.env.JWT_ACCESS_EXPIRATION as StringValue) || "15m";
-
-  const refreshExp =
-    (process.env.JWT_REFRESH_EXPIRATION as StringValue) || "7d";
+  const accessExp = (env.JWT_ACCESS_EXPIRATION as StringValue) || "15m";
+  const refreshExp = (env.JWT_REFRESH_EXPIRATION as StringValue) || "7d";
 
   const accessToken = jwt.sign({ payload: payload.payload }, accessSecret, {
     expiresIn: accessExp,

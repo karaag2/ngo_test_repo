@@ -1,17 +1,11 @@
 /**
- * ─── Service d'Authentification (Client-Side) ────────────────
- *
- * Gère toutes les requêtes HTTP liées à l'authentification
- * côté client (signup, login, vérification 2FA).
- *
- * Chaque service retourne un objet typé avec un champ `success`
- * pour faciliter la gestion d'erreurs dans les composants React.
+ * ─── Services d'Authentification (Client-Side) ────────────────
  */
 
 import type { SignUpInput, LoginInput } from "@/src/lib/auth.validators";
 
 // URL de base du serveur backend Express
-const API_URL = "http://localhost:7000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:7000";
 
 // ─── Types de Réponse ────────────────────────────────────────
 
@@ -38,15 +32,6 @@ export type Verify2FAResponse =
   | { success: true }
   | { success: false; message?: string };
 
-// ─── Inscription ─────────────────────────────────────────────
-
-/**
- * Envoie les données d'inscription au backend.
- * POST /api/auth/register
- *
- * @param data - Les données validées du formulaire d'inscription
- * @returns SignupResponse avec le statut et les erreurs éventuelles
- */
 export const signupService = async (
   data: SignUpInput,
 ): Promise<SignupResponse> => {
@@ -64,7 +49,6 @@ export const signupService = async (
 
     const json = await res.json();
 
-    // Gestion des erreurs retournées par l'API
     if (!res.ok) {
       return {
         success: false,
@@ -82,18 +66,6 @@ export const signupService = async (
   }
 };
 
-// ─── Connexion ───────────────────────────────────────────────
-
-/**
- * Authentifie un administrateur via email/mot de passe.
- * POST /api/auth/login
- *
- * Si le 2FA est activé, retourne `requires2FA: true` avec
- * l'identifiant temporaire pour la vérification du code.
- *
- * @param data - Les identifiants de connexion validés
- * @returns LoginResponse avec le statut et/ou les infos 2FA
- */
 export const loginService = async (
   data: LoginInput,
 ): Promise<LoginResponse> => {
@@ -109,7 +81,6 @@ export const loginService = async (
     });
 
     const json = await res.json();
-
     // Gestion des erreurs retournées par l'API
     if (!res.ok) {
       return {
@@ -120,11 +91,11 @@ export const loginService = async (
     }
 
     // Si le backend indique que le 2FA est requis
-    if (json.requires2FA) {
+    if (json.necessite2FA) {
       return {
         success: true,
         requires2FA: true,
-        tempAdminId: json.tempAdmin,
+        tempAdminId: json.adminTemporaire,
       };
     }
 
@@ -137,16 +108,6 @@ export const loginService = async (
   }
 };
 
-// ─── Vérification 2FA ────────────────────────────────────────
-
-/**
- * Vérifie le code 2FA saisi par l'administrateur.
- * POST /api/auth/check-2fa
- *
- * @param code        - Le code à 6 chiffres de l'application d'authentification
- * @param tempAdminId - L'identifiant temporaire retourné lors du login
- * @returns Verify2FAResponse avec le statut de la vérification
- */
 export const verify2FAService = async (
   code: string,
   tempAdminId: string,
@@ -162,7 +123,7 @@ export const verify2FAService = async (
     const json = await res.json();
 
     // Vérification combinée : statut HTTP + validation métier
-    if (!res.ok || !json.isCodeCorrect) {
+    if (!res.ok || !json.codeValide) {
       return {
         success: false,
         message: json.message || "Code 2FA incorrect ou invalide",
@@ -170,6 +131,73 @@ export const verify2FAService = async (
     }
 
     return { success: true };
+  } catch {
+    return {
+      success: false,
+      message: "Impossible de joindre le serveur. Réessayez.",
+    };
+  }
+};
+
+/**
+ * ─── Configuration 2FA ───────────────────────────────────────
+ */
+
+export type Setup2FAResponse =
+  | { success: true; qrCode: string; manualKey: string; message?: string }
+  | { success: false; message?: string };
+
+export const setup2FAService = async (): Promise<Setup2FAResponse> => {
+  try {
+    const res = await fetch(`${API_URL}/api/auth/setup-2fa`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+
+    const json = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: json.message || "Erreur lors de la configuration du 2FA",
+      };
+    }
+
+    return {
+      success: true,
+      qrCode: json.qrCode,
+      manualKey: json.manualKey,
+    };
+  } catch {
+    return {
+      success: false,
+      message: "Impossible de joindre le serveur. Réessayez.",
+    };
+  }
+};
+
+export const confirmSetup2FAService = async (
+  code: string,
+): Promise<{ success: boolean; message?: string }> => {
+  try {
+    const res = await fetch(`${API_URL}/api/auth/confirm-setup-2fa`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ code }),
+    });
+
+    const json = await res.json();
+
+    if (!res.ok) {
+      return {
+        success: false,
+        message: json.message || "Code 2FA incorrect ou invalide",
+      };
+    }
+
+    return { success: true, message: json.message };
   } catch {
     return {
       success: false,

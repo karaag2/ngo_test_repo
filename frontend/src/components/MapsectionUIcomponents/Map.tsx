@@ -11,10 +11,10 @@ import {
 import { locations, type EtablissementType } from "@/src/data/NigerPoints";
 
 const TYPE_COLOR = {
-  "École primaire": "oklch(0.85 0.15 80)", // var(--edu)
-  Collège: "oklch(0.65 0.22 230)", // var(--primary)
-  "Lycée technique": "oklch(0.65 0.15 280)", // var(--impact)
-  "Centre de formation": "oklch(0.7 0.15 150)", // var(--growth)
+  "École primaire": "oklch(0.85 0.15 80)", 
+  Collège: "oklch(0.65 0.22 230)", 
+  "Lycée technique": "oklch(0.65 0.15 280)", 
+  "Centre de formation": "oklch(0.7 0.15 150)", 
 } as const;
 
 export default function MapNiger() {
@@ -23,13 +23,13 @@ export default function MapNiger() {
   const totalEleves = locations.reduce((sum, l) => sum + l.eleves, 0);
 
   return (
-    <div className="flex flex-col md:flex-row h-[700px] md:h-[560px] w-full overflow-hidden rounded-2xl border border-border bg-card shadow-premium transition-all">
-      {/* ── Sidebar ── */}
-      <div className="flex w-full md:w-72 lg:w-80 shrink-0 flex-col border-b md:border-b-0 md:border-r border-stone-200 dark:border-stone-800 order-2 md:order-1 h-[300px] md:h-auto md:max-w-1/3">
+    <div className="flex flex-col md:flex-row h-[600px] md:h-[560px] w-full overflow-hidden rounded-2xl border border-border bg-card shadow-premium transition-all">
+      {/* ── Barre de Navigation ── */}
+      <div className="flex w-full md:w-72 lg:w-80 shrink-0 flex-col border-b md:border-b-0 md:border-r border-stone-200 dark:border-stone-800 order-2 md:order-1 h-[250px] md:h-auto md:max-w-1/3">
         {/* En-tête ONG */}
-        <div className="border-b border-border px-6 py-5 space-y-1 bg-secondary/50 backdrop-blur-sm">
+        <div className="border-b border-border px-5 py-4 space-y-1 bg-secondary/50 backdrop-blur-sm">
           <h3 className="text-sm font-black tracking-tight text-main">
-            Makaranta
+            Fajr
           </h3>
           <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-stone-500">
             <span className="tabular-nums">{locations.length}</span>{" "}
@@ -51,7 +51,7 @@ export default function MapNiger() {
               <button
                 key={loc.id}
                 onClick={() => setActiveId(isActive ? null : loc.id)}
-                className={`group flex w-full items-start gap-3 border-b border-stone-100 dark:border-stone-800/40 px-4 py-3.5 text-left transition-all outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sky-500 ${
+                className={`group flex w-full items-start gap-3 border-b border-stone-100 dark:border-stone-800/40 px-4 py-3 text-left transition-all outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-sky-500 ${
                   isActive
                     ? "bg-stone-100/80 dark:bg-stone-800/60"
                     : "hover:bg-stone-50 dark:hover:bg-stone-900/40"
@@ -83,7 +83,7 @@ export default function MapNiger() {
         </div>
 
         {/* Légende  */}
-        <div className="border-t border-stone-200 dark:border-stone-800 bg-stone-50/30 dark:bg-stone-900/10 px-4 py-3 gap-y-2 flex flex-col sm:flex-row sm:flex-wrap sm:gap-x-4">
+        <div className="border-t border-stone-200 dark:border-stone-800 bg-stone-50/30 dark:bg-stone-900/10 px-4 py-2.5 gap-y-1.5 flex flex-col sm:flex-row sm:flex-wrap sm:gap-x-4">
           {Object.entries(TYPE_COLOR).map(([label, color]) => (
             <div key={label} className="flex items-center gap-2">
               <span
@@ -100,7 +100,7 @@ export default function MapNiger() {
       </div>
 
       {/* Carte  */}
-      <div className="relative flex-1 order-1 md:order-2 h-full min-h-[400px]">
+      <div className="relative flex-1 order-1 md:order-2 h-full min-h-[300px]">
         <Map center={[8.0, 17.5]} zoom={4.5} className="touch-manipulation">
           {locations.map((loc) => {
             const color = TYPE_COLOR[loc.type];
@@ -132,7 +132,7 @@ export default function MapNiger() {
                 </MarkerTooltip>
 
                 <MarkerPopup>
-                  <div className="w-[280px] sm:w-72 space-y-4 p-1">
+                  <div className="w-[260px] sm:w-[280px] space-y-3 p-1">
                     {/* En-tête */}
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between gap-2">
@@ -156,34 +156,34 @@ export default function MapNiger() {
                     </div>
 
                     {/* Description */}
-                    <div className="border-t border-stone-100 dark:border-stone-800 pt-3">
+                    <div className="border-t border-stone-100 dark:border-stone-800 pt-2.5">
                       <p className="text-[11px] leading-relaxed text-stone-600 dark:text-stone-400 text-pretty italic">
-                        "{loc.description}"
+                        &quot;{loc.description}&quot;
                       </p>
                     </div>
 
                     {/* Dashboard Stats */}
-                    <div className="grid grid-cols-2 gap-2.5 border-t border-stone-100 dark:border-stone-800 pt-3">
+                    <div className="grid grid-cols-2 gap-2 border-t border-stone-100 dark:border-stone-800 pt-2.5">
                       <div className="rounded-lg bg-stone-50 dark:bg-stone-900/50 px-3 py-2 border border-stone-100 dark:border-stone-800">
-                        <p className="text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-1">
+                        <p className="text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-0.5">
                           Élèves
                         </p>
-                        <p className="text-base font-black text-main tabular-nums">
+                        <p className="text-sm font-black text-main tabular-nums">
                           {loc.eleves.toLocaleString()}
                         </p>
                       </div>
                       <div className="rounded-lg bg-stone-50 dark:bg-stone-900/50 px-3 py-2 border border-stone-100 dark:border-stone-800">
-                        <p className="text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-1">
+                        <p className="text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-0.5">
                           Services
                         </p>
-                        <p className="text-base font-black text-main tabular-nums">
+                        <p className="text-sm font-black text-main tabular-nums">
                           {loc.services.length}
                         </p>
                       </div>
                     </div>
 
                     {/* Tags Services */}
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <p className="text-[9px] font-bold uppercase tracking-widest text-stone-400">
                         Services inclus
                       </p>
@@ -200,7 +200,7 @@ export default function MapNiger() {
                     </div>
 
                     {/* Coords footer */}
-                    <div className="flex items-center justify-between border-t border-stone-100 dark:border-stone-800 pt-3 font-mono text-[9px] text-stone-400">
+                    <div className="flex items-center justify-between border-t border-stone-100 dark:border-stone-800 pt-2.5 font-mono text-[9px] text-stone-400">
                       <span>{loc.lat.toFixed(4)}°N</span>
                       <span className="opacity-30">/</span>
                       <span>{loc.lng.toFixed(4)}°E</span>
