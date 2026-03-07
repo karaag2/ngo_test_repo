@@ -2,12 +2,12 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
 }
 
 // ─────────────────────────────────────────
@@ -57,7 +57,7 @@ model Admin {
 model RefreshToken {
   id        Int      @id @default(autoincrement())
   token     String   @unique // chiffré AES
-  adminId   String
+  adminId   String  @unique
   admin     Admin    @relation(fields: [adminId], references: [id], onDelete: Cascade)
   expiresAt DateTime
   createdAt DateTime @default(now())
@@ -78,11 +78,13 @@ model Activity {
   published   Boolean  @default(true)
 
   // Tracking
-  createdById String?
-  createdBy   Admin?   @relation("ActivityCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  createdById String
+  createdBy   Admin   @relation("ActivityCreatedBy", fields: [createdById], references: [id], onDelete: Cascade)
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([createdAt])
 }
 
 // ─────────────────────────────────────────
@@ -94,6 +96,7 @@ model Service {
   title       String
   description String
   icon        String?
+  color       String?
   order       Int      @default(0)
   // Tracking
   createdById String?
@@ -101,6 +104,8 @@ model Service {
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@index([createdAt])
 }
 
 // ─────────────────────────────────────────
@@ -115,4 +120,6 @@ model Contact {
   message   String
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
+
+  @@index([createdAt])
 }

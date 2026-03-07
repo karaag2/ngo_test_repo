@@ -5,7 +5,7 @@
  * Affiche le formulaire de création de compte administrateur.
  */
 
-import { SignUpForm } from "@/src/components/AuthForm";
+import { SignUpForm } from "@/src/components/admin/auth/AuthForm";
 
 const SignupPage = () => {
   return <SignUpForm />;

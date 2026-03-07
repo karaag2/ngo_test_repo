@@ -45,3 +45,5 @@ dev.db
 *.db
 prisma.db
 *.db
+
+logs/

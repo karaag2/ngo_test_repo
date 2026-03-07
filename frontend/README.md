@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Frontend - Application Web MKRT ONG
 
-## Getting Started
+Le frontend du projet MKRT est une application web moderne (site vitrine + espace admin) optimisée pour le SEO, les performances et l'expérience utilisateur.
 
-First, run the development server:
+## 🛠️ Stack Technique
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework** : Next.js 14+ (App Router)
+- **Langage** : TypeScript
+- **Styling** : Tailwind CSS, class-variance-authority, clsx
+- **UI Components** : Radix UI, Shadcn/ui
+- **Animations** : Framer Motion (Optimisé via LazyMotion)
+- **State Management & Fetching** : SWR
+- **Validation de formulaires** : React Hook Form + Zod
+- **Cartographie** : MapLibre GL
+- **Tests** : Vitest, React Testing Library
+
+## ⚙️ Configuration & Installation
+
+Créez un fichier `.env.local` à la racine de `/frontend` :
+
+```env
+NEXT_PUBLIC_API_URL="http://localhost:7000/api"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Démarrage
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# Installer les dépendances
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Lancer en mode développement (sur le port 8000)
+npm run dev
 
-## Learn More
+# Lancer la suite de tests
+npm run test
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🌟 Fonctionnalités Structurantes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Performance** : Composants React Server by default, images optimisées (WEBP/AVIF), et séparation du thread d'animation.
+- **Dashboard Admin** : Interface d'administration protégée, avec appels API authentifiés via cookies HttpOnly gérés automatiquement par le backend.
+- **Responsivité** : Conception Mobile-First.
+- **Thèmes** : Support des modes Clair et Sombre (next-themes).

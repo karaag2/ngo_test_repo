@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Image from "next/image";
 
 export const GlobalLoader = () => {
@@ -9,7 +9,7 @@ export const GlobalLoader = () => {
     <div className="fixed inset-0 z-9999 flex items-center justify-center bg-background">
       <div className="relative flex flex-col items-center gap-y-8">
         {/* Logo Animation */}
-        <motion.div
+        <m.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{
             scale: [0.8, 1.1, 1],
@@ -25,25 +25,25 @@ export const GlobalLoader = () => {
         >
           <Image
             src="/logo.svg"
-            alt="Logo MKRT"
+            alt="Logo FJ"
             width={48}
             height={48}
             className="w-12 h-12 invert"
           />
-        </motion.div>
+        </m.div>
 
         {/* Text & Progress */}
         <div className="flex flex-col items-center gap-y-3 text-center">
-          <motion.span
+          <m.span
             initial={{ opacity: 0 }}
             animate={{ opacity: [0.4, 1, 0.4] }}
             transition={{ duration: 1.5, repeat: Infinity }}
             className="text-primary font-black uppercase tracking-[0.4em] text-[10px]"
           >
-            Makaranta
-          </motion.span>
+            Fajr
+          </m.span>
           <div className="w-48 h-[2px] bg-muted rounded-full overflow-hidden relative">
-            <motion.div
+            <m.div
               initial={{ x: "-100%" }}
               animate={{ x: "100%" }}
               transition={{

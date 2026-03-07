@@ -25,7 +25,7 @@ describe("Données du Blog (contrat de données)", () => {
       "slug",
       "title",
       "category",
-      "image",
+      "imageUrl",
       "excerpt",
       "content",
       "date",
@@ -62,7 +62,7 @@ describe("Données du Blog (contrat de données)", () => {
 
   it("les images commencent par https://", () => {
     blogPosts.forEach((post) => {
-      expect(post.image).toMatch(/^https:\/\//);
+      expect(post.imageUrl).toMatch(/^https:\/\//);
     });
   });
 

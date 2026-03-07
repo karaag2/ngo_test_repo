@@ -80,8 +80,8 @@ vi.mock("next/dynamic", () => ({
 // ─── Mock de framer-motion ────────────────────────────────────
 // Les animations Framer Motion ne sont pas pertinentes dans les tests unitaires.
 // On remplace les composants animés par de simples éléments HTML.
-vi.mock("framer-motion", () => ({
-  motion: new Proxy(
+vi.mock("framer-motion", () => {
+  const motionProxy = new Proxy(
     {},
     {
       get: (_target, prop: string) => {
@@ -96,22 +96,27 @@ vi.mock("framer-motion", () => ({
           variants,
           transition,
           ...rest
-        }: Record<string, unknown> & { children?: React.ReactNode }) => {
-          const Tag = prop as keyof JSX.IntrinsicElements;
+        }: any) => {
+          const Tag = prop as any;
           return <Tag {...rest}>{children}</Tag>;
         };
         Component.displayName = `motion.${prop}`;
         return Component;
       },
     },
-  ),
-  AnimatePresence: ({ children }: { children: React.ReactNode }) => (
-    <>{children}</>
-  ),
-  useMotionValue: () => ({ set: vi.fn(), get: () => 0 }),
-  useTransform: () => ({ set: vi.fn(), get: () => 0 }),
-  useAnimation: () => ({ start: vi.fn(), stop: vi.fn() }),
-}));
+  );
+
+  return {
+    motion: motionProxy,
+    m: motionProxy,
+    AnimatePresence: ({ children }: { children: React.ReactNode }) => (
+      <>{children}</>
+    ),
+    useMotionValue: () => ({ set: vi.fn(), get: () => 0 }),
+    useTransform: () => ({ set: vi.fn(), get: () => 0 }),
+    useAnimation: () => ({ start: vi.fn(), stop: vi.fn() }),
+  };
+});
 
 // ─── Mock de next-themes ──────────────────────────────────────
 // Simule le provider et le hook de gestion du thème.

@@ -1,5 +1,5 @@
-import Hero from "@/src/components/sections/hero";
-import Cause from "@/src/components/sections/cause";
+import Hero from "@/src/components/sections/Hero";
+import Cause from "@/src/components/sections/Cause";
 import Stats from "@/src/components/sections/Stats";
 import Map from "@/src/components/sections/MapSection";
 import Donation from "@/src/components/sections/Donation";

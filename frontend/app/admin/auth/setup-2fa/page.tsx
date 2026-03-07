@@ -1,12 +1,4 @@
-/**
- * ─── Page de Configuration 2FA ───────────────────────────────
- *
- * Route : /admin/auth/setup-2fa
- * Guide l'administrateur dans l'activation de l'authentification
- * à deux facteurs via QR Code et code de vérification.
- */
-
-import { Setup2FAForm } from "@/src/components/Setup2FAForm";
+import { Setup2FAForm } from "@/src/components/admin/auth/Setup2FAForm";
 
 const Setup2FAPage = () => {
   return (

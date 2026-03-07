@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 const activities = [
@@ -62,7 +62,7 @@ const Gallery = () => {
       {/*Grille d'activités */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[250px]">
         {activities.map((activity, index) => (
-          <motion.div
+          <m.div
             key={index}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -76,7 +76,7 @@ const Gallery = () => {
               className="block w-full h-full relative"
             >
               {/* Image d'arrière-plan animée */}
-              <motion.div
+              <m.div
                 className="absolute inset-0 w-full h-full"
                 variants={{
                   hover: { scale: 1.1 },
@@ -90,10 +90,10 @@ const Gallery = () => {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover"
                 />
-              </motion.div>
+              </m.div>
 
               {/* Overlay Gradient animé */}
-              <motion.div
+              <m.div
                 className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent"
                 variants={{
                   hover: { opacity: 0.9 },
@@ -103,7 +103,7 @@ const Gallery = () => {
               />
 
               {/* Contenu textuel animé */}
-              <motion.div
+              <m.div
                 className="absolute inset-0 p-8 flex flex-col justify-end"
                 variants={{
                   hover: { y: 0, opacity: 1 },
@@ -117,13 +117,13 @@ const Gallery = () => {
                 <h3 className="text-white text-xl md:text-2xl font-black italic leading-tight">
                   {activity.title}
                 </h3>
-              </motion.div>
+              </m.div>
             </Link>
-          </motion.div>
+          </m.div>
         ))}
       </div>
       {/*Bouton Voir tous les articles */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -136,7 +136,7 @@ const Gallery = () => {
           Voir tous nos articles
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
-      </motion.div>
+      </m.div>
     </section>
   );
 };

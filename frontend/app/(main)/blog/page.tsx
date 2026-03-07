@@ -1,17 +1,26 @@
-import React from "react";
-import { blogPosts } from "@/src/data/blogData";
 import { BlogList } from "@/src/components/blog/BlogList";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Journal de Bord | Makaranta",
+  title: "Journal de Bord | Fajr",
   description:
     "Découvrez nos dernières interventions, les défis relevés et les histoires de terrain de notre mission au Sahel.",
 };
 
-const BlogPage = () => {
-  // En production, nous ferions un fetch ici
-  const posts = blogPosts;
+const BlogPage = async () => {
+  let posts = [];
+  try {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:7000";
+    const res = await fetch(`${API_URL}/api/blog/allPosts`, {
+      next: { revalidate: 3600 },
+    });
+    if (res.ok) {
+      const data = await res.json();
+      posts = data.data || [];
+    }
+  } catch (error) {
+    console.error("Erreur de récupération des posts:", error);
+  }
 
   return (
     <div className="min-height-screen bg-background py-6 md:pt-20">
