@@ -1,6 +1,6 @@
 import { PrismaClient } from "../generated/prisma/client.js";
 import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
-
+import "dotenv/config";
 export const generatePrismaClient = () => {
   const databaseURL = process.env.DATABASE_URL || "bro you've fucked up";
   const adapter = new PrismaBetterSqlite3({ url: databaseURL });
