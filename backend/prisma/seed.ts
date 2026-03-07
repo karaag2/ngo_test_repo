@@ -2,8 +2,7 @@ import prisma from "../src/lib/db.js";
 import bcrypt from "bcrypt";
 
 async function main() {
-  const superAdminEmail =
-    process.env.SUPER_ADMIN_EMAIL || "admin@makaranta.com";
+  const superAdminEmail = process.env.SUPER_ADMIN_EMAIL || "admin@fajr.com";
 
   // Vérifie s'il existe déjà
   const existingAdmin = await prisma.admin.findUnique({
