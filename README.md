@@ -1,6 +1,11 @@
-# Projet MKRT (Makaranta) - Solution ONG
+# Projet ONG - Solution MKRT
 
-Bienvenue sur le dépôt du projet MKRT, une application web complète (Frontend + Backend) destinée à une Organisation Non Gouvernementale. Ce projet a été développé dans le cadre du test technique pour le poste de Développeur Full Stack.
+Bienvenue sur le dépôt du projet MKRT, une application web complète (Frontend et Backend) destinée à une Organisation Non Gouvernementale. Ce projet constitue une solution robuste pour la gestion des activités, des services et de l'administration d'une ONG.
+
+### Liens de Production et Tests
+
+- **Frontend (Vercel)** : [https://ngo-test-repo.vercel.app](https://ngo-test-repo.vercel.app)
+- **Backend API (Render)** : [https://fajr-ong.onrender.com](https://fajr-ong.onrender.com)
 
 ## 🎯 Architecture du Projet
 
@@ -50,13 +55,11 @@ Veuillez consulter les README respectifs pour plus de détails :
 - 👉 [Documentation du Backend](./backend/README.md)
 - 👉 [Documentation du Frontend](./frontend/README.md)
 
-## 🛡️ Sécurité & Bonnes Pratiques
+Ce code a été conçu et optimisé pour la production :
 
-Ce code a été audité et optimisé pour la production :
+- Architecture modulaire et séparation des responsabilités.
+- Validation stricte des données avec Zod.
+- Documentation API complète via OpenAPI/Swagger.
+- Tests automatisés avec Vitest.
 
-- Architecture MVC stricte.
-- Validation rigoureuse des entrées avec **Zod**.
-- Documentation de l'API via **OpenAPI/Swagger**.
-- Tests unitaires et d'intégration via **Vitest**.
-
-Développé par **Amos Issa** pour MKRT.
+Solution déployée et maintenue pour les tests de l'ONG.

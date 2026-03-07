@@ -1,6 +1,8 @@
-# Frontend - Application Web MKRT ONG
+# Frontend - Application Web Solution ONG
 
-Le frontend du projet MKRT est une application web moderne (site vitrine + espace admin) optimisée pour le SEO, les performances et l'expérience utilisateur.
+Le frontend est une application web moderne (site vitrine et espace administration) optimisée pour le SEO, les performances et l'expérience utilisateur.
+
+**Lien de test (Vercel)** : [https://ngo-test-repo.vercel.app](https://ngo-test-repo.vercel.app)
 
 ## 🛠️ Stack Technique
 
@@ -35,9 +37,9 @@ npm run dev
 npm run test
 ```
 
-## 🌟 Fonctionnalités Structurantes
+## Fonctionnalités Principales
 
-- **Performance** : Composants React Server by default, images optimisées (WEBP/AVIF), et séparation du thread d'animation.
-- **Dashboard Admin** : Interface d'administration protégée, avec appels API authentifiés via cookies HttpOnly gérés automatiquement par le backend.
-- **Responsivité** : Conception Mobile-First.
-- **Thèmes** : Support des modes Clair et Sombre (next-themes).
+- **Performance** : Composants React Server, images optimisées et thread d'animation séparé.
+- **Dashboard Admin** : Interface protégée avec authentification sécurisée par cookies HttpOnly.
+- **Responsivité** : Conception adaptative (Mobile-First).
+- **Thèmes** : Support des modes Clair et Sombre.

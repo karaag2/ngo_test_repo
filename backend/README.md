@@ -1,6 +1,8 @@
-# Backend - API REST MKRT ONG
+# Backend - API REST Solution ONG
 
-Le backend du projet MKRT fournit une API RESTful robuste et sécurisée pour gérer les données de l'ONG (Activités, Services, Contacts, Administrateurs).
+Le backend du projet fournit une API RESTful sécurisée permettant la gestion complète des données de l'organisation (Activités, Services, Contacts, Administrateurs).
+
+**URL de production** : [https://fajr-ong.onrender.com](https://fajr-ong.onrender.com)
 
 ## 🛠️ Stack Technique
 
@@ -34,12 +36,12 @@ Le backend du projet MKRT fournit une API RESTful robuste et sécurisée pour g�
    npx prisma db push
    ```
 
-3. **Création du Super Admin (Seeding)**
-   Créez le premier administrateur pour accéder au back-office :
+3. **Initialisation des données (Seeding)**
+   Prisma a été configuré pour lancer automatiquement le seed lors de l'exécution de migrations ou par commande manuelle :
    ```bash
-   # Optionnellement, si un script seed existe, ou :
-   # Utilisez l'option d'insertion SQL ou le script de création initial.
+   npx prisma db seed
    ```
+   Ce script crée un Super Admin par défaut (`admin@fajr.com`) ainsi que les services et articles de blog initiaux.
 
 ## 🚀 Démarrage
 
