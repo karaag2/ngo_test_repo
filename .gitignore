@@ -1,1 +1,13 @@
 backend/dev.db
+migrations/
+node_modules/
+.env
+.env.local
+.DS_Store
+dist/
+build/
+.next/
+*.log
+.vercel
+.render
+frontend/build_out.txt
