@@ -2,7 +2,7 @@ import Image from "next/image";
 import heroImg from "@/public/hero.webp";
 import Link from "next/link";
 
-const hero = () => {
+const Hero = () => {
   return (
     <section
       id="hero"
@@ -106,4 +106,4 @@ const hero = () => {
   );
 };
 
-export default hero;
+export default Hero;
