@@ -1,6 +1,6 @@
-# Projet ONG - Solution MKRT
+# Projet ONG - Fajr (FJ)
 
-Bienvenue sur le dépôt du projet MKRT, une application web complète (Frontend et Backend) destinée à une Organisation Non Gouvernementale. Ce projet constitue une solution robuste pour la gestion des activités, des services et de l'administration d'une ONG.
+Bienvenue sur le dépôt du projet Fajr, une application web complète (Frontend et Backend) destinée à l'ONG FJ. Ce projet constitue une solution robuste pour la gestion des activités, des services et de l'administration de l'ONG.
 
 ### Liens de Production et Tests
 
