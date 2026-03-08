@@ -26,6 +26,8 @@ export interface ActivityFormData {
   category: string;
   slug?: string;
   imageUrl: string;
+  content?: string;
+  published: boolean;
 }
 
 // ─── Service ──────────────────────────────────────────

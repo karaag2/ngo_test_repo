@@ -15,7 +15,7 @@ export async function generateMetadata({
   const { slug } = await params;
   try {
     const res = await fetch(`${API_URL}/api/blog/slug/${slug}`, {
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 },
     });
     if (!res.ok) return { title: "Article non trouvé" };
     const { Post } = await res.json();
@@ -32,6 +32,28 @@ export async function generateMetadata({
   }
 }
 
+export async function generateStaticParams() {
+  try {
+    const res = await fetch(`${API_URL}/api/blog/allPosts?limit=100`, {
+      next: { revalidate: 86400 },
+    });
+
+    if (!res.ok) return [{ slug: "placeholder-article" }];
+
+    const data = await res.json();
+    if (!data.data || data.data.length === 0) {
+      return [{ slug: "placeholder-article" }];
+    }
+
+    return data.data.map((post: any) => ({
+      slug: post.slug,
+    }));
+  } catch (error) {
+    console.error("Erreur lors de generateStaticParams:", error);
+    return [{ slug: "placeholder-article" }];
+  }
+}
+
 export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = await params;
   let post = null;
@@ -39,7 +61,7 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   try {
     const res = await fetch(`${API_URL}/api/blog/slug/${slug}`, {
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 },
     });
 
     if (res.ok) {

@@ -6,15 +6,19 @@ import type { BlogInput as Post } from "@/validators/blog.validators.js";
 export const getAllPostService = async (
   page: number = 1,
   limit: number = 10,
+  publishedOnly: boolean = false,
 ) => {
   const skip = (page - 1) * limit;
+  const where = publishedOnly ? { published: true } : {};
+
   const [data, total] = await Promise.all([
     prisma.activity.findMany({
+      where,
       skip,
       take: limit,
       orderBy: { createdAt: "desc" },
     }),
-    prisma.activity.count(),
+    prisma.activity.count({ where }),
   ]);
 
   return {
@@ -83,9 +87,11 @@ export const addPostService = async (adminId: string, data: Post) => {
     data: {
       title: data.title,
       description: data.description,
+      content: data.content || null,
       category: data.category,
       slug: data.slug!,
       imageUrl: data.imageUrl,
+      published: data.published,
       createdById: adminId,
     },
   });
@@ -120,9 +126,11 @@ export const updatePostService = async (
     data: {
       title: data.title,
       description: data.description,
+      content: data.content || null,
       category: data.category,
       slug: data.slug!,
       imageUrl: data.imageUrl,
+      published: data.published,
       createdById: adminId,
     },
   });

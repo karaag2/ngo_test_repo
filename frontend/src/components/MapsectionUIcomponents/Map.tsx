@@ -110,7 +110,7 @@ export default function MapNiger() {
                 <MarkerContent>
                   <button
                     onClick={() => setActiveId(isActive ? null : loc.id)}
-                    className="outline-none focus-visible:ring-2 focus-visible:ring-sky-500 rounded-full"
+                    className="outline-none focus-visible:ring-2 focus-visible:ring-sky-500 rounded-full "
                     aria-label={`Voir les détails de ${loc.short}`}
                     style={{
                       width: isActive ? 22 : 14,
@@ -132,7 +132,7 @@ export default function MapNiger() {
                 </MarkerTooltip>
 
                 <MarkerPopup>
-                  <div className="w-[260px] sm:w-[280px] space-y-3 p-1">
+                  <div className="w-[200px] sm:w-[280px] h-64 overflow-y-scroll space-y-3 p-1">
                     {/* En-tête */}
                     <div className="space-y-1.5">
                       <div className="flex items-center justify-between gap-2">

@@ -58,7 +58,6 @@ export default function AdminSidebar() {
   const router = useRouter();
   const handleLogout = async () => {
     await logoutAdmin();
-    // Redimensionnement forcé pour s'assurer que le cache client est nettoyé
     router.replace("/admin/auth/login");
   };
 

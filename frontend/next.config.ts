@@ -9,6 +9,8 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "i.pravatar.cc" },
       { protocol: "https", hostname: "encrypted-tbn0.gstatic.com" },
       { protocol: "https", hostname: "ngo-test-repo.vercel.app" },
+      { protocol: "https", hostname: "fajr-ong.onrender.com" },
+
     ],
   },
   async rewrites() {

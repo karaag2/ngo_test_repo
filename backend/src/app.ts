@@ -12,6 +12,7 @@ import contactRoutes from "@/routes/contact.route.js";
 import errorMiddleware from "./middlewares/error.middleware.js";
 import multer from "multer";
 import { logger } from "./utils/logger.js";
+import uploadRoutes from "./routes/upload.route.js";
 
 // Swagger
 import swaggerUi from "swagger-ui-express";
@@ -19,7 +20,11 @@ import { generateOpenApiConfig } from "./docs/openapi.js";
 
 const app = express();
 
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  }),
+);
 app.use(
   cors({
     origin: [process.env.FRONTEND_URL || "http://localhost:8000"],
@@ -36,7 +41,6 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(multer().none());
 app.use(cookieParser());
 app.use(
   morgan("dev", {
@@ -46,6 +50,16 @@ app.use(
   }),
 );
 app.use(compression());
+
+// Fichiers statiques (pour les images uploadées)
+app.use("/uploads", express.static("public/uploads"));
+
+// Routes qui gèrent les fichiers doivent venir avant multer().none()
+app.use("/api/upload", uploadRoutes);
+
+// Pour les autres routes, on bloque les fichiers
+app.use(multer().none());
+
 app.use("/api/auth", authRoutes);
 app.use("/api/blog", blogRoutes);
 app.use("/api/services", serviceRoutes);

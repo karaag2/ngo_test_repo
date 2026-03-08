@@ -12,7 +12,6 @@ import {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:7000";
 
-// Utilitaire pour créer l'entête de cookies pour le backend
 async function getAuthHeaders() {
   const cookieStore = await cookies();
   const allCookies = cookieStore
@@ -27,7 +26,6 @@ export async function getServerAdminProfile(): Promise<AdminProfile | null> {
     const headers = await getAuthHeaders();
     const res = await fetch(`${API_URL}/api/auth/me`, {
       headers,
-      cache: "no-store", // Profil utilisateur dynamique, pas de cache
     });
     if (!res.ok) return null;
     const data = await res.json();

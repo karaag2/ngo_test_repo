@@ -37,7 +37,7 @@ const Cause = () => {
               <AlertCircle size={12} />
               Critique
             </div>
-            <h3 className="text-white text-3xl md:text-4xl font-black leading-tight">
+            <h3 className="text-white max-[380px]:text-2xl text-3xl md:text-4xl font-black leading-tight">
               40% des enfants <br />
               non scolarisés
             </h3>
@@ -81,8 +81,8 @@ const Cause = () => {
               Absence de Matériel
             </h3>
             <p className="text-sm text-muted-foreground">
-              Les fournitures de base — livres, pupitres, outils d'écriture —
-              font souvent cruellement défaut dans les classes rurales.
+              Les fournitures de base livres, pupitres, outils d'écriture font
+              souvent cruellement défaut dans les classes rurales.
             </p>
           </div>
           <div className="w-full md:w-1/2 h-48 relative rounded-2xl overflow-hidden shadow-inner">

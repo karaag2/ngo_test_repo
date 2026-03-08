@@ -34,7 +34,7 @@ export const fetchAllActivities = async (
 ): Promise<PaginatedResponse<Activity>> => {
   try {
     const res = await fetch(
-      `${API_URL}/api/blog/allPosts?page=${page}&limit=${limit}`,
+      `${API_URL}/api/blog/allPosts?page=${page}&limit=${limit}&adminView=true`,
       { credentials: "include" },
     );
     if (!res.ok) throw new Error("Erreur lors du chargement des activités");
@@ -45,6 +45,32 @@ export const fetchAllActivities = async (
     };
   } catch {
     return { data: [], meta: { total: 0, page: 1, limit: 10, totalPages: 1 } };
+  }
+};
+
+export const uploadImage = async (
+  file: File,
+): Promise<{ success: boolean; url?: string; message?: string }> => {
+  try {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const res = await fetch(`${API_URL}/api/upload/image`, {
+      method: "POST",
+      credentials: "include",
+      body: formData,
+    });
+
+    const json = await res.json();
+    if (!res.ok) {
+      return { success: false, message: json.message || "Erreur upload" };
+    }
+    return { success: true, url: json.url };
+  } catch {
+    return {
+      success: false,
+      message: "Impossible de joindre le serveur pour l'upload",
+    };
   }
 };
 

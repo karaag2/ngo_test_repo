@@ -11,12 +11,16 @@ import {
 import AppError from "@/utils/appError.js";
 import { BlogSchema } from "@/validators/blog.validators.js";
 import type { RequestWithUser } from "@/validators/auth.validator.js";
+import xss from "xss";
 
 export const getAllPostController = async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
 
-  const result = await getAllPostService(page, limit);
+  // Par défaut on ne renvoie que les publiés, sauf si explicitement demandé (via admin par ex)
+  const publishedOnly = req.query.adminView !== "true";
+
+  const result = await getAllPostService(page, limit, publishedOnly);
   return res.status(200).json({ message: "Opération réussie", ...result });
 };
 
@@ -49,7 +53,26 @@ export const addPostController = async (req: Request, res: Response) => {
     throw new AppError("Données invalides", 400);
   }
 
-  const newPost = await addPostService(adminId, result.data);
+  // Sanitization XSS
+  const sanitizedData = {
+    title: result.data.title ? xss(result.data.title) : result.data.title,
+    description: result.data.description
+      ? xss(result.data.description)
+      : result.data.description,
+    content: result.data.content
+      ? xss(result.data.content)
+      : result.data.content,
+    category: result.data.category
+      ? xss(result.data.category)
+      : result.data.category,
+    imageUrl: result.data.imageUrl
+      ? xss(result.data.imageUrl)
+      : result.data.imageUrl,
+    published: result.data.published,
+    slug: result.data.slug,
+  };
+
+  const newPost = await addPostService(adminId, sanitizedData);
   return res
     .status(201)
     .json({ message: "Post créé avec succès", Post: newPost });
@@ -69,7 +92,26 @@ export const updatePostController = async (req: Request, res: Response) => {
     throw new AppError("Données invalides", 400);
   }
 
-  const updatedPost = await updatePostService(adminId, id, result.data);
+  // Sanitization XSS
+  const sanitizedData = {
+    title: result.data.title ? xss(result.data.title) : result.data.title,
+    description: result.data.description
+      ? xss(result.data.description)
+      : result.data.description,
+    content: result.data.content
+      ? xss(result.data.content)
+      : result.data.content,
+    category: result.data.category
+      ? xss(result.data.category)
+      : result.data.category,
+    imageUrl: result.data.imageUrl
+      ? xss(result.data.imageUrl)
+      : result.data.imageUrl,
+    published: result.data.published,
+    slug: result.data.slug,
+  };
+
+  const updatedPost = await updatePostService(adminId, id, sanitizedData);
   return res
     .status(200)
     .json({ message: "Post mis à jour avec succès", Post: updatedPost });

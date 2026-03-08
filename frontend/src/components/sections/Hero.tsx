@@ -6,7 +6,7 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="relative -mt-20 h-screen lg:h-[90vh] min-h-[700px] max-h-[900px] overflow-hidden"
+      className="relative -mt-20 h-screen lg:h-[90vh] min-h-[700px] max-h-[900px] overflow-hidden  lg:px-12"
     >
       {/* Image d'Arrière Plan */}
       <div className="absolute inset-0 -z-20">
@@ -56,12 +56,12 @@ const Hero = () => {
           {/* Boutons */}
           <div className="flex flex-col min-[380px]:flex-row items-stretch min-[380px]:items-center gap-3 md:gap-4 pt-2 md:pt-4">
             <Link href={"/#donation"}>
-              <button className="px-7 py-3 md:px-8 md:py-3.5 rounded-full font-bold transition-all duration-500 active:scale-95 shadow-lg shadow-primary/15 bg-primary text-primary-foreground hover:shadow-primary/30 hover:-translate-y-1 text-sm uppercase tracking-wider">
+              <button className="cursor-pointer px-7 py-3 md:px-8 md:py-3.5 rounded-full font-bold transition-all duration-500 active:scale-95 shadow-lg shadow-primary/15 bg-primary text-primary-foreground hover:shadow-primary/30 hover:-translate-y-1 text-sm uppercase tracking-wider">
                 Faire un don
               </button>
             </Link>
             <Link href={"#mission"}>
-              <button className="px-7 py-3 md:px-8 md:py-3.5 rounded-full font-bold transition-all duration-500 active:scale-95 shadow-sm bg-card/40 backdrop-blur-xl border border-border/40 text-main hover:bg-card/80 text-sm uppercase tracking-wider">
+              <button className="cursor-pointer px-7 py-3 md:px-8 md:py-3.5 rounded-full font-bold transition-all duration-500 active:scale-95 shadow-sm bg-card/40 backdrop-blur-xl border border-border/40 text-main hover:bg-card/80 text-sm uppercase tracking-wider">
                 Notre mission
               </button>
             </Link>

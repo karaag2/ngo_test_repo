@@ -27,7 +27,7 @@ const Header = () => {
         <nav aria-label="Navigation principale">
           <NavigationMenu />
         </nav>
-        <Button className="hidden md:flex btn-premium bg-primary text-white shadow-primary/20 hover:shadow-primary/40 px-8 py-2 h-auto text-sm">
+        <Button className="hidden rounded-full md:flex btn-premium bg-primary text-white shadow-primary/20 hover:shadow-primary/40 px-8 py-2 h-auto text-sm">
           Participer
         </Button>
       </div>

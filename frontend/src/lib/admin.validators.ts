@@ -10,10 +10,12 @@ export const activitySchema = z.object({
     .string()
     .min(20, "La description doit faire au moins 20 caractères")
     .trim(),
+  content: z.string().optional(),
   category: z.string().min(1, "La catégorie est requise"),
   imageUrl: z
     .string()
     .url("L'URL de l'image est invalide (doit commencer par http/https)"),
+  published: z.boolean().default(true),
 });
 
 export type ActivityInput = z.infer<typeof activitySchema>;

@@ -12,7 +12,7 @@ const BlogPage = async () => {
   try {
     const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:7000";
     const res = await fetch(`${API_URL}/api/blog/allPosts`, {
-      next: { revalidate: 3600 },
+      next: { revalidate: 60 },
     });
     if (res.ok) {
       const data = await res.json();

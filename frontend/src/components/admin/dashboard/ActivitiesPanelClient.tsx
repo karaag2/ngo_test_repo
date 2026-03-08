@@ -12,18 +12,26 @@ import {
   Search,
   Image as ImageIcon,
   Loader2,
+  Edit,
 } from "lucide-react";
 import type { Activity } from "@/src/types/admin";
 import {
   createActivity,
+  updateActivity,
   deleteActivity,
   fetchAllActivities,
+  uploadImage,
 } from "@/src/services/admin.service";
 import type { PaginatedResponse } from "@/src/services/admin.service";
 import { Pagination } from "@/src/components/admin/dashboard/Pagination";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { activitySchema, ActivityInput } from "@/src/lib/admin.validators";
+import dynamic from "next/dynamic";
+import DOMPurify from "isomorphic-dompurify";
+import "react-quill-new/dist/quill.snow.css";
+
+const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
 
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
@@ -47,11 +55,14 @@ export default function ActivitiesPanelClient({
   const [showForm, setShowForm] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [serverError, setServerError] = useState("");
+  const [editingId, setEditingId] = useState<number | null>(null);
 
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<ActivityInput>({
     resolver: zodResolver(activitySchema),
@@ -60,17 +71,57 @@ export default function ActivitiesPanelClient({
       description: "",
       category: "",
       imageUrl: "",
+      published: true,
     },
   });
 
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploadingImage(true);
+    setServerError("");
+    const res = await uploadImage(file);
+    if (res.success && res.url) {
+      setValue("imageUrl", res.url, { shouldValidate: true });
+    } else {
+      setServerError(res.message || "Erreur lors de l'upload de l'image");
+    }
+    setIsUploadingImage(false);
+  };
+
   const onSubmit = async (data: ActivityInput) => {
     setServerError("");
-    const result = await createActivity(data);
+
+    let result;
+    if (editingId) {
+      result = await updateActivity(editingId, data);
+    } else {
+      result = await createActivity(data);
+    }
 
     if (result.success) {
       setShowForm(false);
-      reset();
+      setEditingId(null);
+      reset({
+        title: "",
+        description: "",
+        content: "",
+        category: "",
+        imageUrl: "",
+        published: true,
+      });
+
+      const fileInput = document.getElementById(
+        "imageUpload",
+      ) as HTMLInputElement;
+      if (fileInput) fileInput.value = "";
+
       router.refresh();
+      // On recharge la liste courante pour voir le nouvel update côté dashboard
+      fetchPage(page);
     } else {
       setServerError(result.message || "Erreur lors de la création");
     }
@@ -80,8 +131,23 @@ export default function ActivitiesPanelClient({
     if (!confirm("Voulez-vous vraiment supprimer cette activité ?")) return;
     const result = await deleteActivity(id);
     if (result.success) {
+      setEditingId(null);
       fetchPage(page);
     }
+  };
+
+  const handleEdit = (activity: Activity) => {
+    setEditingId(activity.id);
+    reset({
+      title: activity.title,
+      description: activity.description,
+      content: activity.content || "",
+      category: activity.category,
+      imageUrl: activity.imageUrl,
+      published: activity.published,
+    });
+    setServerError("");
+    setShowForm(true);
   };
 
   const fetchPage = async (newPage: number) => {
@@ -127,7 +193,24 @@ export default function ActivitiesPanelClient({
 
         {/* Bouton créer */}
         <button
-          onClick={() => setShowForm(!showForm)}
+          onClick={() => {
+            if (showForm) {
+              setEditingId(null);
+              reset({
+                title: "",
+                description: "",
+                content: "",
+                category: "",
+                imageUrl: "",
+                published: true,
+              });
+              const fileInput = document.getElementById(
+                "imageUpload",
+              ) as HTMLInputElement;
+              if (fileInput) fileInput.value = "";
+            }
+            setShowForm(!showForm);
+          }}
           className="flex items-center gap-x-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200 cursor-pointer shadow-sm"
         >
           {showForm ? (
@@ -158,7 +241,7 @@ export default function ActivitiesPanelClient({
             >
               <h3 className="text-sm font-bold text-main flex items-center gap-x-2">
                 <Plus className="w-4 h-4 text-primary" />
-                Créer une activité
+                {editingId ? "Modifier l'activité" : "Créer une activité"}
               </h3>
 
               {serverError && (
@@ -217,12 +300,12 @@ export default function ActivitiesPanelClient({
                   htmlFor="description"
                   className="text-xs font-semibold text-muted-foreground uppercase tracking-wider"
                 >
-                  Description *
+                  Description courte *
                 </label>
                 <textarea
                   id="description"
                   {...register("description")}
-                  placeholder="Description détaillée de l'activité..."
+                  placeholder="Description courte de l'activité..."
                   rows={3}
                   className={`w-full px-4 py-2.5 rounded-xl bg-background border ${errors.description ? "border-destructive" : "border-border"} text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none`}
                 />
@@ -233,26 +316,92 @@ export default function ActivitiesPanelClient({
                 )}
               </div>
 
+              <div className="space-y-1.5 flex flex-col">
+                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                  Contenu détaillé (HTML)
+                </label>
+                <div className="bg-background rounded-xl border border-border overflow-hidden [&_.ql-toolbar]:border-x-0 [&_.ql-toolbar]:border-t-0 [&_.ql-container]:border-none [&_.ql-editor]:min-h-[160px] focus-within:ring-2 focus-within:ring-primary/30 focus-within:border-primary/40 transition-all">
+                  <ReactQuill
+                    theme="snow"
+                    value={watch("content") || ""}
+                    onChange={(val) =>
+                      setValue("content", val, { shouldValidate: true })
+                    }
+                    placeholder="Rédigez le contenu complet de l'article ici..."
+                  />
+                </div>
+                {errors.content && (
+                  <p className="text-[10px] text-destructive font-medium">
+                    {errors.content.message}
+                  </p>
+                )}
+              </div>
+
               <div className="space-y-1.5">
                 <label
-                  htmlFor="imageUrl"
+                  htmlFor="imageUpload"
                   className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-x-1.5"
                 >
                   <ImageIcon className="w-3.5 h-3.5" />
-                  URL de l&apos;image *
+                  Image de l&apos;activité *
                 </label>
-                <input
-                  id="imageUrl"
-                  type="url"
-                  {...register("imageUrl")}
-                  placeholder="https://images.unsplash.com/..."
-                  className={`w-full px-4 py-2.5 rounded-xl bg-background border ${errors.imageUrl ? "border-destructive" : "border-border"} text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all`}
-                />
+                <div className="flex gap-4 items-start">
+                  <div className="flex-1">
+                    <input
+                      id="imageUpload"
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      disabled={isUploadingImage}
+                      className="w-full px-4 py-2.5 rounded-xl bg-background border border-border text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer disabled:opacity-50"
+                    />
+                  </div>
+                  {watch("imageUrl") ? (
+                    <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-border shadow-sm group">
+                      <img
+                        src={watch("imageUrl")}
+                        alt="Preview"
+                        className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                      />
+                    </div>
+                  ) : (
+                    <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-dashed border-border bg-accent/30 flex items-center justify-center">
+                      <ImageIcon className="w-5 h-5 text-muted-foreground/40" />
+                    </div>
+                  )}
+                </div>
+                <input type="hidden" {...register("imageUrl")} />
                 {errors.imageUrl && (
                   <p className="text-[10px] text-destructive font-medium">
                     {errors.imageUrl.message}
                   </p>
                 )}
+                {isUploadingImage && (
+                  <p className="text-xs text-primary font-medium animate-pulse mt-1">
+                    Upload en cours...
+                  </p>
+                )}
+              </div>
+
+              {/* Toggle Publication */}
+              <div className="flex items-center justify-between p-4 rounded-xl bg-accent/30 border border-border">
+                <div className="space-y-0.5">
+                  <p className="text-sm font-semibold text-main">
+                    Publier l&apos;article
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    L&apos;article sera visible par tous les visiteurs s&apos;il
+                    est publié.
+                  </p>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    {...register("published")}
+                    className="sr-only peer"
+                  />
+                  <div className="w-11 h-6 bg-muted-foreground/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                </label>
               </div>
 
               <div className="flex justify-end pt-2">
@@ -266,7 +415,11 @@ export default function ActivitiesPanelClient({
                   ) : (
                     <Send className="w-4 h-4" />
                   )}
-                  {isSubmitting ? "Création..." : "Publier"}
+                  {isSubmitting
+                    ? "Enregistrement..."
+                    : editingId
+                      ? "Enregistrer"
+                      : "Publier"}
                 </button>
               </div>
             </form>
@@ -319,7 +472,10 @@ export default function ActivitiesPanelClient({
                     {activity.title}
                   </p>
                   <p className="text-xs text-muted-foreground truncate mt-0.5">
-                    {activity.description}
+                    {DOMPurify.sanitize(activity.description).replace(
+                      /<[^>]+>/g,
+                      "",
+                    )}
                   </p>
                 </div>
 
@@ -354,7 +510,14 @@ export default function ActivitiesPanelClient({
                 </div>
 
                 {/* Actions */}
-                <div className="md:col-span-1 flex justify-end">
+                <div className="md:col-span-1 flex justify-end gap-x-2">
+                  <button
+                    onClick={() => handleEdit(activity)}
+                    className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200 cursor-pointer"
+                    title="Modifier"
+                  >
+                    <Edit className="w-4 h-4" />
+                  </button>
                   <button
                     onClick={() => handleDelete(activity.id)}
                     className="p-2 rounded-lg text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all duration-200 cursor-pointer"

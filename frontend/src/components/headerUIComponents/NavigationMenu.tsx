@@ -32,7 +32,7 @@ const NavigationMenu = () => {
         </ul>
       </div>
       {/* Menu mobile */}
-      <div className="block lg:hidden ">
+      <div className="block lg:hidden text">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="link">
@@ -50,12 +50,12 @@ const NavigationMenu = () => {
               </h3>
             </div>
             <nav className="grid flex-1 auto-rows-min gap-6 px-4">
-              <ul className="flex flex-col gap-y-4 justify-center items-start px-6">
+              <ul className="flex flex-col gap-y-4 justify-center items-start px-6 text-lg font-bold uppercase tracking-widest text-main/60">
                 {Sections.map((section) => (
                   <li key={section.href}>
                     <Link
                       href={section.href}
-                      className="text-xl font-black text-main hover:text-primary transition-colors"
+                      className="hover:text-primary transition-colors"
                     >
                       {section.label}
                     </Link>
@@ -66,7 +66,7 @@ const NavigationMenu = () => {
             <SheetFooter>
               <Button
                 type="submit"
-                className="bg-foreground text-background rounded-full"
+                className="bg-primary text-white/80  rounded-full"
               >
                 Faire un don
               </Button>
