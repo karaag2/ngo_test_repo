@@ -18,13 +18,13 @@ const router = Router();
 // ─── Routes publiques ────────────────────────────────
 router.post("/login", loginController);
 router.post("/check-2fa", check2FAController);
+router.post("/logout", logOutController);
 
 // ─── Routes protégées (authentification requise) ─────
 router.use(authMiddleware);
 
 router.post("/setup-2fa", set2faController);
 router.post("/confirm-setup-2fa", confirmSetup2FAController);
-router.post("/logout", logOutController);
 router.get("/me", getProfileController);
 router.patch("/me", updateProfileController);
 router.post("/change-password", changePasswordController);

@@ -15,10 +15,17 @@ export const activitySchema = z.object({
   imageUrl: z
     .string()
     .url("L'URL de l'image est invalide (doit commencer par http/https)"),
-  published: z.boolean().default(true),
+  published: z.boolean(),
 });
 
-export type ActivityInput = z.infer<typeof activitySchema>;
+export type ActivityInput = {
+  title: string;
+  description: string;
+  category: string;
+  imageUrl: string;
+  published: boolean;
+  content?: string;
+};
 
 export const serviceSchema = z.object({
   title: z

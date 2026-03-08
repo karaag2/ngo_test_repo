@@ -54,6 +54,8 @@ const authMiddleware = async (
     });
 
     if (!storedToken || storedToken.expiresAt < new Date()) {
+      res.clearCookie("accessToken");
+      res.clearCookie("refreshToken");
       return res.status(401).json({ message: "Session expirée" });
     }
 
@@ -74,6 +76,8 @@ const authMiddleware = async (
     return next();
   } catch {
     // Refresh token invalide ou expiré
+    res.clearCookie("accessToken");
+    res.clearCookie("refreshToken");
     return res.status(401).json({ message: "Session expirée ou invalide" });
   }
 };

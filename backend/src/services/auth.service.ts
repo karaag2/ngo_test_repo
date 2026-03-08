@@ -60,10 +60,8 @@ const loginUser = async (data: loginInput) => {
   });
 
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  await prisma.refreshToken.upsert({
-    where: { adminId: admin.id },
-    update: { token: refreshToken, expiresAt },
-    create: { adminId: admin.id, token: refreshToken, expiresAt },
+  await prisma.refreshToken.create({
+    data: { adminId: admin.id, token: refreshToken, expiresAt },
   });
 
   const adminSansMotDePasse = {
@@ -143,13 +141,8 @@ export const check2FAService = async (adminId: string, code: string) => {
     payload: { id: admin.id, email: admin.email, role: admin.role },
   });
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 jours
-  await prisma.refreshToken.upsert({
-    where: { adminId: admin.id },
-    update: {
-      token: refreshToken,
-      expiresAt: expiresAt,
-    },
-    create: {
+  await prisma.refreshToken.create({
+    data: {
       adminId: admin.id,
       token: refreshToken,
       expiresAt: expiresAt,

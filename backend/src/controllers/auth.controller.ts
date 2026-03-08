@@ -118,8 +118,14 @@ export const check2FAController = async (req: Request, res: Response) => {
 };
 
 export const logOutController = async (req: Request, res: Response) => {
-  const adminId = (req as RequestWithUser).user.id;
-  await logOut(adminId);
+  try {
+    const adminId = (req as RequestWithUser).user?.id;
+    if (adminId) {
+      await logOut(adminId);
+    }
+  } catch (error) {
+    // On ignore l'erreur si la session était déjà invalide
+  }
 
   res.clearCookie("accessToken", {
     httpOnly: true,
