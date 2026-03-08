@@ -20,6 +20,9 @@ import { generateOpenApiConfig } from "./docs/openapi.js";
 
 const app = express();
 
+// Faire confiance au proxy (Render, Vercel, etc.) pour avoir le bon protocole (https)
+app.set("trust proxy", 1);
+
 app.use(
   helmet({
     crossOriginResourcePolicy: { policy: "cross-origin" },
