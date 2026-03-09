@@ -1,9 +1,5 @@
-"use client";
-
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { m } from "framer-motion";
 import { BlogPost } from "@/src/types/blog";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 
@@ -14,15 +10,8 @@ interface BlogListProps {
 export const BlogList = ({ posts }: BlogListProps) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-      {posts.map((post, index) => (
-        <m.div
-          key={post.id}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: index * 0.1 }}
-          className="group"
-        >
+      {posts.map((post) => (
+        <div key={post.id} className="group">
           <Link href={`/blog/${post.slug}`} className="block">
             <div className="relative aspect-video rounded-3xl overflow-hidden mb-6 shadow-premium border border-border/50 group-hover:border-primary/30 transition-all duration-500">
               <Image
@@ -65,7 +54,7 @@ export const BlogList = ({ posts }: BlogListProps) => {
               </div>
             </div>
           </Link>
-        </m.div>
+        </div>
       ))}
     </div>
   );

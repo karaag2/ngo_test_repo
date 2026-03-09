@@ -1,8 +1,5 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { m } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
 const activities = [
@@ -59,76 +56,48 @@ const Gallery = () => {
           nos déploiements sur le terrain.
         </p>
       </div>
-      {/*Grille d'activités */}
+      {/*Grille d'activités  */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6 auto-rows-[250px]">
         {activities.map((activity, index) => (
-          <m.div
+          <div
             key={index}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            whileHover="hover"
-            transition={{ delay: index * 0.1 }}
-            className={`relative rounded-4xl overflow-hidden shadow-premium border border-border/50 cursor-pointer ${activity.className}`}
+            className={`gallery-card relative rounded-4xl overflow-hidden shadow-premium border border-border/50 cursor-pointer ${activity.className}`}
+            style={{ animationDelay: `${index * 100}ms` }}
           >
             <Link
               href={`/blog/${activity.title.toLowerCase().replace(/ /g, "-").replace(/'/g, "").replace(/é/g, "e").replace(/à/g, "a")}`}
               className="block w-full h-full relative"
             >
-              {/* Image d'arrière-plan animée */}
-              <m.div
-                className="absolute inset-0 w-full h-full"
-                variants={{
-                  hover: { scale: 1.1 },
-                }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-              >
+              {/* Image d'arrière-plan */}
+              <div className="absolute inset-0 w-full h-full transition-transform duration-600 ease-out hover-parent-scale">
                 <Image
                   src={activity.image}
                   alt={activity.title}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   className="object-cover"
+                  loading="lazy"
                 />
-              </m.div>
+              </div>
 
-              {/* Overlay Gradient animé */}
-              <m.div
-                className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent"
-                variants={{
-                  hover: { opacity: 0.9 },
-                }}
-                initial={{ opacity: 0.6 }}
-                transition={{ duration: 0.3 }}
-              />
+              {/* Overlay Gradient */}
+              <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent opacity-60 transition-opacity duration-300" />
 
-              {/* Contenu textuel animé */}
-              <m.div
-                className="absolute inset-0 p-8 flex flex-col justify-end"
-                variants={{
-                  hover: { y: 0, opacity: 1 },
-                }}
-                initial={{ y: 15, opacity: 0.9 }}
-                transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              >
+              {/* Contenu textuel */}
+              <div className="absolute inset-0 p-8 flex flex-col justify-end translate-y-2 opacity-90 transition-all duration-300">
                 <span className="text-primary text-[10px] font-black uppercase tracking-widest bg-primary/10 backdrop-blur-md px-3 py-1 rounded-full w-fit mb-2 border border-primary/20">
                   {activity.category}
                 </span>
                 <h3 className="text-white text-xl md:text-2xl font-black italic leading-tight">
                   {activity.title}
                 </h3>
-              </m.div>
+              </div>
             </Link>
-          </m.div>
+          </div>
         ))}
       </div>
       {/*Bouton Voir tous les articles */}
-      <m.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="mt-16 text-center"
-      >
+      <div className="mt-16 text-center">
         <Link
           href="/blog"
           className="inline-flex items-center gap-x-2 bg-primary text-white px-10 py-4 rounded-full font-black uppercase tracking-[0.2em] text-xs shadow-premium hover:shadow-primary/40 hover:-translate-y-1 transition-all group"
@@ -136,7 +105,7 @@ const Gallery = () => {
           Voir tous nos articles
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </Link>
-      </m.div>
+      </div>
     </section>
   );
 };

@@ -126,11 +126,51 @@
       opacity: 0.5;
     }
   }
+
+  /* GlobalLoader keyframes (replaces framer-motion) */
+  @keyframes loader-logo {
+    0%,
+    100% {
+      transform: scale(1) rotate(0deg);
+      opacity: 1;
+    }
+    25% {
+      transform: scale(1.1) rotate(5deg);
+    }
+    50% {
+      transform: scale(1) rotate(-5deg);
+    }
+    75% {
+      transform: scale(1.1) rotate(0deg);
+    }
+  }
+
+  @keyframes loader-text {
+    0%,
+    100% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes loader-bar {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
   /* Stat Card Harmony */
   .statCard {
-    @apply flex flex-col items-center justify-center gap-y-2 p-8 rounded-2xl backdrop-blur-sm border border-border shadow-premium hover:scale-[1.02] transition-transform duration-300;
+    @apply flex flex-col items-center justify-center gap-y-2 p-8 rounded-2xl backdrop-blur-sm border border-border shadow-premium transition-transform duration-300;
     background-color: color-mix(in oklch, var(--card), transparent 50%);
-    will-change: transform;
+
+    &:hover {
+      transform: scale(1.02);
+    }
 
     &.dark,
     .dark & {
@@ -154,7 +194,6 @@
   .missionCard {
     @apply flex items-start gap-x-6 p-6 rounded-2xl backdrop-blur-sm border border-transparent hover:border-border transition-all duration-300;
     background-color: color-mix(in oklch, var(--card), transparent 50%);
-    will-change: transform, border-color;
 
     &:hover {
       background-color: var(--card);
@@ -197,7 +236,18 @@
 
 .ShadowDropped {
   filter: drop-shadow(0 20px 40px oklch(0.65 0.22 230 / 20%));
-  will-change: filter;
+}
+
+/* Gallery card CSS-only hover animations (replaces Framer Motion) */
+.gallery-card:hover .hover-parent-scale {
+  transform: scale(1.1);
+}
+.gallery-card:hover > a > div:nth-child(2) {
+  opacity: 0.9;
+}
+.gallery-card:hover > a > div:nth-child(3) {
+  transform: translateY(0);
+  opacity: 1;
 }
 
 ::-webkit-scrollbar {

@@ -1,11 +1,42 @@
 import Hero from "@/src/components/sections/Hero";
 import Cause from "@/src/components/sections/Cause";
 import Stats from "@/src/components/sections/Stats";
-import Map from "@/src/components/sections/MapSection";
-import Donation from "@/src/components/sections/Donation";
-import Temoignages from "@/src/components/sections/Temoignages";
-import Gallery from "@/src/components/sections/Gallery";
 import Contact from "@/src/components/sections/Contact";
+import dynamic from "next/dynamic";
+
+/* ── Below-the-fold sections : lazy-loaded to cut TBT ── */
+const Map = dynamic(() => import("@/src/components/sections/MapSection"), {
+  loading: () => (
+    <section className="container mx-auto px-6 py-24 min-h-[600px]" />
+  ),
+});
+
+const Gallery = dynamic(() => import("@/src/components/sections/Gallery"), {
+  loading: () => (
+    <section className="container mx-auto px-6 py-24 min-h-[600px]" />
+  ),
+});
+
+const Donation = dynamic(() => import("@/src/components/sections/Donation"), {
+  loading: () => (
+    <section className="container mx-auto px-6 py-24 min-h-[400px]" />
+  ),
+});
+
+const Temoignages = dynamic(
+  () => import("@/src/components/sections/Temoignages"),
+  {
+    loading: () => (
+      <section className="container mx-auto px-6 py-24 min-h-[400px]" />
+    ),
+  },
+);
+
+// const Contact = dynamic(() => import("@/src/components/sections/Contact"), {
+//   loading: () => (
+//     <section className="container mx-auto px-6 py-20 min-h-[500px]" />
+//   ),
+// });
 
 const page = () => {
   return (

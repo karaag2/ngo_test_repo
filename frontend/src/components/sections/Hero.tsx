@@ -79,8 +79,9 @@ const Hero = () => {
                     src={`https://i.pravatar.cc/150?u=ngo${item}`}
                     alt="Donateur"
                     fill
-                    sizes="(max-width: 768px) 40px, 48px"
+                    sizes="48px"
                     className="object-cover"
+                    loading="lazy"
                   />
                 </div>
               ))}

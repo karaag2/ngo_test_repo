@@ -30,10 +30,11 @@ const Cause = () => {
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover transition-transform duration-700 group-hover:scale-110"
+            loading="lazy"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent" />
           <div className="absolute bottom-0 left-0 p-8 space-y-4">
-            <div className="flex items-center gap-2 bg-destructive text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest w-fit animate-pulse">
+            <div className="flex items-center gap-2 bg-destructive text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest w-fit animate-[pulse_2s_ease-in-out_infinite]">
               <AlertCircle size={12} />
               Critique
             </div>
@@ -92,6 +93,7 @@ const Cause = () => {
               fill
               sizes="(max-width: 768px) 100vw, 25vw"
               className="object-cover"
+              loading="lazy"
             />
           </div>
         </div>

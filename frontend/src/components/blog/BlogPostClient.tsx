@@ -1,7 +1,5 @@
-"use client";
 import Image from "next/image";
 import Link from "next/link";
-import { m } from "framer-motion";
 import { BlogPost } from "@/src/types/blog";
 import {
   Calendar,
@@ -10,8 +8,6 @@ import {
   ArrowLeft,
   Share2,
   Bookmark,
-  ShieldCheck,
-  MessageSquare,
 } from "lucide-react";
 
 interface BlogPostClientProps {
@@ -32,11 +28,7 @@ export const BlogPostClient = ({ post, relatedPosts }: BlogPostClientProps) => {
           Retour au journal
         </Link>
 
-        <m.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="max-w-4xl"
-        >
+        <div className="max-w-4xl">
           <span className="text-primary text-[10px] font-black uppercase tracking-[0.3em] bg-primary/10 backdrop-blur-md px-4 py-2 rounded-full w-fit mb-6 inline-block border border-primary/20">
             {post.category}
           </span>
@@ -60,17 +52,12 @@ export const BlogPostClient = ({ post, relatedPosts }: BlogPostClientProps) => {
               {post.readTime} de lecture
             </div>
           </div>
-        </m.div>
+        </div>
       </div>
 
       {/* Featured Image */}
       <div className="container mx-auto px-6 mb-16">
-        <m.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          className="relative aspect-21/9 rounded-4xl overflow-hidden shadow-2xl border border-border/50"
-        >
+        <div className="relative aspect-21/9 rounded-4xl overflow-hidden shadow-2xl border border-border/50">
           <Image
             src={post.imageUrl}
             alt={post.title}
@@ -79,7 +66,7 @@ export const BlogPostClient = ({ post, relatedPosts }: BlogPostClientProps) => {
             className="object-cover"
             priority
           />
-        </m.div>
+        </div>
       </div>
 
       {/* Content Section */}
