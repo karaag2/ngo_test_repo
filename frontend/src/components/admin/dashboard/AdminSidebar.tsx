@@ -125,7 +125,7 @@ export default function AdminSidebar() {
       </aside>
 
       {/* ── Bottom Nav Mobile ──────────────────────────── */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-t border-border flex items-center justify-around px-2 py-2 safe-area-bottom">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-t border-border flex items-center justify-around px-1 pt-1.5 pb-[max(0.375rem,env(safe-area-inset-bottom))]">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive =
@@ -133,29 +133,34 @@ export default function AdminSidebar() {
               ? pathname === item.href
               : pathname.startsWith(item.href);
 
+          // Labels courts pour le mobile
+          const mobileLabel = item.id === "overview" ? "Accueil" : item.label;
+
           return (
             <Link
               href={item.href}
               key={item.id}
               className={cn(
-                "flex flex-col items-center gap-y-0.5 px-3 py-1.5 rounded-xl transition-all duration-200 cursor-pointer",
+                "flex flex-col items-center justify-center gap-y-0.5 min-w-[48px] min-h-[44px] px-1.5 py-1.5 rounded-xl transition-all duration-200 cursor-pointer",
                 isActive
                   ? "text-primary"
                   : "text-muted-foreground hover:text-main",
               )}
             >
-              <Icon className="w-5 h-5" />
-              <span className="text-[10px] font-medium">{item.label}</span>
+              <Icon className="w-5 h-5 shrink-0" />
+              <span className="text-[9px] font-medium leading-tight truncate max-w-[56px] text-center">
+                {mobileLabel}
+              </span>
             </Link>
           );
         })}
 
         <button
           onClick={handleLogout}
-          className="flex flex-col items-center gap-y-0.5 px-3 py-1.5 rounded-xl transition-all duration-200 cursor-pointer text-destructive hover:bg-destructive/10"
+          className="flex flex-col items-center justify-center gap-y-0.5 min-w-[48px] min-h-[44px] px-1.5 py-1.5 rounded-xl transition-all duration-200 cursor-pointer text-destructive hover:bg-destructive/10"
         >
-          <LogOut className="w-5 h-5" />
-          <span className="text-[10px] font-medium">Quitter</span>
+          <LogOut className="w-5 h-5 shrink-0" />
+          <span className="text-[9px] font-medium leading-tight">Quitter</span>
         </button>
       </nav>
     </>

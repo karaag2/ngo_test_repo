@@ -1,7 +1,6 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { m, AnimatePresence } from "framer-motion";
 import {
   GraduationCap,
   Briefcase,
@@ -30,23 +29,6 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { serviceSchema, ServiceInput } from "@/src/lib/admin.validators";
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.3, ease: "easeOut" as const },
-  },
-};
-
-const stagger = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
-  },
-};
 
 // Map d'icônes limitées pour les services
 const iconMap: Record<string, React.ElementType> = {
@@ -151,17 +133,9 @@ export default function ServicesPanelClient({
   );
 
   return (
-    <m.div
-      initial="hidden"
-      animate="visible"
-      variants={stagger}
-      className="space-y-5"
-    >
+    <div className="space-y-5 animate-in fade-in duration-500">
       {/* ── En-tête ──────────────────────────────────── */}
-      <m.div
-        variants={fadeUp}
-        className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
-      >
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
           <h3 className="text-sm font-bold text-main flex items-center gap-x-2">
             <Settings2 className="w-4 h-4 text-primary" />
@@ -209,148 +183,141 @@ export default function ServicesPanelClient({
             )}
           </button>
         </div>
-      </m.div>
+      </div>
 
-      <AnimatePresence>
-        {showForm && (
-          <m.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden"
+      {showForm && (
+        <div className="animate-in fade-in slide-in-from-top-2 duration-300 overflow-hidden">
+          <form
+            onSubmit={handleSubmit(onSubmit as any)}
+            className="rounded-2xl border border-primary/20 bg-card p-4 md:p-6 space-y-4 shadow-sm mb-2"
           >
-            <form
-              onSubmit={handleSubmit(onSubmit as any)}
-              className="rounded-2xl border border-primary/20 bg-card p-6 space-y-4 shadow-sm mb-2"
-            >
-              <h3 className="text-sm font-bold text-main flex items-center gap-x-2">
-                {editingId ? (
-                  <>
-                    <Pencil className="w-4 h-4 text-primary" />
-                    Modifier le service
-                  </>
-                ) : (
-                  <>
-                    <Plus className="w-4 h-4 text-primary" />
-                    Nouveau service
-                  </>
-                )}
-              </h3>
-
-              {serverError && (
-                <div className="flex items-center gap-x-2 px-4 py-2.5 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs">
-                  <AlertCircle className="w-4 h-4 shrink-0" />
-                  {serverError}
-                </div>
+            <h3 className="text-sm font-bold text-main flex items-center gap-x-2">
+              {editingId ? (
+                <>
+                  <Pencil className="w-4 h-4 text-primary" />
+                  Modifier le service
+                </>
+              ) : (
+                <>
+                  <Plus className="w-4 h-4 text-primary" />
+                  Nouveau service
+                </>
               )}
+            </h3>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1.5 flex-1">
-                  <label
-                    htmlFor="title"
-                    className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider"
-                  >
-                    Titre du service *
-                  </label>
-                  <input
-                    id="title"
-                    type="text"
-                    {...register("title")}
-                    placeholder="Ex: Formation des jeunes"
-                    className={`w-full px-4 py-2.5 rounded-xl bg-background border ${errors.title ? "border-destructive" : "border-border"} text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all`}
-                  />
-                  {errors.title && (
-                    <p className="text-[10px] text-destructive font-medium">
-                      {errors.title.message}
-                    </p>
-                  )}
-                </div>
-
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="space-y-1.5">
-                    <label
-                      htmlFor="icon"
-                      className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider"
-                    >
-                      Icône
-                    </label>
-                    <div className="relative">
-                      <select
-                        id="icon"
-                        {...register("icon")}
-                        className="w-full px-4 py-2.5 rounded-xl bg-background border border-border text-sm text-main appearance-none focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
-                      >
-                        {iconOptions.map((iconName) => (
-                          <option key={iconName} value={iconName}>
-                            {iconName}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label
-                      htmlFor="order"
-                      className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider"
-                    >
-                      Ordre d'affichage
-                    </label>
-                    <input
-                      id="order"
-                      type="number"
-                      min={0}
-                      {...register("order", { valueAsNumber: true })}
-                      className={`w-full px-4 py-2.5 rounded-xl bg-background border ${errors.order ? "border-destructive" : "border-border"} text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all`}
-                    />
-                    {errors.order && (
-                      <p className="text-[10px] text-destructive font-medium">
-                        {errors.order.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
+            {serverError && (
+              <div className="flex items-center gap-x-2 px-4 py-2.5 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                {serverError}
               </div>
+            )}
 
-              <div className="space-y-1.5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-1.5 flex-1">
                 <label
-                  htmlFor="description"
+                  htmlFor="title"
                   className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider"
                 >
-                  Description *
+                  Titre du service *
                 </label>
-                <textarea
-                  id="description"
-                  {...register("description")}
-                  placeholder="Détails du service..."
-                  rows={3}
-                  className={`w-full px-4 py-2.5 rounded-xl bg-background border ${errors.description ? "border-destructive" : "border-border"} text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none`}
+                <input
+                  id="title"
+                  type="text"
+                  {...register("title")}
+                  placeholder="Ex: Formation des jeunes"
+                  className={`w-full px-4 py-2.5 rounded-xl bg-background border ${errors.title ? "border-destructive" : "border-border"} text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all`}
                 />
-                {errors.description && (
+                {errors.title && (
                   <p className="text-[10px] text-destructive font-medium">
-                    {errors.description.message}
+                    {errors.title.message}
                   </p>
                 )}
               </div>
 
-              <div className="flex justify-end pt-2">
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="flex items-center gap-x-2 px-6 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                >
-                  {isSubmitting ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Send className="w-4 h-4" />
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="icon"
+                    className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider"
+                  >
+                    Icône
+                  </label>
+                  <div className="relative">
+                    <select
+                      id="icon"
+                      {...register("icon")}
+                      className="w-full px-4 py-2.5 rounded-xl bg-background border border-border text-sm text-main appearance-none focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
+                    >
+                      {iconOptions.map((iconName) => (
+                        <option key={iconName} value={iconName}>
+                          {iconName}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="order"
+                    className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider"
+                  >
+                    Ordre d'affichage
+                  </label>
+                  <input
+                    id="order"
+                    type="number"
+                    min={0}
+                    {...register("order", { valueAsNumber: true })}
+                    className={`w-full px-4 py-2.5 rounded-xl bg-background border ${errors.order ? "border-destructive" : "border-border"} text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all`}
+                  />
+                  {errors.order && (
+                    <p className="text-[10px] text-destructive font-medium">
+                      {errors.order.message}
+                    </p>
                   )}
-                  {isSubmitting ? "Enregistrement..." : "Enregistrer"}
-                </button>
+                </div>
               </div>
-            </form>
-          </m.div>
-        )}
-      </AnimatePresence>
+            </div>
+
+            <div className="space-y-1.5">
+              <label
+                htmlFor="description"
+                className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider"
+              >
+                Description *
+              </label>
+              <textarea
+                id="description"
+                {...register("description")}
+                placeholder="Détails du service..."
+                rows={3}
+                className={`w-full px-4 py-2.5 rounded-xl bg-background border ${errors.description ? "border-destructive" : "border-border"} text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none`}
+              />
+              {errors.description && (
+                <p className="text-[10px] text-destructive font-medium">
+                  {errors.description.message}
+                </p>
+              )}
+            </div>
+
+            <div className="flex justify-end pt-2">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="flex items-center gap-x-2 px-6 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              >
+                {isSubmitting ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Send className="w-4 h-4" />
+                )}
+                {isSubmitting ? "Enregistrement..." : "Enregistrer"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       <div className="space-y-3">
         {!filtered || filtered.length === 0 ? (
@@ -361,10 +328,9 @@ export default function ServicesPanelClient({
           filtered.map((service) => {
             const Icon = iconMap[service.icon || "Settings2"] || Settings2;
             return (
-              <m.div
+              <div
                 key={service.id}
-                variants={fadeUp}
-                className="group flex flex-col sm:flex-row sm:items-center gap-4 p-5 rounded-2xl border border-border bg-card hover:shadow-premium hover:border-primary/15 transition-all duration-300 relative"
+                className="group flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 p-4 sm:p-5 rounded-2xl border border-border bg-card hover:shadow-premium hover:border-primary/15 transition-all duration-300 relative"
               >
                 {/* Icône */}
                 <div className="flex items-center gap-x-4">
@@ -403,7 +369,7 @@ export default function ServicesPanelClient({
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
-              </m.div>
+              </div>
             );
           })
         )}
@@ -422,6 +388,6 @@ export default function ServicesPanelClient({
           )}
         </div>
       </div>
-    </m.div>
+    </div>
   );
 }

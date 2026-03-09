@@ -4,7 +4,15 @@ import React, { useState } from "react";
 import { Button } from "@/src/components/ui/button";
 import { Input } from "@/src/components/ui/input";
 import { Label } from "@/src/components/ui/label";
-import { Mail, Phone, MapPin, Send, ShieldCheck, Loader2 } from "lucide-react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Send,
+  ShieldCheck,
+  Loader2,
+  AlertCircle,
+} from "lucide-react";
 import { submitPublicContact } from "@/src/services/admin.service";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -140,11 +148,26 @@ const Contact = () => {
           <div className="lg:col-span-8 order-1 lg:order-2">
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="p-8 md:p-10 rounded-[3rem] bg-card border border-border shadow-premium relative overflow-hidden group/form"
+              className="p-8 md:p-10 rounded-[3rem] bg-card border border-border shadow-premium relative overflow-hidden group/form flex flex-col gap-y-6"
             >
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl group-hover/form:bg-primary/10 transition-colors duration-500" />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+              {/* Bannières de feedback */}
+              {status === "success" && (
+                <div className="flex items-start gap-3 p-4 rounded-2xl bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 text-sm font-semibold animate-in fade-in slide-in-from-top-2 duration-300 relative z-10">
+                  <ShieldCheck className="w-5 h-5 shrink-0 mt-0.5" />
+                  <p>{serverMessage}</p>
+                </div>
+              )}
+
+              {status === "error" && (
+                <div className="flex items-start gap-3 p-4 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-semibold animate-in fade-in slide-in-from-top-2 duration-300 relative z-10">
+                  <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+                  <p>{serverMessage}</p>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
                 <div className="space-y-2">
                   <Label
                     htmlFor="firstName"
@@ -187,7 +210,7 @@ const Contact = () => {
                 </div>
               </div>
 
-              <div className="space-y-2 mb-6">
+              <div className="space-y-2 relative z-10">
                 <Label
                   htmlFor="email"
                   className="text-[10px] uppercase font-black tracking-widest text-main/60 px-2"
@@ -212,7 +235,7 @@ const Contact = () => {
                 )}
               </div>
 
-              <div className="space-y-2 mb-8">
+              <div className="space-y-2 relative z-10">
                 <Label
                   htmlFor="message"
                   className="text-[10px] uppercase font-black tracking-widest text-main/60 px-2"
@@ -234,14 +257,22 @@ const Contact = () => {
                 )}
               </div>
 
-              <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="flex flex-col md:flex-row items-center gap-6 pt-2 relative z-10">
                 <Button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="w-full md:w-auto min-w-[200px] h-14 rounded-2xl bg-primary text-white font-black uppercase tracking-widest text-xs hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-0.5 transition-all group"
+                  disabled={isSubmitting || status === "success"}
+                  className="w-full md:w-auto min-w-[200px] h-14 rounded-2xl bg-primary text-white font-black uppercase tracking-widest text-xs hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-0.5 transition-all group disabled:opacity-50 disabled:shadow-none disabled:transform-none"
                 >
                   {isSubmitting ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Envoi en cours...
+                    </>
+                  ) : status === "success" ? (
+                    <>
+                      <ShieldCheck className="w-4 h-4 mr-2" />
+                      Message envoyé
+                    </>
                   ) : (
                     <>
                       Envoyer le message

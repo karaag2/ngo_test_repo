@@ -5,10 +5,9 @@
  *
  * Panneau principal du dashboard : statistiques globales,
  * activités récentes, et aperçu rapide des messages.
- * Utilise framer-motion pour les animations d'entrée.
+ * Utilise des animations CSS pour les transitions d'entrée.
  */
 
-import { m } from "framer-motion";
 import {
   FileText,
   Settings2,
@@ -21,24 +20,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import type { Activity, ContactMessage, AdminProfile } from "@/src/types/admin";
-
-// ─── Animations ───────────────────────────────────────
-const stagger = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
-  },
-};
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.35, ease: "easeOut" as const },
-  },
-};
 
 // ─── Composant carte stat ─────────────────────────────
 function StatCard({
@@ -55,10 +36,7 @@ function StatCard({
   subtitle?: string;
 }) {
   return (
-    <m.div
-      variants={fadeUp}
-      className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:shadow-premium hover:border-primary/20"
-    >
+    <div className="group relative overflow-hidden rounded-2xl border border-border bg-card p-6 transition-all hover:shadow-premium hover:border-primary/20 animate-in fade-in slide-in-from-bottom-4 duration-500">
       {/* Glow décoratif en arrière-plan */}
       <div
         className="absolute -top-8 -right-8 w-24 h-24 rounded-full opacity-10 blur-2xl transition-opacity duration-500 group-hover:opacity-20"
@@ -70,7 +48,7 @@ function StatCard({
           <p className="text-xs uppercase tracking-[0.15em] font-semibold text-muted-foreground mb-2">
             {label}
           </p>
-          <p className="text-3xl font-black text-main tracking-tight">
+          <p className="text-2xl md:text-3xl font-black text-main tracking-tight">
             {value}
           </p>
           {subtitle && (
@@ -87,7 +65,7 @@ function StatCard({
           <Icon className="w-5 h-5" style={{ color }} />
         </div>
       </div>
-    </m.div>
+    </div>
   );
 }
 
@@ -108,17 +86,9 @@ export default function OverviewPanelClient({
   const unreadCount = contacts.filter((c) => !c.read).length;
 
   return (
-    <m.div
-      variants={stagger}
-      initial="hidden"
-      animate="visible"
-      className="space-y-6"
-    >
+    <div className="space-y-6">
       {/* ── Cartes statistiques ──────────────────────── */}
-      <m.div
-        variants={stagger}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
-      >
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           label="Activités"
           value={activities.length}
@@ -146,26 +116,23 @@ export default function OverviewPanelClient({
           color="var(--destructive)"
           subtitle="À traiter"
         />
-      </m.div>
+      </div>
 
       {/* ── Actions Super Admin ──────────────────────── */}
       {adminProfile?.role === "SUPER_ADMIN" && (
-        <m.div variants={fadeUp} className="flex justify-end gap-x-4">
+        <div className="flex justify-end animate-in fade-in slide-in-from-right-4 duration-500 delay-150">
           <Link
             href="/admin/dashboard/create-admin"
-            className="flex items-center gap-x-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 transition-all duration-200 shadow-sm cursor-pointer"
+            className="flex items-center justify-center gap-x-2 px-4 md:px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-xs md:text-sm font-semibold hover:opacity-90 transition-all duration-200 shadow-sm cursor-pointer w-full sm:w-auto"
           >
-            <UserPlus className="w-4 h-4" />
-            Créer un administrateur
+            <UserPlus className="w-4 h-4 shrink-0" />
+            <span className="truncate">Créer un administrateur</span>
           </Link>
-        </m.div>
+        </div>
       )}
 
       {/* ── Activités récentes ────────────────────────── */}
-      <m.div
-        variants={fadeUp}
-        className="rounded-2xl border border-border bg-card overflow-hidden"
-      >
+      <div className="rounded-2xl border border-border bg-card overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 delay-200">
         <div className="flex items-center justify-between px-6 py-4 border-b border-border">
           <h3 className="text-sm font-bold text-main flex items-center gap-x-2">
             <Clock className="w-4 h-4 text-primary" />
@@ -222,13 +189,10 @@ export default function OverviewPanelClient({
             ))}
           </div>
         )}
-      </m.div>
+      </div>
 
       {/* ── Messages récents ─────────────────────────── */}
-      <m.div
-        variants={fadeUp}
-        className="rounded-2xl border border-border bg-card overflow-hidden"
-      >
+      <div className="rounded-2xl border border-border bg-card overflow-hidden animate-in fade-in slide-in-from-bottom-4 duration-500 delay-300">
         <div className="flex items-center justify-between px-6 py-4 border-b border-border">
           <h3 className="text-sm font-bold text-main flex items-center gap-x-2">
             <Mail className="w-4 h-4 text-primary" />
@@ -278,7 +242,7 @@ export default function OverviewPanelClient({
             </div>
           ))}
         </div>
-      </m.div>
-    </m.div>
+      </div>
+    </div>
   );
 }

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { m } from "framer-motion";
 import {
   ArrowLeft,
   UserPlus,
@@ -79,21 +78,22 @@ export default function CreateAdminClient() {
       </div>
 
       <div className="flex flex-col gap-y-6">
-        {errorMsg && (
-          <div className="bg-destructive/10 text-destructive border-l-4 border-destructive p-4 rounded-xl flex items-center gap-3">
-            <AlertCircle className="w-5 h-5" />
-            <p className="text-sm font-medium">{errorMsg}</p>
-          </div>
-        )}
-        {successMsg && (
-          <div className="bg-growth/10 text-growth border-l-4 border-growth p-4 rounded-xl flex items-center gap-3">
-            <CheckCircle2 className="w-5 h-5" />
-            <p className="text-sm font-medium">{successMsg}</p>
-          </div>
-        )}
-
-        <div className="bg-card border border-border/40 rounded-[2rem] p-6 md:p-8 flex flex-col gap-y-6 shadow-premium relative overflow-hidden">
+        <div className="bg-card border border-border/40 rounded-4xl p-6 md:p-8 flex flex-col gap-y-6 shadow-premium relative overflow-hidden">
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+
+          {/* Feedback messages inside the card */}
+          {errorMsg && (
+            <div className="bg-destructive/10 text-destructive border-l-4 border-destructive p-4 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300 relative z-10">
+              <AlertCircle className="w-5 h-5 shrink-0" />
+              <p className="text-sm font-medium">{errorMsg}</p>
+            </div>
+          )}
+          {successMsg && (
+            <div className="bg-green-500/10 text-green-600 dark:text-green-400 border-l-4 border-green-500/40 p-4 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300 relative z-10">
+              <CheckCircle2 className="w-5 h-5 shrink-0" />
+              <p className="text-sm font-bold">{successMsg}</p>
+            </div>
+          )}
 
           <form
             className="relative z-10 space-y-5"
@@ -154,12 +154,17 @@ export default function CreateAdminClient() {
               <Button
                 type="submit"
                 disabled={isSubmitting || !!successMsg}
-                className="bg-primary hover:bg-primary/90 text-white rounded-xl h-12 px-6 font-semibold flex items-center gap-2 transition-all shadow-md hover:shadow-lg disabled:opacity-50"
+                className="bg-primary hover:bg-primary/90 text-white rounded-xl h-12 px-6 font-semibold flex items-center gap-2 transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:shadow-none"
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Création...
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Création en cours...
+                  </>
+                ) : !!successMsg ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    Redirection...
                   </>
                 ) : (
                   <>

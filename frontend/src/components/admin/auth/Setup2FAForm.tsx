@@ -87,8 +87,10 @@ export const Setup2FAForm = () => {
         }, 1500);
       } else {
         setErrorMsg(res.message || "Code invalide");
+        setIsPending(false);
       }
-    } finally {
+    } catch (e: any) {
+      setErrorMsg(e.message || "Une erreur inattendue est survenue.");
       setIsPending(false);
     }
   };
@@ -111,19 +113,6 @@ export const Setup2FAForm = () => {
       </div>
 
       <div className="flex flex-col gap-y-6">
-        {errorMsg && (
-          <div className="bg-destructive/10 text-destructive border-l-4 border-destructive p-4 rounded-xl flex items-center gap-3">
-            <AlertCircle className="w-5 h-5" />
-            <p className="text-sm font-medium">{errorMsg}</p>
-          </div>
-        )}
-        {successMsg && (
-          <div className="bg-growth/10 text-growth border-l-4 border-growth p-4 rounded-xl flex items-center gap-3">
-            <CheckCircle2 className="w-5 h-5" />
-            <p className="text-sm font-medium">{successMsg}</p>
-          </div>
-        )}
-
         {/* ─── Étape 1 : Scanner le QR Code ─── */}
         <div className="bg-card border border-border/40 rounded-[2.5rem] p-6 md:p-8 flex flex-col gap-y-6 shadow-premium relative overflow-hidden">
           <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
@@ -136,10 +125,20 @@ export const Setup2FAForm = () => {
             <h2 className="text-xl font-black text-main">Scanner le QR Code</h2>
           </div>
 
-          <p className="text-sm text-muted-foreground font-medium leading-relaxed relative z-10">
-            Ouvrez votre application d'authentification (Google Authenticator,
-            Microsoft Authenticator ou Authy) et scannez le code ci-dessous.
-          </p>
+          {/* Feedback messages inside Étape 1 */}
+          {errorMsg && !manualKey && (
+            <div className="bg-destructive/10 text-destructive border-l-4 border-destructive p-4 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300 relative z-10">
+              <AlertCircle className="w-5 h-5 shrink-0" />
+              <p className="text-sm font-medium">{errorMsg}</p>
+            </div>
+          )}
+
+          {!errorMsg && (
+            <p className="text-sm text-muted-foreground font-medium leading-relaxed relative z-10">
+              Ouvrez votre application d'authentification (Google Authenticator,
+              Microsoft Authenticator ou Authy) et scannez le code ci-dessous.
+            </p>
+          )}
 
           {/* Zone du QR Code et Clé Manuelle */}
           <div className="bg-muted/10 border border-border/40 rounded-3xl p-6 flex max-md:flex-col gap-8 items-center mt-2 relative z-10">
@@ -202,62 +201,83 @@ export const Setup2FAForm = () => {
         </div>
 
         {/* ─── Étape 2 : Vérifier le Code ─── */}
-        <div className="bg-card border border-border/40 rounded-[2.5rem] p-6 md:p-8 flex flex-col gap-y-6 shadow-premium relative overflow-hidden">
-          <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+        {manualKey && (
+          <div className="bg-card border border-border/40 rounded-[2.5rem] p-6 md:p-8 flex flex-col gap-y-6 shadow-premium relative overflow-hidden">
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
-          {/* Numéro d'Étape */}
-          <div className="flex items-center gap-x-4 relative z-10">
-            <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-black text-sm shadow-sm">
-              2
-            </div>
-            <h2 className="text-xl font-black text-main">Vérifier le Code</h2>
-          </div>
-
-          <p className="text-sm text-muted-foreground font-medium leading-relaxed relative z-10">
-            Entrez le code à 6 chiffres de votre application pour confirmer que
-            la configuration est correcte.
-          </p>
-
-          {/* Saisie du Code et Bouton de Validation */}
-          <div className="mt-2 relative z-10">
-            <label className="text-[10px] uppercase font-black tracking-widest text-main/60 mb-3 block ml-1">
-              Code d'authentification
-            </label>
-            <div className="flex max-md:flex-col items-center gap-4">
-              {/* Input du Code à 6 Chiffres */}
-              <div className="relative w-full md:w-80">
-                <input
-                  type="text"
-                  maxLength={6}
-                  value={code}
-                  onChange={(e) =>
-                    setCode(e.target.value.replace(/[^0-9]/g, ""))
-                  }
-                  placeholder="0 0 0  0 0 0"
-                  className="w-full bg-muted/10 border border-border rounded-xl h-14 text-center text-xl font-black tracking-widest focus:outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all font-mono placeholder:text-foreground/20 text-main"
-                />
+            {/* Numéro d'Étape */}
+            <div className="flex items-center gap-x-4 relative z-10">
+              <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-black text-sm shadow-sm">
+                2
               </div>
-              {/* Bouton d'Activation */}
-              <Button
-                onClick={handleEnable2FA}
-                disabled={code.length !== 6 || isPending}
-                className="bg-primary hover:bg-primary/90 text-white rounded-2xl h-14 px-8 font-black uppercase tracking-widest text-xs flex items-center gap-2 max-md:w-full transition-all shadow-lg shadow-primary/10 hover:shadow-primary/25 hover:-translate-y-0.5 disabled:opacity-50 disabled:shadow-none"
-              >
-                {isPending ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Activation...
-                  </>
-                ) : (
-                  <>
-                    Activer le 2FA
-                    <ShieldCheck className="w-4 h-4" />
-                  </>
-                )}
-              </Button>
+              <h2 className="text-xl font-black text-main">Vérifier le Code</h2>
+            </div>
+
+            <p className="text-sm text-muted-foreground font-medium leading-relaxed relative z-10">
+              Entrez le code à 6 chiffres de votre application pour confirmer
+              que la configuration est correcte.
+            </p>
+
+            {/* Feedback messages inside Étape 2 */}
+            {errorMsg && (
+              <div className="bg-destructive/10 text-destructive border-l-4 border-destructive p-4 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300 relative z-10">
+                <AlertCircle className="w-5 h-5 shrink-0" />
+                <p className="text-sm font-medium">{errorMsg}</p>
+              </div>
+            )}
+            {successMsg && (
+              <div className="bg-green-500/10 text-green-600 dark:text-green-400 border-l-4 border-green-500/40 p-4 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-300 relative z-10">
+                <CheckCircle2 className="w-5 h-5 shrink-0" />
+                <p className="text-sm font-bold">{successMsg}</p>
+              </div>
+            )}
+
+            {/* Saisie du Code et Bouton de Validation */}
+            <div className="mt-2 relative z-10">
+              <label className="text-[10px] uppercase font-black tracking-widest text-main/60 mb-3 block ml-1">
+                Code d'authentification
+              </label>
+              <div className="flex max-md:flex-col items-center gap-4">
+                {/* Input du Code à 6 Chiffres */}
+                <div className="relative w-full md:w-80">
+                  <input
+                    type="text"
+                    maxLength={6}
+                    value={code}
+                    onChange={(e) =>
+                      setCode(e.target.value.replace(/[^0-9]/g, ""))
+                    }
+                    placeholder="0 0 0  0 0 0"
+                    className="w-full bg-muted/10 border border-border rounded-xl h-14 text-center text-xl font-black tracking-widest focus:outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all font-mono placeholder:text-foreground/20 text-main"
+                  />
+                </div>
+                {/* Bouton d'Activation */}
+                <Button
+                  onClick={handleEnable2FA}
+                  disabled={code.length !== 6 || isPending || !!successMsg}
+                  className="bg-primary hover:bg-primary/90 text-white rounded-2xl h-14 px-8 font-black uppercase tracking-widest text-xs flex items-center gap-2 max-md:w-full transition-all shadow-lg shadow-primary/10 hover:shadow-primary/25 hover:-translate-y-0.5 disabled:opacity-50 disabled:shadow-none disabled:transform-none"
+                >
+                  {isPending ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Activation en cours...
+                    </>
+                  ) : !!successMsg ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Redirection...
+                    </>
+                  ) : (
+                    <>
+                      Activer le 2FA
+                      <ShieldCheck className="w-4 h-4" />
+                    </>
+                  )}
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Navigation en Bas de Page */}

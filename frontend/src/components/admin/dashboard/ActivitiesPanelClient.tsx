@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { m, AnimatePresence } from "framer-motion";
 import {
   Plus,
   Trash2,
@@ -32,15 +31,6 @@ import DOMPurify from "isomorphic-dompurify";
 import "react-quill-new/dist/quill.snow.css";
 
 const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.3, ease: "easeOut" as const },
-  },
-};
 
 export default function ActivitiesPanelClient({
   initialData,
@@ -168,17 +158,9 @@ export default function ActivitiesPanelClient({
     ) || [];
 
   return (
-    <m.div
-      initial="hidden"
-      animate="visible"
-      variants={{ visible: { transition: { staggerChildren: 0.06 } } }}
-      className="space-y-5"
-    >
+    <div className="space-y-5 animate-in fade-in duration-500">
       {/* ── Barre d'outils ────────────────────────────── */}
-      <m.div
-        variants={fadeUp}
-        className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
-      >
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         {/* Recherche */}
         <div className="relative w-full sm:w-72">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -225,214 +207,204 @@ export default function ActivitiesPanelClient({
             </>
           )}
         </button>
-      </m.div>
+      </div>
 
-      <AnimatePresence>
-        {showForm && (
-          <m.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="overflow-hidden"
+      {showForm && (
+        <div className="animate-in fade-in slide-in-from-top-2 duration-300 overflow-hidden">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="rounded-2xl border border-primary/20 bg-card p-4 md:p-6 space-y-4"
           >
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="rounded-2xl border border-primary/20 bg-card p-6 space-y-4"
-            >
-              <h3 className="text-sm font-bold text-main flex items-center gap-x-2">
-                <Plus className="w-4 h-4 text-primary" />
-                {editingId ? "Modifier l'activité" : "Créer une activité"}
-              </h3>
+            <h3 className="text-sm font-bold text-main flex items-center gap-x-2">
+              <Plus className="w-4 h-4 text-primary" />
+              {editingId ? "Modifier l'activité" : "Créer une activité"}
+            </h3>
 
-              {serverError && (
-                <div className="flex items-center gap-x-2 px-4 py-2.5 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs">
-                  <AlertCircle className="w-4 h-4 shrink-0" />
-                  {serverError}
-                </div>
-              )}
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label
-                    htmlFor="title"
-                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider"
-                  >
-                    Titre *
-                  </label>
-                  <input
-                    id="title"
-                    type="text"
-                    {...register("title")}
-                    placeholder="Ex: Distribution de kits scolaires"
-                    className={`w-full px-4 py-2.5 rounded-xl bg-background border ${errors.title ? "border-destructive" : "border-border"} text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all`}
-                  />
-                  {errors.title && (
-                    <p className="text-[10px] text-destructive font-medium">
-                      {errors.title.message}
-                    </p>
-                  )}
-                </div>
-
-                <div className="space-y-1.5">
-                  <label
-                    htmlFor="category"
-                    className="text-xs font-semibold text-muted-foreground uppercase tracking-wider"
-                  >
-                    Catégorie *
-                  </label>
-                  <input
-                    id="category"
-                    type="text"
-                    {...register("category")}
-                    placeholder="Ex: Éducation, Santé, Formation"
-                    className={`w-full px-4 py-2.5 rounded-xl bg-background border ${errors.category ? "border-destructive" : "border-border"} text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all`}
-                  />
-                  {errors.category && (
-                    <p className="text-[10px] text-destructive font-medium">
-                      {errors.category.message}
-                    </p>
-                  )}
-                </div>
+            {serverError && (
+              <div className="flex items-center gap-x-2 px-4 py-2.5 rounded-xl bg-destructive/10 border border-destructive/20 text-destructive text-xs">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                {serverError}
               </div>
+            )}
 
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-1.5">
                 <label
-                  htmlFor="description"
+                  htmlFor="title"
                   className="text-xs font-semibold text-muted-foreground uppercase tracking-wider"
                 >
-                  Description courte *
+                  Titre *
                 </label>
-                <textarea
-                  id="description"
-                  {...register("description")}
-                  placeholder="Description courte de l'activité..."
-                  rows={3}
-                  className={`w-full px-4 py-2.5 rounded-xl bg-background border ${errors.description ? "border-destructive" : "border-border"} text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none`}
+                <input
+                  id="title"
+                  type="text"
+                  {...register("title")}
+                  placeholder="Ex: Distribution de kits scolaires"
+                  className={`w-full px-4 py-2.5 rounded-xl bg-background border ${errors.title ? "border-destructive" : "border-border"} text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all`}
                 />
-                {errors.description && (
+                {errors.title && (
                   <p className="text-[10px] text-destructive font-medium">
-                    {errors.description.message}
-                  </p>
-                )}
-              </div>
-
-              <div className="space-y-1.5 flex flex-col">
-                <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                  Contenu détaillé (HTML)
-                </label>
-                <div className="bg-background rounded-xl border border-border overflow-hidden [&_.ql-toolbar]:border-x-0 [&_.ql-toolbar]:border-t-0 [&_.ql-container]:border-none [&_.ql-editor]:min-h-[160px] focus-within:ring-2 focus-within:ring-primary/30 focus-within:border-primary/40 transition-all">
-                  <ReactQuill
-                    theme="snow"
-                    value={watch("content") || ""}
-                    onChange={(val) =>
-                      setValue("content", val, { shouldValidate: true })
-                    }
-                    placeholder="Rédigez le contenu complet de l'article ici..."
-                  />
-                </div>
-                {errors.content && (
-                  <p className="text-[10px] text-destructive font-medium">
-                    {errors.content.message}
+                    {errors.title.message}
                   </p>
                 )}
               </div>
 
               <div className="space-y-1.5">
                 <label
-                  htmlFor="imageUpload"
-                  className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-x-1.5"
+                  htmlFor="category"
+                  className="text-xs font-semibold text-muted-foreground uppercase tracking-wider"
                 >
-                  <ImageIcon className="w-3.5 h-3.5" />
-                  Image de l&apos;activité *
+                  Catégorie *
                 </label>
-                <div className="flex gap-4 items-start">
-                  <div className="flex-1">
-                    <input
-                      id="imageUpload"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      disabled={isUploadingImage}
-                      className="w-full px-4 py-2.5 rounded-xl bg-background border border-border text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer disabled:opacity-50"
+                <input
+                  id="category"
+                  type="text"
+                  {...register("category")}
+                  placeholder="Ex: Éducation, Santé, Formation"
+                  className={`w-full px-4 py-2.5 rounded-xl bg-background border ${errors.category ? "border-destructive" : "border-border"} text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all`}
+                />
+                {errors.category && (
+                  <p className="text-[10px] text-destructive font-medium">
+                    {errors.category.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <label
+                htmlFor="description"
+                className="text-xs font-semibold text-muted-foreground uppercase tracking-wider"
+              >
+                Description courte *
+              </label>
+              <textarea
+                id="description"
+                {...register("description")}
+                placeholder="Description courte de l'activité..."
+                rows={3}
+                className={`w-full px-4 py-2.5 rounded-xl bg-background border ${errors.description ? "border-destructive" : "border-border"} text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all resize-none`}
+              />
+              {errors.description && (
+                <p className="text-[10px] text-destructive font-medium">
+                  {errors.description.message}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-1.5 flex flex-col">
+              <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                Contenu détaillé (HTML)
+              </label>
+              <div className="bg-background rounded-xl border border-border overflow-hidden [&_.ql-toolbar]:border-x-0 [&_.ql-toolbar]:border-t-0 [&_.ql-container]:border-none [&_.ql-editor]:min-h-[160px] focus-within:ring-2 focus-within:ring-primary/30 focus-within:border-primary/40 transition-all">
+                <ReactQuill
+                  theme="snow"
+                  value={watch("content") || ""}
+                  onChange={(val) =>
+                    setValue("content", val, { shouldValidate: true })
+                  }
+                  placeholder="Rédigez le contenu complet de l'article ici..."
+                />
+              </div>
+              {errors.content && (
+                <p className="text-[10px] text-destructive font-medium">
+                  {errors.content.message}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-1.5">
+              <label
+                htmlFor="imageUpload"
+                className="text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-x-1.5"
+              >
+                <ImageIcon className="w-3.5 h-3.5" />
+                Image de l&apos;activité *
+              </label>
+              <div className="flex gap-4 items-start">
+                <div className="flex-1">
+                  <input
+                    id="imageUpload"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    disabled={isUploadingImage}
+                    className="w-full px-4 py-2.5 rounded-xl bg-background border border-border text-sm text-main focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer disabled:opacity-50"
+                  />
+                </div>
+                {watch("imageUrl") ? (
+                  <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-border shadow-sm group">
+                    <img
+                      src={watch("imageUrl")}
+                      alt="Preview"
+                      className="w-full h-full object-cover transition-transform group-hover:scale-110"
                     />
                   </div>
-                  {watch("imageUrl") ? (
-                    <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-border shadow-sm group">
-                      <img
-                        src={watch("imageUrl")}
-                        alt="Preview"
-                        className="w-full h-full object-cover transition-transform group-hover:scale-110"
-                      />
-                    </div>
-                  ) : (
-                    <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-dashed border-border bg-accent/30 flex items-center justify-center">
-                      <ImageIcon className="w-5 h-5 text-muted-foreground/40" />
-                    </div>
-                  )}
-                </div>
-                <input type="hidden" {...register("imageUrl")} />
-                {errors.imageUrl && (
-                  <p className="text-[10px] text-destructive font-medium">
-                    {errors.imageUrl.message}
-                  </p>
-                )}
-                {isUploadingImage && (
-                  <p className="text-xs text-primary font-medium animate-pulse mt-1">
-                    Upload en cours...
-                  </p>
+                ) : (
+                  <div className="relative w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-dashed border-border bg-accent/30 flex items-center justify-center">
+                    <ImageIcon className="w-5 h-5 text-muted-foreground/40" />
+                  </div>
                 )}
               </div>
+              <input type="hidden" {...register("imageUrl")} />
+              {errors.imageUrl && (
+                <p className="text-[10px] text-destructive font-medium">
+                  {errors.imageUrl.message}
+                </p>
+              )}
+              {isUploadingImage && (
+                <p className="text-xs text-primary font-medium animate-pulse mt-1">
+                  Upload en cours...
+                </p>
+              )}
+            </div>
 
-              {/* Toggle Publication */}
-              <div className="flex items-center justify-between p-4 rounded-xl bg-accent/30 border border-border">
-                <div className="space-y-0.5">
-                  <p className="text-sm font-semibold text-main">
-                    Publier l&apos;article
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    L&apos;article sera visible par tous les visiteurs s&apos;il
-                    est publié.
-                  </p>
-                </div>
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    {...register("published")}
-                    className="sr-only peer"
-                  />
-                  <div className="w-11 h-6 bg-muted-foreground/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-                </label>
+            {/* Toggle Publication */}
+            <div className="flex items-center justify-between p-4 rounded-xl bg-accent/30 border border-border">
+              <div className="space-y-0.5">
+                <p className="text-sm font-semibold text-main">
+                  Publier l&apos;article
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  L&apos;article sera visible par tous les visiteurs s&apos;il
+                  est publié.
+                </p>
               </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  {...register("published")}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-muted-foreground/20 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+              </label>
+            </div>
 
-              <div className="flex justify-end pt-2">
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="flex items-center gap-x-2 px-6 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                >
-                  {isSubmitting ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <Send className="w-4 h-4" />
-                  )}
-                  {isSubmitting
-                    ? "Enregistrement..."
-                    : editingId
-                      ? "Enregistrer"
-                      : "Publier"}
-                </button>
-              </div>
-            </form>
-          </m.div>
-        )}
-      </AnimatePresence>
+            <div className="flex justify-end pt-2">
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="flex items-center gap-x-2 px-6 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 active:scale-[0.97] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              >
+                {isSubmitting ? (
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Send className="w-4 h-4" />
+                )}
+                {isSubmitting
+                  ? "Enregistrement..."
+                  : editingId
+                    ? "Enregistrer"
+                    : "Publier"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
 
       {/* ── Liste des activités ───────────────────────── */}
       {filtered.length === 0 ? (
-        <m.div
-          variants={fadeUp}
-          className="flex flex-col items-center justify-center py-16 text-center rounded-2xl border border-border bg-card"
-        >
+        <div className="flex flex-col items-center justify-center py-16 text-center rounded-2xl border border-border bg-card animate-in fade-in duration-500">
           <FileText className="w-12 h-12 text-muted-foreground/30 mb-4" />
           <p className="text-sm font-medium text-muted-foreground">
             {searchQuery
@@ -444,12 +416,9 @@ export default function ActivitiesPanelClient({
               ? "Essayez un autre terme de recherche"
               : "Créez votre première activité avec le bouton ci-dessus"}
           </p>
-        </m.div>
+        </div>
       ) : (
-        <m.div
-          variants={fadeUp}
-          className="rounded-2xl border border-border bg-card overflow-hidden"
-        >
+        <div className="rounded-2xl border border-border bg-card overflow-hidden animate-in fade-in duration-500">
           {/* En-tête du tableau */}
           <div className="hidden md:grid grid-cols-12 gap-4 px-6 py-3 text-[10px] uppercase tracking-[0.15em] font-semibold text-muted-foreground border-b border-border bg-accent/30">
             <div className="col-span-5">Titre</div>
@@ -464,7 +433,7 @@ export default function ActivitiesPanelClient({
             {filtered.map((activity) => (
               <div
                 key={activity.id}
-                className="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-4 items-center px-6 py-4 hover:bg-accent/20 transition-colors duration-200"
+                className="grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-4 items-start md:items-center px-4 md:px-6 py-3 md:py-4 hover:bg-accent/20 transition-colors duration-200"
               >
                 {/* Titre + description */}
                 <div className="md:col-span-5 min-w-0">
@@ -510,7 +479,7 @@ export default function ActivitiesPanelClient({
                 </div>
 
                 {/* Actions */}
-                <div className="md:col-span-1 flex justify-end gap-x-2">
+                <div className="md:col-span-1 flex justify-start md:justify-end gap-x-1 md:gap-x-2">
                   <button
                     onClick={() => handleEdit(activity)}
                     className="p-2 rounded-lg text-muted-foreground hover:text-primary hover:bg-primary/10 transition-all duration-200 cursor-pointer"
@@ -543,8 +512,8 @@ export default function ActivitiesPanelClient({
               />
             )}
           </div>
-        </m.div>
+        </div>
       )}
-    </m.div>
+    </div>
   );
 }

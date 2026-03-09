@@ -23,6 +23,7 @@ import {
   User,
   Loader2,
   ArrowRight,
+  AlertCircle,
 } from "lucide-react";
 
 // ─── Formulaire d'Inscription ────────────────────────────────
@@ -64,11 +65,14 @@ export const SignUpForm = () => {
         if (result.message) {
           setServerError(result.message);
         }
+        setIsPending(false);
         return;
       }
 
       setIsSuccess(true);
-    } finally {
+      setIsPending(false);
+    } catch (e: any) {
+      setServerError(e.message || "Une erreur inattendue est survenue.");
       setIsPending(false);
     }
   };
@@ -128,9 +132,9 @@ export const SignUpForm = () => {
 
         {/* Message d'Erreur Global */}
         {serverError && (
-          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-medium">
-            <span className="w-2 h-2 rounded-full bg-destructive shrink-0" />
-            {serverError}
+          <div className="flex items-start gap-3 px-4 py-3 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-semibold animate-in fade-in slide-in-from-top-2 duration-300 relative z-10">
+            <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+            <p>{serverError}</p>
           </div>
         )}
 
@@ -278,6 +282,7 @@ export const SignUpForm = () => {
 export const LogInForm = () => {
   const router = useRouter();
   const [isPending, setIsPending] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
   const {
@@ -310,9 +315,11 @@ export const LogInForm = () => {
         if (result.message) {
           setServerError(result.message);
         }
+        setIsPending(false);
         return;
       }
 
+      setIsRedirecting(true);
       // Redirection vers la vérification 2FA si nécessaire
       if (result.requires2FA && result.tempAdminId) {
         router.push(`/admin/auth/verify-2fa?tempAdminId=${result.tempAdminId}`);
@@ -321,7 +328,8 @@ export const LogInForm = () => {
 
       // Redirection vers le tableau de bord
       router.push("/admin/dashboard");
-    } finally {
+    } catch (e: any) {
+      setServerError(e.message || "Une erreur inattendue est survenue.");
       setIsPending(false);
     }
   };
@@ -348,9 +356,9 @@ export const LogInForm = () => {
 
         {/* Message d'Erreur Global */}
         {serverError && (
-          <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-medium">
-            <span className="w-2 h-2 rounded-full bg-destructive shrink-0" />
-            {serverError}
+          <div className="flex items-start gap-3 px-4 py-3 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-semibold animate-in fade-in slide-in-from-top-2 duration-300 relative z-10">
+            <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+            <p>{serverError}</p>
           </div>
         )}
 
@@ -420,12 +428,17 @@ export const LogInForm = () => {
           {/* Bouton de Soumission */}
           <Button
             type="submit"
-            disabled={isPending}
-            className="w-full h-14 rounded-2xl bg-primary text-white font-black uppercase tracking-[0.2em] text-xs shadow-lg shadow-primary/10 hover:shadow-primary/25 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3 mt-2"
+            disabled={isPending || isRedirecting}
+            className="w-full h-14 rounded-2xl bg-primary text-white font-black uppercase tracking-[0.2em] text-xs shadow-lg shadow-primary/10 hover:shadow-primary/25 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3 mt-2 disabled:opacity-50 disabled:shadow-none disabled:transform-none"
           >
-            {isPending ? (
+            {isRedirecting ? (
               <>
-                <Loader2 size={14} className="animate-spin" />
+                <Loader2 size={14} className="animate-spin mr-1.5" />
+                Redirection...
+              </>
+            ) : isPending ? (
+              <>
+                <Loader2 size={14} className="animate-spin mr-1.5" />
                 Connexion en cours...
               </>
             ) : (

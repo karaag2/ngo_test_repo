@@ -12,7 +12,13 @@
 
 import React, { useState } from "react";
 import { Button } from "../../ui/button";
-import { ShieldCheck, ArrowLeft, KeyRound, Loader2 } from "lucide-react";
+import {
+  ShieldCheck,
+  ArrowLeft,
+  KeyRound,
+  Loader2,
+  AlertCircle,
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { verify2FAService } from "@/src/services/auth.service";
@@ -21,6 +27,7 @@ export const Verify2FAForm = () => {
   const router = useRouter();
   const [code, setCode] = useState("");
   const [isPending, setIsPending] = useState(false);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Récupération de l'identifiant temporaire depuis l'URL
@@ -42,12 +49,15 @@ export const Verify2FAForm = () => {
 
       if (!result.success) {
         setError(result.message || "Code invalide");
+        setIsPending(false);
         return;
       }
 
+      setIsRedirecting(true);
       // Redirection vers le tableau de bord
       router.replace("/admin/dashboard");
-    } finally {
+    } catch (e: any) {
+      setError(e.message || "Une erreur inattendue est survenue.");
       setIsPending(false);
     }
   };
@@ -68,18 +78,18 @@ export const Verify2FAForm = () => {
         </p>
       </div>
 
-      {/* Message d'Erreur */}
-      {error && (
-        <div className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-medium">
-          <span className="w-2 h-2 rounded-full bg-destructive shrink-0" />
-          {error}
-        </div>
-      )}
-
       {/* Carte de Saisie du Code */}
-      <div className="bg-card border border-border/40 rounded-[2.5rem] p-8 md:p-10 flex flex-col gap-y-8 shadow-premium relative overflow-hidden">
+      <div className="bg-card border border-border/40 rounded-4xl p-8 md:p-10 flex flex-col gap-y-8 shadow-premium relative overflow-hidden">
         {/* Décoration d'arrière-plan */}
         <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
+
+        {/* Message d'Erreur */}
+        {error && (
+          <div className="flex items-start gap-3 px-4 py-3 rounded-2xl bg-destructive/10 border border-destructive/20 text-destructive text-sm font-semibold animate-in fade-in slide-in-from-top-2 duration-300 relative z-10">
+            <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+            <p>{error}</p>
+          </div>
+        )}
 
         <div className="flex flex-col gap-y-4 text-center relative z-10">
           <label className="text-[10px] uppercase font-black tracking-widest text-main/60">
@@ -104,13 +114,18 @@ export const Verify2FAForm = () => {
         {/* Bouton de Vérification */}
         <Button
           onClick={handleVerify}
-          disabled={code.length !== 6 || isPending}
-          className="w-full max-w-sm mx-auto h-14 rounded-2xl bg-primary text-white font-black uppercase tracking-[0.2em] text-xs shadow-lg shadow-primary/10 hover:shadow-primary/25 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:shadow-none relative z-10"
+          disabled={code.length !== 6 || isPending || isRedirecting}
+          className="w-full max-w-sm mx-auto h-14 rounded-2xl bg-primary text-white font-black uppercase tracking-[0.2em] text-xs shadow-lg shadow-primary/10 hover:shadow-primary/25 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:shadow-none disabled:transform-none relative z-10"
         >
-          {isPending ? (
+          {isRedirecting ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin" />
-              Vérification...
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Redirection...
+            </>
+          ) : isPending ? (
+            <>
+              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              Vérification en cours...
             </>
           ) : (
             "Vérifier & Continuer"

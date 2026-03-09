@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { m, AnimatePresence } from "framer-motion";
 import {
   UserCircle,
   Shield,
@@ -31,23 +30,6 @@ import {
   passwordChangeSchema,
   PasswordChangeInput,
 } from "@/src/lib/profile.validators";
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 16 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.3, ease: "easeOut" as const },
-  },
-};
-
-const stagger = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.08, delayChildren: 0.1 },
-  },
-};
 
 export default function ProfilePanelClient({
   initialProfile,
@@ -128,17 +110,10 @@ export default function ProfilePanelClient({
   if (!admin) return null;
 
   return (
-    <m.div
-      initial="hidden"
-      animate="visible"
-      variants={stagger}
-      className="space-y-5 max-w-2xl"
-    >
+    <div className="space-y-5 max-w-2xl animate-in fade-in duration-500">
       {(error || success) && (
-        <m.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className={`flex items-start gap-x-3 px-5 py-4 rounded-2xl border ${error ? "bg-destructive/10 border-destructive/20 text-destructive" : "bg-green-500/10 border-green-500/20 text-green-600 dark:text-green-400"}`}
+        <div
+          className={`flex items-start gap-x-3 px-5 py-4 rounded-2xl border animate-in fade-in duration-300 ${error ? "bg-destructive/10 border-destructive/20 text-destructive" : "bg-green-500/10 border-green-500/20 text-green-600 dark:text-green-400"}`}
         >
           {error ? (
             <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
@@ -146,21 +121,20 @@ export default function ProfilePanelClient({
             <Check className="w-5 h-5 shrink-0 mt-0.5" />
           )}
           <div className="text-sm font-semibold">{error || success}</div>
-        </m.div>
+        </div>
       )}
 
       {/* ── Carte profil ─────────────────────────────── */}
-      <m.div
-        variants={fadeUp}
-        className="rounded-2xl border border-border bg-card p-8 space-y-6"
-      >
+      <div className="rounded-2xl border border-border bg-card p-5 md:p-8 space-y-6">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-x-5">
             <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center">
               <UserCircle className="w-8 h-8 text-primary" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-main">{admin.name}</h3>
+              <h3 className="text-base md:text-lg font-bold text-main truncate">
+                {admin.name}
+              </h3>
               <div className="flex items-center gap-x-2 mt-1">
                 <span className="inline-flex items-center gap-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-primary/10 text-primary">
                   <Crown className="w-3 h-3" />
@@ -190,71 +164,64 @@ export default function ProfilePanelClient({
         </div>
 
         {/* ── Formulaire d'édition ─────────────────────── */}
-        <AnimatePresence>
-          {isEditing && (
-            <m.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden"
+        {isEditing && (
+          <div className="overflow-hidden animate-in fade-in slide-in-from-top-2 duration-300">
+            <form
+              onSubmit={handleSubmitProfile(handleUpdateProfile)}
+              className="pt-4 pb-2 space-y-4 border-t border-border mt-6"
             >
-              <form
-                onSubmit={handleSubmitProfile(handleUpdateProfile)}
-                className="pt-4 pb-2 space-y-4 border-t border-border mt-6"
-              >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <label
-                      htmlFor="p_name"
-                      className="text-xs font-semibold text-muted-foreground uppercase"
-                    >
-                      Nom
-                    </label>
-                    <input
-                      id="p_name"
-                      type="text"
-                      {...registerProfile("name")}
-                      className={`w-full px-4 py-2.5 rounded-xl bg-background border ${profileErrors.name ? "border-destructive" : "border-border"} text-sm text-main focus:ring-2 focus:ring-primary/30 outline-none`}
-                    />
-                    {profileErrors.name && (
-                      <p className="text-[10px] text-destructive font-medium">
-                        {profileErrors.name.message}
-                      </p>
-                    )}
-                  </div>
-                  <div className="space-y-1.5">
-                    <label
-                      htmlFor="p_email"
-                      className="text-xs font-semibold text-muted-foreground uppercase"
-                    >
-                      Email
-                    </label>
-                    <input
-                      id="p_email"
-                      type="email"
-                      {...registerProfile("email")}
-                      className={`w-full px-4 py-2.5 rounded-xl bg-background border ${profileErrors.email ? "border-destructive" : "border-border"} text-sm text-main focus:ring-2 focus:ring-primary/30 outline-none`}
-                    />
-                    {profileErrors.email && (
-                      <p className="text-[10px] text-destructive font-medium">
-                        {profileErrors.email.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className="flex justify-end">
-                  <button
-                    type="submit"
-                    disabled={isSubmittingProfile}
-                    className="flex items-center gap-x-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 disabled:opacity-50"
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="p_name"
+                    className="text-xs font-semibold text-muted-foreground uppercase"
                   >
-                    {isSubmittingProfile ? "Enregistrement..." : "Enregistrer"}
-                  </button>
+                    Nom
+                  </label>
+                  <input
+                    id="p_name"
+                    type="text"
+                    {...registerProfile("name")}
+                    className={`w-full px-4 py-2.5 rounded-xl bg-background border ${profileErrors.name ? "border-destructive" : "border-border"} text-sm text-main focus:ring-2 focus:ring-primary/30 outline-none`}
+                  />
+                  {profileErrors.name && (
+                    <p className="text-[10px] text-destructive font-medium">
+                      {profileErrors.name.message}
+                    </p>
+                  )}
                 </div>
-              </form>
-            </m.div>
-          )}
-        </AnimatePresence>
+                <div className="space-y-1.5">
+                  <label
+                    htmlFor="p_email"
+                    className="text-xs font-semibold text-muted-foreground uppercase"
+                  >
+                    Email
+                  </label>
+                  <input
+                    id="p_email"
+                    type="email"
+                    {...registerProfile("email")}
+                    className={`w-full px-4 py-2.5 rounded-xl bg-background border ${profileErrors.email ? "border-destructive" : "border-border"} text-sm text-main focus:ring-2 focus:ring-primary/30 outline-none`}
+                  />
+                  {profileErrors.email && (
+                    <p className="text-[10px] text-destructive font-medium">
+                      {profileErrors.email.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <button
+                  type="submit"
+                  disabled={isSubmittingProfile}
+                  className="flex items-center gap-x-2 px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 disabled:opacity-50"
+                >
+                  {isSubmittingProfile ? "Enregistrement..." : "Enregistrer"}
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
 
         {/* ── Informations statiques ───────────────────── */}
         {!isEditing && (
@@ -332,75 +299,68 @@ export default function ProfilePanelClient({
                   Changer mon mot de passe
                 </button>
 
-                <AnimatePresence>
-                  {isChangingPwd && (
-                    <m.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden mt-4"
+                {isChangingPwd && (
+                  <div className="overflow-hidden mt-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <form
+                      onSubmit={handleSubmitPwd(handleChangePassword)}
+                      className="p-5 rounded-2xl border border-border bg-card space-y-4"
                     >
-                      <form
-                        onSubmit={handleSubmitPwd(handleChangePassword)}
-                        className="p-5 rounded-2xl border border-border bg-card space-y-4"
-                      >
-                        <div className="space-y-1.5">
-                          <label
-                            htmlFor="new_pwd"
-                            className="text-xs font-semibold text-muted-foreground uppercase"
-                          >
-                            Nouveau mot de passe
-                          </label>
-                          <input
-                            id="new_pwd"
-                            type="password"
-                            {...registerPwd("newPassword")}
-                            placeholder="Min. 8 caractères, majuscule, minuscule, chiffre"
-                            className={`w-full px-4 py-2.5 rounded-xl bg-background border ${pwdErrors.newPassword ? "border-destructive" : "border-border"} text-sm text-main focus:ring-2 focus:ring-primary/30 outline-none`}
-                          />
-                          {pwdErrors.newPassword && (
-                            <p className="text-[10px] text-destructive font-medium">
-                              {pwdErrors.newPassword.message}
-                            </p>
-                          )}
-                        </div>
-                        <div className="space-y-1.5">
-                          <label
-                            htmlFor="pwd_otp"
-                            className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-x-1.5"
-                          >
-                            <QrCode className="w-3.5 h-3.5" />
-                            Code 2FA actuel
-                          </label>
-                          <input
-                            id="pwd_otp"
-                            type="text"
-                            maxLength={6}
-                            {...registerPwd("otp")}
-                            placeholder="123456"
-                            className={`w-full px-4 py-2.5 rounded-xl bg-background border ${pwdErrors.otp ? "border-destructive" : "border-border"} text-sm text-main focus:ring-2 focus:ring-primary/30 tracking-widest font-mono outline-none`}
-                          />
-                          {pwdErrors.otp && (
-                            <p className="text-[10px] text-destructive font-medium">
-                              {pwdErrors.otp.message}
-                            </p>
-                          )}
-                        </div>
-                        <div className="flex justify-end pt-2">
-                          <button
-                            type="submit"
-                            disabled={isSubmittingPwd}
-                            className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 disabled:opacity-50"
-                          >
-                            {isSubmittingPwd
-                              ? "Modification..."
-                              : "Valider le changement"}
-                          </button>
-                        </div>
-                      </form>
-                    </m.div>
-                  )}
-                </AnimatePresence>
+                      <div className="space-y-1.5">
+                        <label
+                          htmlFor="new_pwd"
+                          className="text-xs font-semibold text-muted-foreground uppercase"
+                        >
+                          Nouveau mot de passe
+                        </label>
+                        <input
+                          id="new_pwd"
+                          type="password"
+                          {...registerPwd("newPassword")}
+                          placeholder="Min. 8 caractères, majuscule, minuscule, chiffre"
+                          className={`w-full px-4 py-2.5 rounded-xl bg-background border ${pwdErrors.newPassword ? "border-destructive" : "border-border"} text-sm text-main focus:ring-2 focus:ring-primary/30 outline-none`}
+                        />
+                        {pwdErrors.newPassword && (
+                          <p className="text-[10px] text-destructive font-medium">
+                            {pwdErrors.newPassword.message}
+                          </p>
+                        )}
+                      </div>
+                      <div className="space-y-1.5">
+                        <label
+                          htmlFor="pwd_otp"
+                          className="text-xs font-semibold text-muted-foreground uppercase flex items-center gap-x-1.5"
+                        >
+                          <QrCode className="w-3.5 h-3.5" />
+                          Code 2FA actuel
+                        </label>
+                        <input
+                          id="pwd_otp"
+                          type="text"
+                          maxLength={6}
+                          {...registerPwd("otp")}
+                          placeholder="123456"
+                          className={`w-full px-4 py-2.5 rounded-xl bg-background border ${pwdErrors.otp ? "border-destructive" : "border-border"} text-sm text-main focus:ring-2 focus:ring-primary/30 tracking-widest font-mono outline-none`}
+                        />
+                        {pwdErrors.otp && (
+                          <p className="text-[10px] text-destructive font-medium">
+                            {pwdErrors.otp.message}
+                          </p>
+                        )}
+                      </div>
+                      <div className="flex justify-end pt-2">
+                        <button
+                          type="submit"
+                          disabled={isSubmittingPwd}
+                          className="px-5 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:opacity-90 disabled:opacity-50"
+                        >
+                          {isSubmittingPwd
+                            ? "Modification..."
+                            : "Valider le changement"}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                )}
               </div>
             )}
 
@@ -413,7 +373,7 @@ export default function ProfilePanelClient({
             )}
           </div>
         )}
-      </m.div>
-    </m.div>
+      </div>
+    </div>
   );
 }
