@@ -32,11 +32,6 @@ const Temoignages = dynamic(
   },
 );
 
-// const Contact = dynamic(() => import("@/src/components/sections/Contact"), {
-//   loading: () => (
-//     <section className="container mx-auto px-6 py-20 min-h-[500px]" />
-//   ),
-// });
 
 const page = () => {
   return (

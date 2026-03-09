@@ -1,13 +1,5 @@
 "use client";
 
-/**
- * ─── OverviewPanel ───────────────────────────────────────
- *
- * Panneau principal du dashboard : statistiques globales,
- * activités récentes, et aperçu rapide des messages.
- * Utilise des animations CSS pour les transitions d'entrée.
- */
-
 import {
   FileText,
   Settings2,

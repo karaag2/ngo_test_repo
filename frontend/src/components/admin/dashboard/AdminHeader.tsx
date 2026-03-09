@@ -1,12 +1,5 @@
 "use client";
 
-/**
- * ─── AdminHeader ─────────────────────────────────────────
- *
- * Barre supérieure du dashboard admin.
- * Affiche le titre de la section active, le toggle thème,
- * et un bouton de retour vers le site public.
- */
 
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/src/components/Layouts/theme-toggle";

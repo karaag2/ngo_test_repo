@@ -47,7 +47,7 @@ export async function getServerActivities(
       `${API_URL}/api/blog/allPosts?page=${page}&limit=${limit}`,
       {
         headers,
-        next: { revalidate: 0 }, // always fetch fresh on admin dashboard
+        next: { revalidate: 0 },
       },
     );
     if (!res.ok) return { data: [], meta: defaultMeta };

@@ -1,9 +1,6 @@
 "use client";
 
-/**
- * Panneau de lecture des messages de contact reçus via
- * le formulaire public du site.
- */
+
 
 import { useState } from "react";
 import { Mail, MailOpen, Clock, Trash2, X, ChevronRight } from "lucide-react";

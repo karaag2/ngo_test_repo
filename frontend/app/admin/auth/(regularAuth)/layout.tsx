@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
-// import { Lexend } from "next/font/google";
 import AdminHeader from "@/src/components/headerUIComponents/AdminHeader";
 import { PersonStanding, Shield } from "lucide-react";
 import Image from "next/image";
-
-// const lexend = Lexend({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Fajr | L'Éducation pour tous au Sahel",

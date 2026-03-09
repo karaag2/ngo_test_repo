@@ -110,7 +110,7 @@ export default function ActivitiesPanelClient({
       if (fileInput) fileInput.value = "";
 
       router.refresh();
-      // On recharge la liste courante pour voir le nouvel update côté dashboard
+      // Actualisation de la page
       fetchPage(page);
     } else {
       setServerError(result.message || "Erreur lors de la création");
@@ -149,7 +149,7 @@ export default function ActivitiesPanelClient({
     setIsLoading(false);
   };
 
-  // ─── Filtrage ──────────────────────────────────────
+  //  Filtrage 
   const filtered =
     activities?.filter(
       (a) =>
@@ -159,7 +159,7 @@ export default function ActivitiesPanelClient({
 
   return (
     <div className="space-y-5 animate-in fade-in duration-500">
-      {/* ── Barre d'outils ────────────────────────────── */}
+      {/*  Barre d'outils  */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         {/* Recherche */}
         <div className="relative w-full sm:w-72">

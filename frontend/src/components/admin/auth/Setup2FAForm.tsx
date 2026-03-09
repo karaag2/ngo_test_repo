@@ -1,17 +1,4 @@
 "use client";
-
-/**
- * ─── Formulaire de Configuration 2FA ─────────────────────────
- *
- * Guide l'administrateur à travers la configuration de
- * l'authentification à deux facteurs en deux étapes :
- *  1. Scanner le QR Code avec une app d'authentification
- *  2. Entrer le code à 6 chiffres pour valider
- *
- * Le QR code et la clé manuelle proviennent du backend via
- * l'endpoint /api/auth/setup-2fa.
- */
-
 import React, { useState } from "react";
 import { Button } from "../../ui/button";
 import {

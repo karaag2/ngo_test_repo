@@ -1,15 +1,5 @@
 "use client";
 
-/**
- * ─── Formulaire de Vérification 2FA ──────────────────────────
- *
- * Écran de saisie du code d'authentification à deux facteurs.
- * Affiché après une connexion réussie lorsque le 2FA est activé.
- *
- * Le `tempAdminId` est récupéré depuis les paramètres d'URL
- * (transmis par la page de connexion).
- */
-
 import React, { useState } from "react";
 import { Button } from "../../ui/button";
 import {
